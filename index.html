@@ -255,6 +255,7 @@
       <button class="navitem" data-tab="eoed">Modul edometric<small>din E<sub>oed</sub></small></button>
       <button class="navitem" data-tab="orient">Valori de catalog<small>predimensionare</small></button>
       <button class="navitem" data-tab="invers">Calcul invers<small>din tasare</small></button>
+      <button class="navitem" data-tab="strat">Teren stratificat<small>tasare pe straturi</small></button>
       <div class="group">Aplicare</div>
       <button class="navitem" data-tab="grinda">Grindă pe mediu elastic<small>λ, lungime elastică</small></button>
       <button class="navitem" data-tab="tabele">Tabele de referință<small>K.1 și K.2</small></button>
@@ -374,6 +375,50 @@
           </div>
           <div class="actions"><button class="btn" onclick="calcInvers()">Calculează</button><span class="err" id="iv_err"></span></div>
           <div class="result" id="iv_res"></div>
+        </div>
+      </section>
+
+      <!-- STRAT -->
+      <section class="panel" id="p-strat">
+        <div class="card">
+          <style>
+            #stratTbl{font-size:.85rem}
+            #stratTbl td{padding:5px 6px}
+            #stratTbl input{width:100%;padding:8px 9px;font-size:.9rem;border-radius:8px}
+            #stratTbl .lnum{color:var(--ink-3);width:42px}
+            .rmrow{background:transparent;border:1px solid var(--line-2);color:var(--ink-3);
+              width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:1rem;line-height:1}
+            .rmrow:hover{border-color:var(--accent);color:var(--accent-strong)}
+            .sublabel{font-family:var(--serif);font-weight:400;font-size:1.05rem;margin:18px 0 2px}
+            .sttable{font-size:.8rem;margin-top:10px}
+            .sttable th{font-weight:500;background:var(--surface)}
+          </style>
+          <h2>Teren stratificat <span class="ref">NP 112 · Anexa H + K.10</span></h2>
+          <p class="intro">Pentru profil cu straturi de rigidități diferite. Aplicația împarte terenul în
+          straturi elementare, distribuie efortul vertical (α₀, Tab. H.3), determină zona activă
+          (σ_z ≤ 0,2·σ_gz; 0,1 sub straturi moi), însumează tasarea (ec. H.5) și întoarce
+          <var>k</var><sub>s</sub> = <var>p</var><sub>ef</sub> / <var>s</var>.</p>
+
+          <div class="sublabel">Fundație și încărcare</div>
+          <div class="grid">
+            <label class="field"><span class="lab">B — latura mică <span class="hint">m</span></span><input type="number" id="st_B" value="2.0" step="any" min="0"></label>
+            <label class="field"><span class="lab">L — latura mare <span class="hint">m</span></span><input type="number" id="st_L" value="4.0" step="any" min="0"></label>
+            <label class="field"><span class="lab">D — adâncime de fundare <span class="hint">m</span></span><input type="number" id="st_D" value="1.5" step="any" min="0"></label>
+            <label class="field"><span class="lab">p<sub>ef,med</sub> — presiune la talpă <span class="hint">kPa</span></span><input type="number" id="st_p" value="200" step="any" min="0"></label>
+            <label class="field"><span class="lab">γ deasupra tălpii <span class="hint">kN/m³</span></span><input type="number" id="st_g" value="19" step="any" min="0"></label>
+            <label class="field"><span class="lab">Nivel apă NAS <span class="hint">m de la CT · opțional</span></span><input type="number" id="st_nas" value="" step="any" min="0"></label>
+          </div>
+
+          <div class="sublabel">Straturi sub talpă</div>
+          <div class="tablewrap"><table id="stratTbl">
+            <thead><tr><th class="lnum">#</th><th>Grosime h [m]</th><th>E<sub>s</sub> [kPa]</th><th>ν<sub>s</sub></th><th>γ [kN/m³]</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+          <div style="margin-top:10px"><button class="btn-soft" onclick="addLayer()">+ Adaugă strat</button></div>
+
+          <div class="actions"><button class="btn" onclick="calcStrat()">Calculează k<sub>s</sub></button><span class="err" id="st_err"></span></div>
+          <div class="result" id="st_res"></div>
+          <div class="aside"><span class="ic">›</span><span>Un strat moale aproape de talpă reduce mult mai mult <var>k</var><sub>s</sub> decât același strat la adâncime — efectul e surprins automat prin distribuția σ_z.</span></div>
         </div>
       </section>
 
@@ -578,6 +623,90 @@ function calcGrinda(){
   el.classList.add("show");
 }
 
+/* TEREN STRATIFICAT — Anexa H + K.10 */
+const H3z=[0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,2.0,3.0,4.0,5.0,6.0];
+const H3LB=[1,2,3,10];
+const H3=[[1.00,1.00,1.00,1.00],[0.96,0.96,0.98,0.98],[0.80,0.87,0.88,0.88],[0.61,0.73,0.75,0.75],[0.45,0.53,0.63,0.64],[0.34,0.48,0.53,0.55],[0.26,0.39,0.44,0.48],[0.20,0.32,0.38,0.42],[0.16,0.27,0.32,0.37],[0.11,0.19,0.24,0.31],[0.05,0.10,0.13,0.21],[0.03,0.06,0.08,0.16],[0.02,0.04,0.05,0.13],[0.02,0.03,0.04,0.10]];
+function alpha0(LB,zB){
+  const zb=Math.max(0,Math.min(6,zB)); let i=0;
+  while(i<H3z.length-1 && H3z[i+1]<zb) i++;
+  const z0=H3z[i],z1=H3z[Math.min(i+1,H3z.length-1)],r0=H3[i],r1=H3[Math.min(i+1,H3z.length-1)];
+  const fz=(z1===z0)?0:(zb-z0)/(z1-z0);
+  const row=r0.map((v,k)=>v+(r1[k]-v)*fz);
+  const lb=Math.max(1,Math.min(10,LB));
+  if(lb<=H3LB[0])return row[0];
+  if(lb>=H3LB[3])return row[3];
+  let j=0; while(j<H3LB.length-1 && H3LB[j+1]<lb) j++;
+  return row[j]+(row[j+1]-row[j])*(lb-H3LB[j])/(H3LB[j+1]-H3LB[j]);
+}
+function addLayer(h,E,nu,g){
+  const tb=$("stratTbl").querySelector("tbody"),tr=document.createElement("tr");
+  tr.innerHTML=`<td class="lnum"></td>
+    <td><input class="la_h" type="number" step="any" min="0" value="${h??1}"></td>
+    <td><input class="la_E" type="number" step="any" min="0" value="${E??15000}"></td>
+    <td><input class="la_nu" type="number" step="any" min="0" max="0.5" value="${nu??0.3}"></td>
+    <td><input class="la_g" type="number" step="any" min="0" value="${g??20}"></td>
+    <td><button class="rmrow" onclick="removeLayer(this)" aria-label="Șterge strat">×</button></td>`;
+  tb.appendChild(tr); renumberLayers(); saveStrat();
+}
+function removeLayer(btn){const tb=$("stratTbl").querySelector("tbody");if(tb.children.length<=1)return;btn.closest("tr").remove();renumberLayers();saveStrat();}
+function renumberLayers(){$("stratTbl").querySelectorAll("tbody tr").forEach((tr,i)=>tr.querySelector(".lnum").textContent=i+1);}
+function readLayers(){return [...$("stratTbl").querySelectorAll("tbody tr")].map(tr=>({
+  h:parseFloat((tr.querySelector(".la_h").value+"").replace(",",".")),
+  E:parseFloat((tr.querySelector(".la_E").value+"").replace(",",".")),
+  nu:parseFloat((tr.querySelector(".la_nu").value+"").replace(",",".")),
+  g:parseFloat((tr.querySelector(".la_g").value+"").replace(",","."))}));}
+function buildLayers(arr){const tb=$("stratTbl").querySelector("tbody");tb.innerHTML="";arr.forEach(L=>addLayer(L.h,L.E,L.nu,L.g));}
+function saveStrat(){try{localStorage.setItem("ks_strat",JSON.stringify(readLayers()));}catch(e){}}
+function initStrat(){
+  let arr=null; try{arr=JSON.parse(localStorage.getItem("ks_strat")||"null");}catch(e){}
+  if(!arr||!arr.length) arr=[{h:2,E:8000,nu:0.35,g:19},{h:3,E:20000,nu:0.30,g:20},{h:5,E:40000,nu:0.27,g:20}];
+  buildLayers(arr);
+  $("stratTbl").querySelector("tbody").addEventListener("input",saveStrat);
+}
+function calcStrat(){
+  const B=num("st_B"),L=num("st_L"),D=num("st_D"),p=num("st_p"),gA=num("st_g");
+  const nasRaw=($("st_nas").value+"").trim(), nas=nasRaw===""?Infinity:parseFloat(nasRaw.replace(",","."));
+  if([B,L,p,gA].some(v=>!isFinite(v)||v<=0)||!isFinite(D)||D<0){showErr("st_err","Completați B, L, D, p_ef și γ.");return;}
+  const layers=readLayers();
+  if(!layers.length||layers.some(l=>![l.h,l.E,l.g].every(v=>isFinite(v)&&v>0)||!isFinite(l.nu)||l.nu<0||l.nu>=0.5)){showErr("st_err","Verificați straturile (h, E_s, γ > 0; 0 ≤ ν_s < 0,5).");return;}
+  const pnet=p-gA*D;
+  if(pnet<=0){showErr("st_err","p_net = p − γ·D ≤ 0; verificați p_ef, γ și D.");return;}
+  showErr("st_err");
+  const gw=9.81, LB=L/B;
+  const strata=[{top:0,bot:D,g:gA}]; let cum=D;
+  layers.forEach(l=>{strata.push({top:cum,bot:cum+l.h,g:l.g});cum+=l.h;});
+  const sigmaV=d=>{let s=0;for(const st of strata){const a=st.top,b=Math.min(st.bot,d);if(b>a)s+=st.g*(b-a);}return s;};
+  const sigmaGz=d=>{const u=(isFinite(nas)&&d>nas)?gw*(d-nas):0;return Math.max(sigmaV(d)-u,0.001);};
+  const subs=[]; layers.forEach(l=>{const n=Math.max(1,Math.ceil(l.h/(0.4*B))),hh=l.h/n;for(let k=0;k<n;k++)subs.push({h:hh,E:l.E,g:l.g});});
+  let z=0,sSum=0,z0=null,reached=false,rows=[];
+  for(const s of subs){
+    const zt=z,zb=z+s.h;
+    const szt=alpha0(LB,zt/B)*pnet, szb=alpha0(LB,zb/B)*pnet, smed=(szt+szb)/2;
+    const ds=smed*s.h/s.E, sgzb=sigmaGz(D+zb), fac=(s.E<=5000)?0.1:0.2;
+    sSum+=ds; rows.push({zt,zb,smed,E:s.E,ds}); z=zb;
+    if(szb<=fac*sgzb){z0=zb;reached=true;break;}
+  }
+  if(!reached) z0=z;
+  const s_mm=1000*0.8*sSum, ks=p/(s_mm/1000); lastKs=ks;
+  let tbl=`<table class="sttable"><thead><tr><th>Strat</th><th>z [m]</th><th>σ_z med [kPa]</th><th>E_s [kPa]</th><th>Δs [mm]</th></tr></thead><tbody>`;
+  rows.forEach((r,i)=>{tbl+=`<tr><td>${i+1}</td><td>${ro(r.zt,2)}–${ro(r.zb,2)}</td><td>${ro(r.smed,1)}</td><td>${ro(r.E,0)}</td><td>${ro(1000*0.8*r.ds,2)}</td></tr>`;});
+  tbl+=`<tr><td colspan="4" style="text-align:right;font-weight:500">Tasare totală s</td><td style="font-weight:500">${ro(s_mm,1)}</td></tr></tbody></table>`;
+  const warn=!reached?`<p class="res-note">Zona activă (σ_z ≤ 0,2·σ_gz) nu s-a atins în profilul introdus — adăugați straturi în adâncime pentru un rezultat corect.</p>`:"";
+  $("st_res").dataset.copy=`k_s = ${ro(ks,0)} kN/m³ (NP 112-2014, K.10 + Anexa H, teren stratificat)\np_net=${ro(pnet,1)} kPa; zona activa z0=${ro(z0,2)} m; s=${ro(s_mm,1)} mm; p_ef=${ro(p,0)} kPa; L/B=${ro(LB,2)}`;
+  $("st_res").innerHTML=`<div class="res-top"><div>
+      <div class="res-label">Coeficient de pat echivalent</div>
+      <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">kN/m³</span></div>
+    </div><div class="res-actions">
+      <button class="btn-soft" onclick="copyResult('st_res')">Copiază</button>
+      <button class="btn-soft" onclick="useInBeam(${ks})">Folosește la grindă</button>
+    </div></div>
+    <p class="res-note">Tasare s = ${ro(s_mm,1)} mm · zonă activă z₀ = ${ro(z0,2)} m · p_net = ${ro(pnet,1)} kPa · L/B = ${ro(LB,2)}</p>
+    ${warn}
+    <details class="steps"><summary>Detaliu pe straturi elementare (ec. H.5, β = 0,8)</summary>${tbl}</details>`;
+  $("st_res").classList.add("show");
+}
+
 /* NAV */
 function switchTab(tab){
   document.querySelectorAll(".navitem").forEach(x=>x.classList.toggle("active",x.dataset.tab===tab));
@@ -594,7 +723,7 @@ function setTheme(t){document.documentElement.setAttribute("data-theme",t);
 $("themeBtn").addEventListener("click",()=>setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));
 
 /* PERSISTENȚĂ DATE */
-const INPUTS=["pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","iv_p","iv_s","gr_ks","gr_B","gr_h","gr_E","gr_span"];
+const INPUTS=["pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","iv_p","iv_s","gr_ks","gr_B","gr_h","gr_E","gr_span","st_B","st_L","st_D","st_p","st_g","st_nas"];
 function saveInputs(){const o={};INPUTS.forEach(id=>{const e=$(id);if(e)o[id]=e.value;});try{localStorage.setItem("ks_inputs",JSON.stringify(o));}catch(e){}}
 (function init(){
   try{const t=localStorage.getItem("ks_theme");if(t)setTheme(t);
@@ -602,7 +731,7 @@ function saveInputs(){const o={};INPUTS.forEach(id=>{const e=$(id);if(e)o[id]=e.
     INPUTS.forEach(id=>{if(saved[id]!=null&&$(id))$(id).value=saved[id];});
     const tab=localStorage.getItem("ks_tab");if(tab)switchTab(tab);
   }catch(e){}
-  orientToggle();
+  orientToggle(); initStrat();
   INPUTS.forEach(id=>{const e=$(id);if(e)e.addEventListener("change",saveInputs);});
 })();
 </script>
