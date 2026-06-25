@@ -30,7 +30,10 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
-    line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;letter-spacing:.005em}
+    line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;letter-spacing:.005em;
+    font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum","lnum"}
+  .ks{white-space:nowrap}
+  var,.ks{font-style:italic;font-family:var(--serif)}
   .shell{max-width:1120px;margin:0 auto;padding:0 22px}
   a{color:var(--accent-strong)}
   :focus-visible{outline:none;box-shadow:var(--focus);border-radius:6px}
@@ -45,16 +48,21 @@
   .brand{display:flex;align-items:center;gap:12px}
   .mark{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);
     display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)}
+  .bw{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
   .brand .name{font-family:var(--serif);font-size:1.18rem;line-height:1}
   .brand .name sub{font-size:.62em}
-  .brand .tag{font-size:.78rem;color:var(--ink-3);margin-top:2px}
+  .brand .tag{font-size:.82rem;color:var(--ink-3)}
   .theme{background:var(--surface);border:1px solid var(--line);color:var(--ink-2);
     border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem;display:flex;gap:7px;align-items:center}
   .theme:hover{border-color:var(--line-2)}
 
-  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:44px 0 26px}
-  .hero h1{font-family:var(--serif);font-weight:400;font-size:2.1rem;line-height:1.18;margin:0 0 14px;letter-spacing:-.01em}
-  .hero p.lead{font-size:1.05rem;color:var(--ink-2);margin:0 0 20px;max-width:46ch}
+  .hero{display:grid;grid-template-columns:1.05fr .9fr;gap:30px;align-items:center;padding:26px 0 14px}
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:1.55rem;line-height:1.2;margin:0 0 10px;letter-spacing:-.005em}
+  .hero p.lead{font-size:.98rem;color:var(--ink-2);margin:0 0 14px;max-width:52ch}
+  .note-intrinsic{font-size:.9rem;color:var(--ink-2);background:var(--accent-soft);border:1px solid var(--line-2);border-radius:10px;padding:10px 14px;margin:14px 0 0;max-width:56ch}
+  .note-intrinsic b{color:var(--accent-strong);font-weight:500}
+  img.normfig{display:block;max-width:430px;width:100%;margin:10px auto 2px;border:1px solid var(--line-2);border-radius:8px;background:#fff;padding:8px}
+  .figsrc{display:block;text-align:center;font-size:.76rem;color:var(--ink-3);margin:0 0 6px}
   .relation{display:inline-flex;align-items:center;gap:14px;background:var(--surface);
     border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 18px;box-shadow:var(--shadow)}
   .relation .eq{font-family:var(--serif);font-size:1.25rem}
@@ -78,8 +86,8 @@
   .panel.show{animation:rise .22s ease}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    padding:26px 28px;box-shadow:var(--shadow);margin-bottom:20px}
-  .card h2{font-family:var(--serif);font-weight:400;font-size:1.42rem;margin:0 0 4px;letter-spacing:-.005em}
+    padding:22px 24px;box-shadow:var(--shadow);margin-bottom:18px}
+  .card h2{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0 0 4px;letter-spacing:-.005em}
   .card h3{font-family:var(--serif);font-weight:400;font-size:1.08rem;margin:18px 0 4px}
   .ref{font-size:.76rem;color:var(--accent-strong);background:var(--accent-soft);border:1px solid var(--line-2);
     padding:2px 9px;border-radius:7px;font-weight:500;vertical-align:2px;margin-left:8px;white-space:nowrap}
@@ -198,9 +206,9 @@
           <rect x="5" y="5" width="14" height="4" rx="1.2" fill="var(--accent)"/>
         </svg>
       </span>
-      <div>
-        <div class="name">k<sub>s</sub></div>
-        <div class="tag">Coeficient de pat · NP 112/2014</div>
+      <div class="bw">
+        <span class="name ks">k<sub>s</sub></span>
+        <span class="tag">· Coeficient de pat · NP 112/2014</span>
       </div>
     </div>
     <button class="theme" id="themeBtn" aria-pressed="false">
@@ -213,14 +221,16 @@
 <div class="shell">
   <section class="hero">
     <div>
-      <h1>Coeficientul de pat, dintr-un singur loc.</h1>
-      <p class="lead">Determină modulul de reacțiune al terenului <var>k</var><sub>s</sub> pentru modelarea
-      fundațiilor pe mediu elastic — șase metode din NP 112/2014, inclusiv teren stratificat. Rezultate
-      trasabile, gata de inclus în nota de calcul.</p>
+      <h1>Coeficientul de pat <span class="ks">k<sub>s</sub></span></h1>
+      <p class="lead">Modulul de reacțiune al terenului pentru modelarea fundațiilor pe mediu elastic — șase
+      metode din NP 112/2014, inclusiv teren stratificat. Rezultate trasabile, gata de inclus în nota de calcul.</p>
       <div class="relation">
-        <span class="eq"><var>p</var> = <var>k</var><sub>s</sub> · <var>z</var></span>
-        <span class="u">presiune de contact = rigiditate × tasare &nbsp;·&nbsp; [kN/m³]</span>
+        <span class="eq"><var>p</var> = <span class="ks"><var>k</var><sub>s</sub></span> · <var>z</var></span>
+        <span class="u">presiune = rigiditate × tasare · [kN/m³]</span>
       </div>
+      <p class="note-intrinsic"><b>Reține:</b> <span class="ks">k<sub>s</sub></span> nu este o proprietate
+      intrinsecă a pământului — depinde de lățimea și forma fundației, de adâncime și de nivelul de încărcare,
+      și diferă de la o metodă la alta. Nu transfera aceeași valoare între fundații diferite.</p>
     </div>
     <figure class="art">
       <svg width="100%" viewBox="0 0 460 230" role="img" aria-labelledby="h-t h-d">
@@ -338,6 +348,8 @@
               <p>Placa de probă este pătrată, cu latura <b>B<sub>p</sub> = 0,30 m</b>. Diagrama depinde de dimensiunile și rigiditatea plăcii, deci k′<sub>s</sub> se corectează cu coeficientul α pentru lățimea reală B a fundației (paragrafele 2–3).</p>
               <ul><li>pământuri coezive: α = B<sub>p</sub>/B (dependență ~liniară de B);</li>
                   <li>pământuri necoezive: α = [(B<sub>p</sub>+0,3)/2B]² (efect de scară mai accentuat).</li></ul>
+              <img class="normfig" src="figuri/fig-K2.png" alt="Figura K.2 — încercarea de încărcare cu placa pe teren" loading="lazy">
+              <span class="figsrc">Sursă: NP 112/2014, Figura K.2</span>
             </div>
           </details>
         </div>
@@ -520,6 +532,8 @@
               <p class="cite"><b>Tasarea (H.5):</b> s = 10³·β·Σ(σ_z,med·h_i/E_si), cu β = 0,8.</p>
               <p>Coeficientul de pat rezultă apoi din K.10: k<sub>s</sub> = p_ef / s.</p>
               <p style="color:var(--accent-strong)"><b>Domeniu de validitate:</b> metoda însumării (H.2.1) este implementată aici. Pentru B &gt; 10 m sau strat practic incompresibil (E_s &gt; 100.000 kPa), NP 112 indică metoda stratului de grosime finită (H.2.3) — neacoperită de acest modul.</p>
+              <img class="normfig" src="figuri/fig-H1.png" alt="Figura H.1 — schema de calcul al tasării absolute" loading="lazy">
+              <span class="figsrc">Sursă: NP 112/2014, Figura H.1</span>
             </div>
           </details>
         </div>
@@ -559,7 +573,9 @@
             <button class="btn-soft" onclick="pullKs()">Preia ultimul k<sub>s</sub></button><span class="err" id="gr_err" role="alert"></span></div>
           <div class="result" id="gr_res" role="status" aria-live="polite"></div>
           <details class="fold"><summary>Despre metodă · NP 112, K.3.2.1</summary>
-            <div class="body"><p>Lungimea elastică l<sub>e</sub> = 1/λ arată cât de departe se „resimte” o forță concentrată. Dacă deschiderile dintre stâlpi sunt mult mai mici decât l<sub>e</sub>, grinda lucrează ca rigidă; dacă sunt comparabile sau mai mari, ca flexibilă, iar eforturile se determină cu funcțiile f₁…f₄ (tabelele K.3–K.6) sau prin metode numerice (K.3.3).</p></div>
+            <div class="body"><p>Lungimea elastică l<sub>e</sub> = 1/λ arată cât de departe se „resimte” o forță concentrată. Dacă deschiderile dintre stâlpi sunt mult mai mici decât l<sub>e</sub>, grinda lucrează ca rigidă; dacă sunt comparabile sau mai mari, ca flexibilă, iar eforturile se determină cu funcțiile f₁…f₄ (tabelele K.3–K.6) sau prin metode numerice (K.3.3).</p>
+              <img class="normfig" src="figuri/fig-K5.png" alt="Figura K.5 — diagramele de săgeată, rotire, moment încovoietor și forță tăietoare" loading="lazy">
+              <span class="figsrc">Sursă: NP 112/2014, Figura K.5</span></div>
           </details>
         </div>
       </section>
@@ -610,6 +626,48 @@ const showErr = (id,m) => { const e=$(id); if(m){e.textContent="• "+m;e.classL
 let lastKs = null;
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
 
+/* BREVIAR DE CALCUL — descărcare per metodă */
+const TITLES={pl_res:"Probă de încărcare cu placa (K.3.1.1)",es_res:"Din modulul de deformație liniară (K.3.1.2)",eo_res:"Din modulul edometric (K.3.1.2)",or_res:"Valori de catalog (Tab. K.2)",iv_res:"Calcul invers din tasare (K.3.1.4)",st_res:"Teren stratificat (Anexa H + K.10)",gr_res:"Grindă pe mediu elastic (K.3.2.1)"};
+function breviarBtn(elId){return `<button class="btn-soft" onclick="dlBreviar('${elId}')">Descarcă breviar</button>`;}
+function esc(s){return (s+"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function dlBreviar(elId){
+  const el=$(elId);
+  if(!el||!el.classList.contains("show")){toast("Rulează întâi calculul");return;}
+  const title=TITLES[elId]||"Coeficient de pat";
+  const valEl=el.querySelector(".res-val"), val=valEl?valEl.innerText.trim():"";
+  const labEl=el.querySelector(".res-label"), lab=labEl?labEl.innerText.trim():"Rezultat";
+  const pre=el.querySelector("pre"), steps=pre?pre.textContent:(el.dataset.copy||"");
+  const extra=el.querySelector(".sttable"); const tableHtml=extra?extra.outerHTML:"";
+  const d=new Date(), ds=d.toLocaleDateString("ro-RO")+" "+d.toLocaleTimeString("ro-RO",{hour:"2-digit",minute:"2-digit"});
+  const doc=`<!DOCTYPE html><html lang="ro"><head><meta charset="UTF-8"><title>Breviar — ${esc(title)}</title>
+<style>body{font-family:Georgia,'Times New Roman',serif;max-width:720px;margin:30px auto;padding:0 26px;color:#222;line-height:1.6;font-variant-numeric:tabular-nums lining-nums}
+h1{font-size:1.25rem;font-weight:400;border-bottom:2px solid #C25B3A;padding-bottom:8px;margin:0 0 4px}
+.meta{color:#666;font-size:.82rem;margin-bottom:20px}
+h2{font-size:1rem;font-weight:400;margin:20px 0 6px;color:#9A4527}
+.res{background:#F7E9E2;border:1px solid #e2c4b6;border-radius:8px;padding:12px 16px;font-size:1.15rem;margin:6px 0}
+.lab{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#8c7;color:#998;margin-bottom:3px}
+pre{background:#f5f3ee;border:1px solid #e4ddcf;border-radius:8px;padding:14px 16px;white-space:pre-wrap;font-family:Consolas,'Courier New',monospace;font-size:.84rem;line-height:1.7}
+table{border-collapse:collapse;width:100%;font-size:.82rem;margin:8px 0}th,td{border:1px solid #ddd;padding:6px 9px;text-align:center}th{background:#f1eee6}
+.foot{margin-top:26px;border-top:1px solid #ddd;padding-top:12px;color:#777;font-size:.78rem}
+@media print{body{margin:0}.noprint{display:none}}
+.btnp{margin:14px 0;background:#C25B3A;color:#fff;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-family:inherit}</style></head>
+<body>
+<h1>Breviar de calcul — ${esc(title)}</h1>
+<div class="meta">Coeficientul de pat k<sub>s</sub> · NP 112/2014 · generat ${esc(ds)}</div>
+<button class="btnp noprint" onclick="window.print()">Tipărește / salvează ca PDF</button>
+<h2>Rezultat</h2>
+<div class="lab">${esc(lab)}</div>
+<div class="res">${esc(val)}</div>
+<h2>Date și desfășurarea calculului</h2>
+<pre>${esc(steps)}</pre>
+${tableHtml?("<h2>Detaliu pe straturi</h2>"+tableHtml):""}
+<div class="foot">Calcul conform NP 112/2014, Anexa K/H. Material orientativ; verificarea ipotezelor și responsabilitatea proiectării revin inginerului proiectant. Generat cu calculatorul k_s.</div>
+</body></html>`;
+  const blob=new Blob([doc],{type:"text/html;charset=utf-8"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="breviar-ks-"+elId.replace("_res","")+".html"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000); toast("Breviar descărcat");
+}
+
 function render(elId, ks, unit, steps, copy, opts){
   opts = opts || {};
   const el=$(elId); el.dataset.copy = copy;
@@ -619,7 +677,7 @@ function render(elId, ks, unit, steps, copy, opts){
     <div class="res-top">
       <div><div class="res-label">${opts.label||"Coeficient de pat"}</div>
         <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">${unit}</span></div></div>
-      <div class="res-actions"><button class="btn-soft" onclick="copyResult('${elId}')">Copiază</button>${beamBtn}</div>
+      <div class="res-actions"><button class="btn-soft" onclick="copyResult('${elId}')">Copiază</button>${breviarBtn(elId)}${beamBtn}</div>
     </div>
     ${opts.note?`<p class="res-note">${opts.note}</p>`:""}
     <details class="steps"><summary>Detaliu calcul</summary><pre>${steps}</pre></details>`;
@@ -693,7 +751,7 @@ function calcOrient(){
   el.innerHTML=`<div class="res-top"><div><div class="res-label">Interval orientativ (B = 1 m)</div>
     <div class="res-val"><b>${ro(a,0)} ÷ ${ro(b,0)}</b> <span class="unit">kN/m³</span></div></div>
     <div class="res-actions"><button class="btn-soft" onclick="copyResult('or_res')">Copiază</button>
-    <button class="btn-soft" onclick="useInBeam(${mid})">Folosește mediana</button></div></div>
+    ${breviarBtn('or_res')}<button class="btn-soft" onclick="useInBeam(${mid})">Folosește mediana</button></div></div>
     <p class="res-note">${nm} = ${ro(x,2)} · mediană ≈ ${ro(mid,0)} kN/m³. Valoare pentru B = 1 m — transpuneți pentru B real.</p>`;
   el.classList.add("show");
 }
@@ -716,7 +774,7 @@ function calcGrinda(){
   el.dataset.copy=`l_e = ${ro(le,3)} m; λ = ${ro(lam,4)} 1/m (NP 112-2014 K.3.2.1; k_s=${ro(ks,0)} kN/m³, EI=${EI.toExponential(2)} kN·m²)`;
   el.innerHTML=`<div class="res-top"><div><div class="res-label">Lungime elastică</div>
     <div class="res-val">l<sub>e</sub> = <b>${ro(le,3)}</b> <span class="unit">m</span> &nbsp; · &nbsp; λ = ${ro(lam,4)} <span class="unit">m⁻¹</span></div></div>
-    <div class="res-actions"><button class="btn-soft" onclick="copyResult('gr_res')">Copiază</button></div></div>
+    <div class="res-actions"><button class="btn-soft" onclick="copyResult('gr_res')">Copiază</button>${breviarBtn('gr_res')}</div></div>
     ${cls?`<p class="res-note">${cls}</p>`:""}
     <details class="steps"><summary>Detaliu calcul</summary><pre>${steps}</pre></details>`;
   el.classList.add("show");
@@ -800,7 +858,7 @@ function calcStrat(){
       <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">kN/m³</span></div>
     </div><div class="res-actions">
       <button class="btn-soft" onclick="copyResult('st_res')">Copiază</button>
-      <button class="btn-soft" onclick="useInBeam(${ks})">Folosește la grindă</button>
+      ${breviarBtn('st_res')}<button class="btn-soft" onclick="useInBeam(${ks})">Folosește la grindă</button>
     </div></div>
     <p class="res-note">Tasare s = ${ro(s_mm,1)} mm · zonă activă z₀ = ${ro(z0,2)} m · p_net = ${ro(pnet,1)} kPa · L/B = ${ro(LB,2)}</p>
     ${warn}
