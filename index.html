@@ -3,26 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>k_s — Coeficient de pat · modul de reacțiune al terenului</title>
+<title>k_s — Coeficient de pat · modul de reacțiune al terenului (NP 112/2014)</title>
 <style>
   :root{
-    --bg:#F6F3ED; --surface:#FFFFFF; --surface-2:#F1EEE6; --soil:#EBE4D6;
+    --bg:#F6F3ED; --surface:#FFFFFF; --surface-2:#F1EEE6; --inset:#EDE9DF;
+    --soil:#ECE5D7; --soil2:#E2D9C6; --soil3:#D7CCB6;
     --ink:#2B2A27; --ink-2:#5F5D57; --ink-3:#8C897F;
     --line:#E7E2D6; --line-2:#D8D2C3;
     --accent:#C25B3A; --accent-strong:#9A4527; --accent-soft:#F7E9E2;
-    --good:#1D9E75; --good-soft:#E4F3EC;
+    --good:#1D7F5E; --good-soft:#E4F3EC; --info-soft:#EEF2F7; --info-ink:#3A5269;
     --shadow:0 1px 2px rgba(43,42,39,.04), 0 10px 30px rgba(43,42,39,.05);
-    --radius:16px; --radius-sm:11px;
+    --radius:16px; --radius-sm:11px; --focus:0 0 0 3px var(--accent-soft),0 0 0 1px var(--accent);
     --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
     --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     --mono:"SFMono-Regular",ui-monospace,Consolas,"Liberation Mono",monospace;
   }
   html[data-theme="dark"]{
-    --bg:#262523; --surface:#302F2C; --surface-2:#383631; --soil:#37352F;
+    --bg:#262523; --surface:#302F2C; --surface-2:#383631; --inset:#3A3833;
+    --soil:#37352F; --soil2:#403D36; --soil3:#4A463E;
     --ink:#ECE8DF; --ink-2:#B8B4A9; --ink-3:#8C897F;
     --line:#403E39; --line-2:#4B4942;
     --accent:#E08A6B; --accent-strong:#F0A98C; --accent-soft:#3B2C24;
-    --good:#5DCAA5; --good-soft:#22372F;
+    --good:#5DCAA5; --good-soft:#22372F; --info-soft:#1B2530; --info-ink:#9DBBD6;
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 34px rgba(0,0,0,.30);
   }
   *{box-sizing:border-box}
@@ -30,10 +32,13 @@
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
     line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;letter-spacing:.005em}
   .shell{max-width:1120px;margin:0 auto;padding:0 22px}
-  a{color:var(--accent-strong);text-decoration:none}
-  a:hover{text-decoration:underline}
+  a{color:var(--accent-strong)}
+  :focus-visible{outline:none;box-shadow:var(--focus);border-radius:6px}
+  .skip{position:absolute;left:-999px;top:8px;background:var(--surface);border:1px solid var(--line-2);
+    padding:8px 14px;border-radius:10px;z-index:60}
+  .skip:focus{left:18px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
-  /* header */
   header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);
     backdrop-filter:saturate(1.1) blur(8px);border-bottom:1px solid var(--line)}
   .top .shell{display:flex;align-items:center;justify-content:space-between;height:64px}
@@ -47,44 +52,39 @@
     border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem;display:flex;gap:7px;align-items:center}
   .theme:hover{border-color:var(--line-2)}
 
-  /* hero */
-  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;
-    padding:46px 0 30px}
-  .hero h1{font-family:var(--serif);font-weight:400;font-size:2.15rem;line-height:1.18;margin:0 0 14px;letter-spacing:-.01em}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:44px 0 26px}
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:2.1rem;line-height:1.18;margin:0 0 14px;letter-spacing:-.01em}
   .hero p.lead{font-size:1.05rem;color:var(--ink-2);margin:0 0 20px;max-width:46ch}
   .relation{display:inline-flex;align-items:center;gap:14px;background:var(--surface);
     border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 18px;box-shadow:var(--shadow)}
   .relation .eq{font-family:var(--serif);font-size:1.25rem}
   .relation .u{font-size:.82rem;color:var(--ink-3)}
-  .hero .art{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    padding:18px;box-shadow:var(--shadow)}
-  .hero .art figcaption{font-size:.8rem;color:var(--ink-3);text-align:center;margin-top:8px}
+  figure.art{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin:0}
+  figure.art figcaption{font-size:.8rem;color:var(--ink-3);text-align:center;margin-top:8px}
 
-  /* layout */
   .layout{display:grid;grid-template-columns:248px 1fr;gap:30px;padding:14px 0 70px;align-items:start}
   nav.rail{position:sticky;top:84px;display:flex;flex-direction:column;gap:5px}
-  nav.rail .group{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);
-    margin:14px 8px 6px}
+  nav.rail .group{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:14px 8px 6px}
   .navitem{text-align:left;border:1px solid transparent;background:transparent;color:var(--ink-2);
     border-radius:11px;padding:10px 13px;cursor:pointer;font-size:.92rem;font-family:var(--sans);
     transition:.16s;display:flex;flex-direction:column;gap:1px;width:100%}
   .navitem small{font-size:.75rem;color:var(--ink-3)}
   .navitem:hover{background:var(--surface-2)}
-  .navitem.active{background:var(--surface);border-color:var(--line-2);color:var(--ink);box-shadow:var(--shadow)}
-  .navitem.active small{color:var(--accent-strong)}
+  .navitem[aria-selected="true"]{background:var(--surface);border-color:var(--line-2);color:var(--ink);box-shadow:var(--shadow)}
+  .navitem[aria-selected="true"] small{color:var(--accent-strong)}
 
-  /* panels */
-  .panel{display:none}
-  .panel.active{display:block;animation:rise .22s ease}
+  .panel{display:block}
+  .panel[hidden]{display:none}
+  .panel.show{animation:rise .22s ease}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
     padding:26px 28px;box-shadow:var(--shadow);margin-bottom:20px}
   .card h2{font-family:var(--serif);font-weight:400;font-size:1.42rem;margin:0 0 4px;letter-spacing:-.005em}
+  .card h3{font-family:var(--serif);font-weight:400;font-size:1.08rem;margin:18px 0 4px}
   .ref{font-size:.76rem;color:var(--accent-strong);background:var(--accent-soft);border:1px solid var(--line-2);
-    padding:2px 9px;border-radius:7px;font-weight:500;vertical-align:2px;margin-left:8px}
+    padding:2px 9px;border-radius:7px;font-weight:500;vertical-align:2px;margin-left:8px;white-space:nowrap}
   .intro{color:var(--ink-2);margin:.4rem 0 1.1rem;max-width:64ch}
 
-  /* formula */
   .fx{font-family:var(--serif);font-size:1.12rem;background:var(--surface-2);border:1px solid var(--line);
     border-radius:var(--radius-sm);padding:13px 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 4px}
   .fx .tagn{margin-left:auto;font-family:var(--sans);font-size:.74rem;color:var(--ink-3)}
@@ -94,15 +94,16 @@
   var{font-style:italic;font-family:var(--serif)}
   .root{white-space:nowrap}
 
-  /* fields */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:18px 0 6px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:16px 0 6px}
+  fieldset{border:none;margin:0;padding:0;min-width:0}
+  legend{font-family:var(--serif);font-weight:400;font-size:1.05rem;padding:0;margin:18px 0 2px}
   label.field{display:flex;flex-direction:column;gap:5px;font-size:.9rem;color:var(--ink)}
   label.field .lab{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
   label.field .hint{font-size:.76rem;color:var(--ink-3);font-weight:400}
   input,select{font:inherit;font-size:.95rem;padding:10px 13px;border:1px solid var(--line-2);
     border-radius:10px;background:var(--surface);color:var(--ink);transition:.15s}
   input:hover,select:hover{border-color:var(--ink-3)}
-  input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input:focus-visible,select:focus-visible{outline:none;border-color:var(--accent);box-shadow:var(--focus)}
 
   .actions{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:16px}
   .btn{background:var(--accent);color:#fff;border:none;padding:11px 22px;border-radius:11px;
@@ -118,9 +119,7 @@
   html[data-theme="dark"] .err{color:#f0997b}
   .err.show{display:inline}
 
-  /* result */
-  .result{display:none;margin-top:20px;background:var(--surface-2);border:1px solid var(--line-2);
-    border-radius:var(--radius);padding:20px 22px}
+  .result{display:none;margin-top:20px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--radius);padding:20px 22px}
   .result.show{display:block;animation:rise .2s ease}
   .res-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
   .res-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:3px}
@@ -130,43 +129,54 @@
   .res-actions{display:flex;gap:8px;flex-wrap:wrap}
   .res-note{font-size:.88rem;color:var(--ink-2);margin:13px 0 0}
   details.steps{margin-top:13px;border-top:1px solid var(--line);padding-top:11px}
-  details.steps summary{cursor:pointer;font-size:.85rem;color:var(--accent-strong);list-style:none}
-  details.steps summary::-webkit-details-marker{display:none}
+  details.steps summary,details.fold summary{cursor:pointer;list-style:none}
+  details.steps summary{font-size:.85rem;color:var(--accent-strong)}
+  details.steps summary::-webkit-details-marker,details.fold summary::-webkit-details-marker{display:none}
   details.steps summary::before{content:"▸ ";color:var(--ink-3)}
   details.steps[open] summary::before{content:"▾ "}
   details.steps pre{font-family:var(--mono);font-size:.82rem;line-height:1.75;color:var(--ink-2);
-    white-space:pre-wrap;margin:11px 0 0;background:var(--surface);border:1px solid var(--line);
-    border-radius:10px;padding:13px 15px}
+    white-space:pre-wrap;margin:11px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
 
-  /* soft aside */
   .aside{display:flex;gap:11px;background:var(--surface-2);border:1px solid var(--line);
     border-radius:var(--radius-sm);padding:13px 16px;margin:14px 0;font-size:.88rem;color:var(--ink-2)}
-  .aside .ic{color:var(--accent-strong);flex:none;margin-top:1px}
-  details.fold{border:1px solid var(--line);border-radius:var(--radius-sm);padding:0 16px;margin:14px 0;background:var(--surface-2)}
-  details.fold summary{cursor:pointer;padding:12px 0;font-size:.9rem;color:var(--ink);list-style:none}
-  details.fold summary::-webkit-details-marker{display:none}
-  details.fold summary::before{content:"+ ";color:var(--accent-strong)}
-  details.fold[open] summary::before{content:"– "}
-  details.fold p{margin:0 0 12px;font-size:.88rem;color:var(--ink-2)}
+  .aside .ic{color:var(--accent-strong);flex:none;margin-top:1px;font-weight:700}
+  details.fold{border:1px solid var(--line);border-radius:var(--radius-sm);padding:0 16px;margin:16px 0 0;background:var(--surface-2)}
+  details.fold>summary{padding:13px 0;font-size:.92rem;color:var(--ink);font-weight:500}
+  details.fold>summary::before{content:"+ ";color:var(--accent-strong)}
+  details.fold[open]>summary::before{content:"– "}
+  details.fold .body{padding:0 0 14px;font-size:.9rem;color:var(--ink-2)}
+  details.fold .body p{margin:0 0 10px}
+  details.fold .body ul{margin:0 0 10px;padding-left:18px}
+  details.fold .body li{margin:4px 0}
+  .cite{display:block;border-left:2px solid var(--line-2);padding:2px 0 2px 12px;margin:8px 0;color:var(--ink-2);font-size:.86rem}
+  .cite b{font-weight:500;color:var(--ink)}
 
-  /* tables */
-  table{border-collapse:collapse;width:100%;font-size:.86rem;margin:12px 0}
+  .panel-art{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin:6px 0 18px}
+  .panel-art .figcap{font-size:.78rem;color:var(--ink-3);text-align:center;margin-top:8px}
+
+  .chooser{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}
+  .choice{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:15px 16px;display:flex;flex-direction:column;gap:6px}
+  .choice .ttl{font-weight:500}
+  .choice .have{font-size:.84rem;color:var(--ink-2)}
+  .choice .have b{font-weight:500;color:var(--ink)}
+  .choice .go{margin-top:auto;align-self:flex-start;font-size:.85rem;color:var(--accent-strong);background:var(--accent-soft);
+    border:1px solid var(--line-2);border-radius:9px;padding:7px 13px;cursor:pointer}
+  .choice .go:hover{border-color:var(--accent)}
+
+  table{border-collapse:collapse;width:100%;font-size:.86rem;margin:10px 0}
   th,td{border:1px solid var(--line);padding:8px 11px;text-align:center}
   th{background:var(--surface-2);font-weight:500;color:var(--ink)}
   .tablewrap{overflow-x:auto;border-radius:10px}
-  .figcap{font-size:.78rem;color:var(--ink-3);text-align:center;margin-top:8px}
-  .panel-art{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin:6px 0 18px}
 
   footer{border-top:1px solid var(--line);padding:26px 0 50px;color:var(--ink-3);font-size:.84rem}
   footer .shell{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
-    background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:11px;font-size:.86rem;
-    transition:.25s;pointer-events:none;z-index:50}
+    background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:11px;font-size:.86rem;transition:.25s;pointer-events:none;z-index:50}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   sub,sup{line-height:0}
 
   @media (max-width:880px){
-    .hero{grid-template-columns:1fr;gap:24px;padding:30px 0 18px}
+    .hero{grid-template-columns:1fr;gap:22px;padding:28px 0 16px}
     .layout{grid-template-columns:1fr;gap:18px}
     nav.rail{position:static;flex-direction:row;flex-wrap:wrap;gap:7px}
     nav.rail .group{display:none}
@@ -176,6 +186,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip">Sari la conținut</a>
 
 <header class="top">
   <div class="shell">
@@ -192,94 +203,115 @@
         <div class="tag">Coeficient de pat · NP 112/2014</div>
       </div>
     </div>
-    <button class="theme" id="themeBtn" aria-label="Comută tema">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" id="themeIc"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    <button class="theme" id="themeBtn" aria-pressed="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" id="themeIc" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       <span id="themeTxt">Întunecat</span>
     </button>
   </div>
 </header>
 
 <div class="shell">
-
-  <!-- HERO -->
   <section class="hero">
     <div>
       <h1>Coeficientul de pat, dintr-un singur loc.</h1>
       <p class="lead">Determină modulul de reacțiune al terenului <var>k</var><sub>s</sub> pentru modelarea
-      fundațiilor pe mediu elastic — prin probă cu placa, parametri de compresibilitate, valori de
-      catalog sau calcul invers din tasare. Rezultate trasabile, gata de inclus în nota de calcul.</p>
+      fundațiilor pe mediu elastic — șase metode din NP 112/2014, inclusiv teren stratificat. Rezultate
+      trasabile, gata de inclus în nota de calcul.</p>
       <div class="relation">
         <span class="eq"><var>p</var> = <var>k</var><sub>s</sub> · <var>z</var></span>
-        <span class="u">presiune de contact = rigiditate resort × tasare &nbsp;·&nbsp; [kN/m³]</span>
+        <span class="u">presiune de contact = rigiditate × tasare &nbsp;·&nbsp; [kN/m³]</span>
       </div>
     </div>
-    <figure class="art" style="margin:0">
-      <svg width="100%" viewBox="0 0 460 230" role="img" aria-label="Model Winkler: fundație pe resoarte elastice">
-        <!-- soil block -->
+    <figure class="art">
+      <svg width="100%" viewBox="0 0 460 230" role="img" aria-labelledby="h-t h-d">
+        <title id="h-t">Modelul Winkler</title>
+        <desc id="h-d">Fundație rezemată pe resoarte independente care reprezintă terenul.</desc>
         <rect x="30" y="120" width="400" height="86" rx="6" fill="var(--soil)"/>
         <g stroke="var(--ink-3)" stroke-width="1" opacity=".35">
-          <line x1="44" y1="206" x2="64" y2="186"/><line x1="74" y1="206" x2="94" y2="186"/>
-          <line x1="104" y1="206" x2="124" y2="186"/><line x1="134" y1="206" x2="154" y2="186"/>
-          <line x1="164" y1="206" x2="184" y2="186"/><line x1="194" y1="206" x2="214" y2="186"/>
-          <line x1="224" y1="206" x2="244" y2="186"/><line x1="254" y1="206" x2="274" y2="186"/>
-          <line x1="284" y1="206" x2="304" y2="186"/><line x1="314" y1="206" x2="334" y2="186"/>
-          <line x1="344" y1="206" x2="364" y2="186"/><line x1="374" y1="206" x2="394" y2="186"/>
-          <line x1="404" y1="206" x2="416" y2="194"/>
+          <line x1="44" y1="206" x2="64" y2="186"/><line x1="74" y1="206" x2="94" y2="186"/><line x1="104" y1="206" x2="124" y2="186"/>
+          <line x1="134" y1="206" x2="154" y2="186"/><line x1="164" y1="206" x2="184" y2="186"/><line x1="194" y1="206" x2="214" y2="186"/>
+          <line x1="224" y1="206" x2="244" y2="186"/><line x1="254" y1="206" x2="274" y2="186"/><line x1="284" y1="206" x2="304" y2="186"/>
+          <line x1="314" y1="206" x2="334" y2="186"/><line x1="344" y1="206" x2="364" y2="186"/><line x1="374" y1="206" x2="394" y2="186"/><line x1="404" y1="206" x2="416" y2="194"/>
         </g>
-        <!-- springs -->
-        <defs>
-          <path id="spr" d="M0 0 V7 l-7 4 l14 8 l-14 8 l14 8 l-7 4 V46" fill="none"
-            stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-        </defs>
-        <use href="#spr" x="92" y="74"/><use href="#spr" x="150" y="74"/>
-        <use href="#spr" x="208" y="74"/><use href="#spr" x="266" y="74"/><use href="#spr" x="324" y="74"/>
-        <!-- foundation -->
+        <defs><path id="spr" d="M0 0 V7 l-7 4 l14 8 l-14 8 l14 8 l-7 4 V46" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></defs>
+        <use href="#spr" x="92" y="74"/><use href="#spr" x="150" y="74"/><use href="#spr" x="208" y="74"/><use href="#spr" x="266" y="74"/><use href="#spr" x="324" y="74"/>
         <rect x="66" y="50" width="288" height="26" rx="5" fill="var(--accent)"/>
-        <!-- load arrows -->
         <g stroke="var(--ink-2)" stroke-width="1.7" stroke-linecap="round">
           <line x1="120" y1="20" x2="120" y2="46"/><path d="M116 40 L120 47 L124 40" fill="none"/>
           <line x1="210" y1="14" x2="210" y2="46"/><path d="M206 40 L210 47 L214 40" fill="none"/>
           <line x1="300" y1="20" x2="300" y2="46"/><path d="M296 40 L300 47 L304 40" fill="none"/>
         </g>
       </svg>
-      <figcaption>Modelul Winkler — terenul ca resoarte independente</figcaption>
+      <figcaption>Modelul Winkler — terenul ca resoarte independente (NP 112, Anexa K.3)</figcaption>
     </figure>
   </section>
 
-  <!-- LAYOUT -->
   <div class="layout">
-    <nav class="rail" id="rail">
-      <div class="group">Determinare k_s</div>
-      <button class="navitem active" data-tab="placa">Probă cu placa<small>încercare in situ</small></button>
-      <button class="navitem" data-tab="esnu"><span>Modul E<sub>s</sub>, ν<sub>s</sub></span><small>parametri elastici</small></button>
-      <button class="navitem" data-tab="eoed">Modul edometric<small>din E<sub>oed</sub></small></button>
-      <button class="navitem" data-tab="orient">Valori de catalog<small>predimensionare</small></button>
-      <button class="navitem" data-tab="invers">Calcul invers<small>din tasare</small></button>
-      <button class="navitem" data-tab="strat">Teren stratificat<small>tasare pe straturi</small></button>
-      <div class="group">Aplicare</div>
-      <button class="navitem" data-tab="grinda">Grindă pe mediu elastic<small>λ, lungime elastică</small></button>
-      <button class="navitem" data-tab="tabele">Tabele de referință<small>K.1 și K.2</small></button>
+    <nav class="rail" id="rail" role="tablist" aria-orientation="vertical" aria-label="Metode de calcul">
+      <div class="group" role="presentation">Început</div>
+      <button class="navitem" role="tab" id="tab-ghid" aria-controls="p-ghid" aria-selected="true" tabindex="0">Ghid<small>ce metodă aleg</small></button>
+      <div class="group" role="presentation">Determinare k_s</div>
+      <button class="navitem" role="tab" id="tab-placa" aria-controls="p-placa" aria-selected="false" tabindex="-1">Probă cu placa<small>încercare in situ</small></button>
+      <button class="navitem" role="tab" id="tab-esnu" aria-controls="p-esnu" aria-selected="false" tabindex="-1"><span>Modul E<sub>s</sub>, ν<sub>s</sub></span><small>parametri elastici</small></button>
+      <button class="navitem" role="tab" id="tab-eoed" aria-controls="p-eoed" aria-selected="false" tabindex="-1">Modul edometric<small>din E<sub>oed</sub></small></button>
+      <button class="navitem" role="tab" id="tab-orient" aria-controls="p-orient" aria-selected="false" tabindex="-1">Valori de catalog<small>predimensionare</small></button>
+      <button class="navitem" role="tab" id="tab-invers" aria-controls="p-invers" aria-selected="false" tabindex="-1">Calcul invers<small>din tasare</small></button>
+      <button class="navitem" role="tab" id="tab-strat" aria-controls="p-strat" aria-selected="false" tabindex="-1">Teren stratificat<small>tasare pe straturi</small></button>
+      <div class="group" role="presentation">Aplicare</div>
+      <button class="navitem" role="tab" id="tab-grinda" aria-controls="p-grinda" aria-selected="false" tabindex="-1">Grindă pe mediu elastic<small>λ, lungime elastică</small></button>
+      <button class="navitem" role="tab" id="tab-tabele" aria-controls="p-tabele" aria-selected="false" tabindex="-1">Tabele de referință<small>K.1, K.2, H.3</small></button>
     </nav>
 
-    <main>
+    <main id="main">
+      <!-- GHID -->
+      <section class="panel" id="p-ghid" role="tabpanel" aria-labelledby="tab-ghid" tabindex="0">
+        <div class="card">
+          <h2>Ce este coeficientul de pat</h2>
+          <p class="intro">În modelul Winkler, terenul se înlocuiește cu resoarte independente. Coeficientul de
+          pat <var>k</var><sub>s</sub> este factorul de proporționalitate dintre presiunea de contact și tasare
+          — rigiditatea resortului.</p>
+          <div class="fx"><var>p</var> = <var>k</var><sub>s</sub> · <var>z</var> <span class="tagn">NP 112, K.5</span></div>
+          <p class="cite"><b>Unitate:</b> kN/m³ (din p [kN/m²] ÷ z [m]). Valori uzuale 10³…10⁵ kN/m³.</p>
+          <div class="aside"><span class="ic">!</span><span><var>k</var><sub>s</sub> nu este o proprietate intrinsecă a pământului: depinde de lățimea fundației <var>B</var>, formă, rigiditate, adâncime și nivel de încărcare.</span></div>
+          <details class="fold"><summary>Limitele modelului Winkler (NP 112, K.3 · II.4.1)</summary>
+            <div class="body">
+              <p class="cite"><b>K.3 (2):</b> „Resoartele permit determinarea deformației terenului aflat sub fundație, dar nu și în afara bazei acesteia.”</p>
+              <p class="cite"><b>II.4.1 (4):</b> modelarea cu resoarte „este corectă atât timp cât nu apar întinderi pe suprafața terenului” — la desprinderi, resorturile nu trebuie să preia întindere.</p>
+              <p>Pentru interacțiune pe zonă extinsă în jurul fundației se folosește modelul mediului continuu (Boussinesq, K.4) sau hibrid (Anexa L.6).</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="card">
+          <h2>Ce metodă aleg?</h2>
+          <p class="intro">Pornește de la datele pe care le ai despre teren.</p>
+          <div class="chooser">
+            <div class="choice"><span class="ttl">Probă cu placa</span><span class="have">Ai: o <b>încercare cu placa</b> pe teren (diagrama p–z).</span><button class="go" data-go="placa">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Modul E<sub>s</sub>, ν<sub>s</sub></span><span class="have">Ai: <b>modulul de deformație liniară</b> și coeficientul Poisson.</span><button class="go" data-go="esnu">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Modul edometric</span><span class="have">Ai: <b>E<sub>oed</sub></b> din încercarea edometrică.</span><button class="go" data-go="eoed">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Valori de catalog</span><span class="have">Ai doar: <b>tipul de pământ</b> și un indice (I<sub>D</sub>/I<sub>C</sub>). Predimensionare.</span><button class="go" data-go="orient">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Calcul invers</span><span class="have">Ai: <b>tasarea</b> probabilă a fundației și presiunea efectivă.</span><button class="go" data-go="invers">Deschide →</button></div>
+            <div class="choice" style="border:2px solid var(--line-2)"><span class="ttl">Teren stratificat <span class="ref">recomandat</span></span><span class="have">Ai: <b>mai multe straturi</b> cu rigidități diferite sub talpă.</span><button class="go" data-go="strat">Deschide →</button></div>
+          </div>
+        </div>
+      </section>
+
       <!-- PLACA -->
-      <section class="panel active" id="p-placa">
+      <section class="panel" id="p-placa" role="tabpanel" aria-labelledby="tab-placa" tabindex="0" hidden>
         <div class="card">
           <h2>Probă de încărcare cu placa <span class="ref">NP 112 · K.3.1.1</span></h2>
-          <p class="intro">Metoda de referință, in situ. Se încarcă o placă rigidă pătrată
-          (<var>B</var><sub>p</sub> = 0,30 m) și se citește un punct din zona cvasi-liniară a diagramei
-          presiune–tasare. Coeficientul plăcii se corectează apoi pentru lățimea reală a fundației.</p>
-          <figure class="panel-art" style="margin:0 0 18px">
-            <svg width="100%" viewBox="0 0 460 170" role="img" aria-label="Schema probei de încărcare cu placa">
+          <p class="intro">Metoda de referință, in situ. Citește un punct din zona cvasi-liniară a diagramei
+          presiune–tasare; coeficientul plăcii se corectează pentru lățimea reală a fundației.</p>
+          <figure class="panel-art">
+            <svg width="100%" viewBox="0 0 460 170" role="img" aria-labelledby="pl-t pl-d">
+              <title id="pl-t">Proba de încărcare cu placa</title>
+              <desc id="pl-d">Placă rigidă încărcată într-o groapă și diagrama presiune–tasare rezultată.</desc>
               <rect x="20" y="78" width="250" height="78" rx="6" fill="var(--soil)"/>
               <rect x="78" y="64" width="120" height="16" rx="3" fill="var(--accent)"/>
-              <g stroke="var(--ink-2)" stroke-width="1.6" stroke-linecap="round">
-                <line x1="138" y1="30" x2="138" y2="60"/><path d="M133 53 L138 61 L143 53" fill="none"/>
-              </g>
+              <g stroke="var(--ink-2)" stroke-width="1.6" stroke-linecap="round"><line x1="138" y1="30" x2="138" y2="60"/><path d="M133 53 L138 61 L143 53" fill="none"/></g>
               <text x="150" y="40" font-family="Georgia,serif" font-size="15" fill="var(--ink-2)" font-style="italic">p</text>
               <line x1="208" y1="80" x2="208" y2="100" stroke="var(--accent-strong)" stroke-width="1.3" stroke-dasharray="3 3"/>
               <text x="214" y="95" font-family="Georgia,serif" font-size="14" fill="var(--accent-strong)" font-style="italic">z</text>
-              <!-- mini p-z curve -->
               <line x1="320" y1="40" x2="320" y2="150" stroke="var(--ink-3)" stroke-width="1.2"/>
               <line x1="320" y1="150" x2="430" y2="150" stroke="var(--ink-3)" stroke-width="1.2"/>
               <path d="M320 50 Q360 60 390 95 T430 150" fill="none" stroke="var(--accent)" stroke-width="2"/>
@@ -290,116 +322,178 @@
           </figure>
           <div class="fx"><var>k</var>′<sub>s</sub> = <span class="frac"><span><var>p</var></span><span><var>z</var></span></span><span class="tagn">K.6</span></div>
           <div class="fx"><var>k</var><sub>s</sub> = α · <var>k</var>′<sub>s</sub>
-            <span style="margin-left:10px;color:var(--ink-3);font-size:.92rem">coeziv α = <span class="frac"><span><var>B</var><sub>p</sub></span><span><var>B</var></span></span> · necoeziv α = <span class="root">[<span class="frac"><span><var>B</var><sub>p</sub>+0,3</span><span>2<var>B</var></span></span>]²</span></span>
-            <span class="tagn">K.7</span></div>
+            <span style="margin-left:10px;color:var(--ink-3);font-size:.92rem">coeziv α = <span class="frac"><span><var>B</var><sub>p</sub></span><span><var>B</var></span></span> · necoeziv α = <span class="root">[<span class="frac"><span><var>B</var><sub>p</sub>+0,3</span><span>2<var>B</var></span></span>]²</span></span><span class="tagn">K.7</span></div>
+          <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">Presiunea p <span class="hint">kPa</span></span><input type="number" id="pl_p" value="200" step="any" min="0"></label>
             <label class="field"><span class="lab">Tasarea z <span class="hint">mm</span></span><input type="number" id="pl_z" value="4" step="any" min="0"></label>
-            <label class="field"><span class="lab">Tip de pământ</span>
-              <select id="pl_tip"><option value="coeziv">Coeziv (argilă, praf argilos)</option><option value="necoeziv">Necoeziv (nisip, pietriș)</option></select></label>
+            <label class="field"><span class="lab">Tip de pământ</span><select id="pl_tip"><option value="coeziv">Coeziv (argilă, praf argilos)</option><option value="necoeziv">Necoeziv (nisip, pietriș)</option></select></label>
             <label class="field"><span class="lab">Lățimea fundației B <span class="hint">m</span></span><input type="number" id="pl_B" value="2.0" step="any" min="0"></label>
-          </div>
-          <div class="actions"><button class="btn" onclick="calcPlaca()">Calculează</button><span class="err" id="pl_err"></span></div>
-          <div class="result" id="pl_res"></div>
+          </div></fieldset>
+          <div class="actions"><button class="btn" onclick="calcPlaca()">Calculează</button><span class="err" id="pl_err" role="alert"></span></div>
+          <div class="result" id="pl_res" role="status" aria-live="polite"></div>
+          <details class="fold"><summary>Despre metodă · NP 112, K.3.1.1</summary>
+            <div class="body">
+              <p>Punctul (<var>p</var>, <var>z</var>) se ia din <b>zona de comportare cvasi-liniară</b> a diagramei încărcare–tasare (paragraful 1).</p>
+              <p>Placa de probă este pătrată, cu latura <b>B<sub>p</sub> = 0,30 m</b>. Diagrama depinde de dimensiunile și rigiditatea plăcii, deci k′<sub>s</sub> se corectează cu coeficientul α pentru lățimea reală B a fundației (paragrafele 2–3).</p>
+              <ul><li>pământuri coezive: α = B<sub>p</sub>/B (dependență ~liniară de B);</li>
+                  <li>pământuri necoezive: α = [(B<sub>p</sub>+0,3)/2B]² (efect de scară mai accentuat).</li></ul>
+            </div>
+          </details>
         </div>
       </section>
 
-      <!-- ES NU -->
-      <section class="panel" id="p-esnu">
+      <!-- ESNU -->
+      <section class="panel" id="p-esnu" role="tabpanel" aria-labelledby="tab-esnu" tabindex="0" hidden>
         <div class="card">
           <h2>Din modulul de deformație liniară <span class="ref">NP 112 · K.3.1.2 (1)</span></h2>
-          <p class="intro">Estimare din parametrii elastici ai pământului, cu un coeficient de formă
-          <var>k</var><sub>m</sub> funcție de raportul L/B (interpolat din Tabelul K.1).</p>
+          <p class="intro">Estimare din parametrii elastici, cu un coeficient de formă <var>k</var><sub>m</sub>
+          funcție de raportul L/B (Tabelul K.1, interpolat automat).</p>
+          <figure class="panel-art">
+            <svg width="100%" viewBox="0 0 460 150" role="img" aria-labelledby="lb-t lb-d">
+              <title id="lb-t">Raportul L/B al bazei fundației</title>
+              <desc id="lb-d">Vedere în plan a tălpii dreptunghiulare cu laturile L și B.</desc>
+              <rect x="150" y="35" width="160" height="80" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+              <line x1="150" y1="128" x2="310" y2="128" stroke="var(--ink-3)" stroke-width="1"/>
+              <path d="M154 124 L150 128 L154 132 M306 124 L310 128 L306 132" fill="none" stroke="var(--ink-3)" stroke-width="1"/>
+              <text x="230" y="142" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="var(--ink-2)" font-style="italic">L</text>
+              <line x1="332" y1="35" x2="332" y2="115" stroke="var(--ink-3)" stroke-width="1"/>
+              <path d="M328 39 L332 35 L336 39 M328 111 L332 115 L336 111" fill="none" stroke="var(--ink-3)" stroke-width="1"/>
+              <text x="344" y="79" font-family="Georgia,serif" font-size="14" fill="var(--ink-2)" font-style="italic">B</text>
+            </svg>
+            <div class="figcap">k<sub>m</sub> crește cu forma alungită a tălpii (L/B)</div>
+          </figure>
           <div class="fx"><var>k</var><sub>s</sub> = <var>k</var><sub>m</sub> · <span class="frac"><span>1</span><span>α</span></span> · <span class="frac"><span><var>E</var><sub>s</sub></span><span>1 − ν<sub>s</sub>²</span></span><span class="tagn">K.8</span></div>
+          <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">E<sub>s</sub> <span class="hint">kPa</span></span><input type="number" id="es_E" value="20000" step="any" min="0"></label>
             <label class="field"><span class="lab">ν<sub>s</sub> <span class="hint">0,2…0,42</span></span><input type="number" id="es_nu" value="0.30" step="any" min="0" max="0.5"></label>
             <label class="field"><span class="lab">L — lungimea bazei <span class="hint">m</span></span><input type="number" id="es_L" value="4.0" step="any" min="0"></label>
             <label class="field"><span class="lab">B — lățimea bazei <span class="hint">m</span></span><input type="number" id="es_B" value="2.0" step="any" min="0"></label>
-            <label class="field"><span class="lab">Mărimea α</span>
-              <select id="es_alpha"><option value="B">α = B (recomandat)</option><option value="L">α = L</option><option value="LB">α = L/B (literal)</option></select></label>
-          </div>
-          <div class="actions"><button class="btn" onclick="calcEsNu()">Calculează</button><span class="err" id="es_err"></span></div>
-          <div class="result" id="es_res"></div>
-          <details class="fold"><summary>Notă privind mărimea α și unitățile</summary>
-            <p>În K.8 normativul definește explicit doar <var>k</var><sub>m</sub>; mărimea α nu este precizată
-            lângă formulă. Pentru ca rezultatul să rezulte în kN/m³, α se ia ca dimensiune caracteristică a
-            bazei (lungime, în m) — opțiunea recomandată. Varianta literală α = L/B (adimensională) conduce la
-            kN/m², deci o semnalăm separat. Pentru valori robuste se preferă modulul edometric, proba cu placa
-            sau calculul invers.</p></details>
+            <label class="field"><span class="lab">Mărimea α</span><select id="es_alpha"><option value="B">α = B (recomandat)</option><option value="L">α = L</option><option value="LB">α = L/B (literal)</option></select></label>
+          </div></fieldset>
+          <div class="actions"><button class="btn" onclick="calcEsNu()">Calculează</button><span class="err" id="es_err" role="alert"></span></div>
+          <div class="result" id="es_res" role="status" aria-live="polite"></div>
+          <details class="fold"><summary>Despre metodă și nota dimensională a lui α</summary>
+            <div class="body">
+              <p><var>E</var><sub>s</sub> și ν<sub>s</sub> sunt parametrii de compresibilitate (Anexa J); <var>k</var><sub>m</sub> se citește din Tabelul K.1 după raportul L/B.</p>
+              <p class="cite">În K.8 normativul definește explicit doar <var>k</var><sub>m</sub>. Mărimea α nu e precizată lângă formulă. Pentru ca <var>k</var><sub>s</sub> să rezulte în kN/m³, α se ia ca dimensiune caracteristică a tălpii (lungime, în m). Cu α = L/B (adimensional) rezultatul iese în kN/m² — semnalat la calcul.</p>
+              <p>Pentru valori robuste preferă metoda edometrică (K.9), proba cu placa sau calculul invers.</p>
+            </div>
+          </details>
         </div>
       </section>
 
       <!-- EOED -->
-      <section class="panel" id="p-eoed">
+      <section class="panel" id="p-eoed" role="tabpanel" aria-labelledby="tab-eoed" tabindex="0" hidden>
         <div class="card">
           <h2>Din modulul edometric <span class="ref">NP 112 · K.3.1.2 (2)</span></h2>
           <p class="intro">Relație directă și dimensional consistentă — recomandată pentru valori numerice.</p>
           <div class="fx"><var>k</var><sub>s</sub> = <span class="frac"><span>2 · <var>E</var><sub>oed</sub></span><span><var>B</var></span></span><span class="tagn">K.9</span></div>
+          <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">E<sub>oed</sub> <span class="hint">kPa</span></span><input type="number" id="eo_E" value="15000" step="any" min="0"></label>
             <label class="field"><span class="lab">B — lățimea fundației <span class="hint">m</span></span><input type="number" id="eo_B" value="2.0" step="any" min="0"></label>
-          </div>
-          <div class="actions"><button class="btn" onclick="calcEoed()">Calculează</button><span class="err" id="eo_err"></span></div>
-          <div class="result" id="eo_res"></div>
+          </div></fieldset>
+          <div class="actions"><button class="btn" onclick="calcEoed()">Calculează</button><span class="err" id="eo_err" role="alert"></span></div>
+          <div class="result" id="eo_res" role="status" aria-live="polite"></div>
           <div class="aside"><span class="ic">›</span><span>Dependența <var>k</var><sub>s</sub> ∝ 1/B: la lățime dublă, coeficientul de pat se înjumătățește.</span></div>
+          <details class="fold"><summary>Despre metodă · NP 112, K.3.1.2 (2)</summary>
+            <div class="body"><p>Modulul edometric <var>E</var><sub>oed</sub> provine din încercarea de compresiune în edometru (deformație laterală împiedicată). Relația k<sub>s</sub>·B = 2·E<sub>oed</sub> este dimensional neambiguă, deci preferată când dispui de E<sub>oed</sub>.</p></div>
+          </details>
         </div>
       </section>
 
       <!-- ORIENT -->
-      <section class="panel" id="p-orient">
+      <section class="panel" id="p-orient" role="tabpanel" aria-labelledby="tab-orient" tabindex="0" hidden>
         <div class="card">
           <h2>Valori de catalog <span class="ref">NP 112 · Tabelul K.2</span></h2>
           <p class="intro">Pentru faze preliminare. Valorile sunt date pentru B = 1 m și încărcări statice;
           pentru lățimi diferite se aplică efectul de scară.</p>
+          <fieldset><legend>Date</legend>
           <div class="grid">
-            <label class="field"><span class="lab">Categoria de pământ</span>
-              <select id="or_cat" onchange="orientToggle()"><option value="gros">Grosiere (după I_D)</option><option value="fin">Fine (după I_C)</option></select></label>
+            <label class="field"><span class="lab">Categoria de pământ</span><select id="or_cat" onchange="orientToggle()"><option value="gros">Grosiere (după I<sub>D</sub>)</option><option value="fin">Fine (după I<sub>C</sub>)</option></select></label>
             <label class="field"><span class="lab" id="or_lbl">Indicele densității I<sub>D</sub> <span class="hint">0…1</span></span><input type="number" id="or_idx" value="0.50" step="any" min="0" max="1"></label>
-          </div>
-          <div class="actions"><button class="btn" onclick="calcOrient()">Citește din tabel</button><span class="err" id="or_err"></span></div>
-          <div class="result" id="or_res"></div>
+          </div></fieldset>
+          <div class="actions"><button class="btn" onclick="calcOrient()">Citește din tabel</button><span class="err" id="or_err" role="alert"></span></div>
+          <div class="result" id="or_res" role="status" aria-live="polite"></div>
+          <details class="fold"><summary>Despre metodă · NP 112, K.3.1.3</summary>
+            <div class="body"><p>Tabelul K.2 dă intervale orientative pentru <b>B = 1 m</b> și încărcări statice, funcție de indicele densității I<sub>D</sub> (pământuri grosiere) sau de indicele de consistență I<sub>C</sub> (pământuri fine). La I<sub>C</sub> sub 0,25 normativul nu dă valoare — modelul Winkler simplu nu e adecvat.</p></div>
+          </details>
         </div>
       </section>
 
       <!-- INVERS -->
-      <section class="panel" id="p-invers">
+      <section class="panel" id="p-invers" role="tabpanel" aria-labelledby="tab-invers" tabindex="0" hidden>
         <div class="card">
           <h2>Calcul invers din tasare <span class="ref">NP 112 · K.3.1.4</span></h2>
-          <p class="intro">Calibrează resortul astfel încât să reproducă tasarea reală a fundației.
-          Tasarea probabilă <var>s</var> se determină conform Anexei H (zona activă).</p>
+          <p class="intro">Calibrează resortul astfel încât să reproducă tasarea reală a fundației. Tasarea
+          probabilă <var>s</var> se determină conform Anexei H.</p>
           <div class="fx"><var>k</var><sub>s</sub> = <span class="frac"><span><var>p</var><sub>ef</sub></span><span><var>s</var></span></span><span class="tagn">K.10</span></div>
+          <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">p<sub>ef</sub> — presiune efectivă medie <span class="hint">kPa</span></span><input type="number" id="iv_p" value="150" step="any" min="0"></label>
             <label class="field"><span class="lab">s — tasarea absolută probabilă <span class="hint">mm</span></span><input type="number" id="iv_s" value="20" step="any" min="0"></label>
-          </div>
-          <div class="actions"><button class="btn" onclick="calcInvers()">Calculează</button><span class="err" id="iv_err"></span></div>
-          <div class="result" id="iv_res"></div>
+          </div></fieldset>
+          <div class="actions"><button class="btn" onclick="calcInvers()">Calculează</button><span class="err" id="iv_err" role="alert"></span></div>
+          <div class="result" id="iv_res" role="status" aria-live="polite"></div>
+          <details class="fold"><summary>Despre metodă · NP 112, K.3.1.4</summary>
+            <div class="body"><p>Valabilă când dispui de modulii <var>E</var><sub>s</sub> pentru <b>toate stratele din zona activă</b>; tasarea <var>s</var> se calculează conform Anexei H (vezi și modulul „Teren stratificat”). Este modul cel mai fidel terenului real, fiindcă leagă k<sub>s</sub> direct de tasarea calculată.</p></div>
+          </details>
         </div>
       </section>
 
       <!-- STRAT -->
-      <section class="panel" id="p-strat">
+      <section class="panel" id="p-strat" role="tabpanel" aria-labelledby="tab-strat" tabindex="0" hidden>
         <div class="card">
           <style>
             #stratTbl{font-size:.85rem}
             #stratTbl td{padding:5px 6px}
             #stratTbl input{width:100%;padding:8px 9px;font-size:.9rem;border-radius:8px}
             #stratTbl .lnum{color:var(--ink-3);width:42px}
-            .rmrow{background:transparent;border:1px solid var(--line-2);color:var(--ink-3);
-              width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:1rem;line-height:1}
+            .rmrow{background:transparent;border:1px solid var(--line-2);color:var(--ink-3);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:1rem;line-height:1}
             .rmrow:hover{border-color:var(--accent);color:var(--accent-strong)}
-            .sublabel{font-family:var(--serif);font-weight:400;font-size:1.05rem;margin:18px 0 2px}
             .sttable{font-size:.8rem;margin-top:10px}
-            .sttable th{font-weight:500;background:var(--surface)}
+            .sttable th{background:var(--surface)}
           </style>
           <h2>Teren stratificat <span class="ref">NP 112 · Anexa H + K.10</span></h2>
           <p class="intro">Pentru profil cu straturi de rigidități diferite. Aplicația împarte terenul în
           straturi elementare, distribuie efortul vertical (α₀, Tab. H.3), determină zona activă
           (σ_z ≤ 0,2·σ_gz; 0,1 sub straturi moi), însumează tasarea (ec. H.5) și întoarce
           <var>k</var><sub>s</sub> = <var>p</var><sub>ef</sub> / <var>s</var>.</p>
+          <figure class="panel-art">
+            <svg width="100%" viewBox="0 0 460 280" role="img" aria-labelledby="lz-t lz-d">
+              <title id="lz-t">Profil stratificat și zona activă</title>
+              <desc id="lz-d">Fundație la adâncime pe straturi diferite; efortul vertical scade cu adâncimea, zona activă marcată la z zero.</desc>
+              <rect x="20" y="46" width="420" height="58" fill="var(--soil)"/>
+              <rect x="20" y="104" width="420" height="46" fill="var(--soil2)"/>
+              <rect x="20" y="150" width="420" height="56" fill="var(--soil3)"/>
+              <rect x="20" y="206" width="420" height="56" fill="var(--soil2)"/>
+              <g stroke="var(--line-2)" stroke-width="1"><line x1="20" y1="104" x2="440" y2="104"/><line x1="20" y1="150" x2="440" y2="150"/><line x1="20" y1="206" x2="440" y2="206"/></g>
+              <line x1="20" y1="46" x2="440" y2="46" stroke="var(--ink-3)" stroke-width="1.2"/>
+              <g stroke="var(--ink-3)" stroke-width="1" opacity=".4"><line x1="26" y1="46" x2="34" y2="38"/><line x1="40" y1="46" x2="48" y2="38"/><line x1="54" y1="46" x2="62" y2="38"/></g>
+              <text x="408" y="78" font-size="11" fill="var(--ink-2)" font-family="ui-sans-serif,system-ui">Strat 1</text>
+              <text x="408" y="131" font-size="11" fill="var(--ink-2)" font-family="ui-sans-serif,system-ui">Strat 2</text>
+              <text x="408" y="182" font-size="11" fill="var(--ink-2)" font-family="ui-sans-serif,system-ui">Strat 3</text>
+              <rect x="150" y="62" width="150" height="14" rx="3" fill="var(--accent)"/>
+              <g stroke="var(--ink-2)" stroke-width="1.6" stroke-linecap="round"><line x1="225" y1="30" x2="225" y2="58"/><path d="M221 51 L225 59 L229 51" fill="none"/></g>
+              <line x1="60" y1="46" x2="60" y2="69" stroke="var(--ink-3)" stroke-width="1"/>
+              <path d="M56 50 L60 46 L64 50 M56 65 L60 69 L64 65" fill="none" stroke="var(--ink-3)" stroke-width="1"/>
+              <text x="44" y="62" font-size="12" fill="var(--ink-2)" font-family="Georgia,serif" font-style="italic">D</text>
+              <line x1="225" y1="76" x2="225" y2="245" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3"/>
+              <g stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" opacity=".85">
+                <line x1="225" y1="86" x2="338" y2="86"/><line x1="225" y1="104" x2="320" y2="104"/><line x1="225" y1="124" x2="298" y2="124"/>
+                <line x1="225" y1="146" x2="280" y2="146"/><line x1="225" y1="170" x2="265" y2="170"/><line x1="225" y1="196" x2="252" y2="196"/><line x1="225" y1="224" x2="240" y2="224"/>
+              </g>
+              <path d="M338 86 Q300 150 240 224" fill="none" stroke="var(--accent-strong)" stroke-width="1.6"/>
+              <text x="300" y="100" font-size="12" fill="var(--accent-strong)" font-family="Georgia,serif" font-style="italic">σz</text>
+              <line x1="120" y1="245" x2="350" y2="245" stroke="var(--ink-2)" stroke-width="1.3" stroke-dasharray="5 4"/>
+              <text x="124" y="261" font-size="12" fill="var(--ink-2)" font-family="ui-sans-serif,system-ui">zona activă z₀ (σz ≤ 0,2·σgz)</text>
+            </svg>
+            <div class="figcap">Distribuția efortului σ_z pe adâncime și limita zonei active (cf. Fig. H.1)</div>
+          </figure>
 
-          <div class="sublabel">Fundație și încărcare</div>
+          <fieldset><legend>Fundație și încărcare</legend>
           <div class="grid">
             <label class="field"><span class="lab">B — latura mică <span class="hint">m</span></span><input type="number" id="st_B" value="2.0" step="any" min="0"></label>
             <label class="field"><span class="lab">L — latura mare <span class="hint">m</span></span><input type="number" id="st_L" value="4.0" step="any" min="0"></label>
@@ -407,36 +501,44 @@
             <label class="field"><span class="lab">p<sub>ef,med</sub> — presiune la talpă <span class="hint">kPa</span></span><input type="number" id="st_p" value="200" step="any" min="0"></label>
             <label class="field"><span class="lab">γ deasupra tălpii <span class="hint">kN/m³</span></span><input type="number" id="st_g" value="19" step="any" min="0"></label>
             <label class="field"><span class="lab">Nivel apă NAS <span class="hint">m de la CT · opțional</span></span><input type="number" id="st_nas" value="" step="any" min="0"></label>
-          </div>
+          </div></fieldset>
 
-          <div class="sublabel">Straturi sub talpă</div>
+          <h3>Straturi sub talpă</h3>
           <div class="tablewrap"><table id="stratTbl">
-            <thead><tr><th class="lnum">#</th><th>Grosime h [m]</th><th>E<sub>s</sub> [kPa]</th><th>ν<sub>s</sub></th><th>γ [kN/m³]</th><th></th></tr></thead>
+            <thead><tr><th class="lnum" scope="col">#</th><th scope="col">Grosime h [m]</th><th scope="col">E<sub>s</sub> [kPa]</th><th scope="col">ν<sub>s</sub></th><th scope="col">γ [kN/m³]</th><th scope="col"><span class="hint">șterge</span></th></tr></thead>
             <tbody></tbody>
           </table></div>
           <div style="margin-top:10px"><button class="btn-soft" onclick="addLayer()">+ Adaugă strat</button></div>
-
-          <div class="actions"><button class="btn" onclick="calcStrat()">Calculează k<sub>s</sub></button><span class="err" id="st_err"></span></div>
-          <div class="result" id="st_res"></div>
+          <div class="actions"><button class="btn" onclick="calcStrat()">Calculează k<sub>s</sub></button><span class="err" id="st_err" role="alert"></span></div>
+          <div class="result" id="st_res" role="status" aria-live="polite"></div>
           <div class="aside"><span class="ic">›</span><span>Un strat moale aproape de talpă reduce mult mai mult <var>k</var><sub>s</sub> decât același strat la adâncime — efectul e surprins automat prin distribuția σ_z.</span></div>
+          <details class="fold"><summary>Despre metodă · NP 112, Anexa H (H.1–H.5)</summary>
+            <div class="body">
+              <p class="cite"><b>Straturi elementare (H.2.1.3):</b> terenul sub talpă se împarte în straturi omogene cu grosime &lt; 0,4·B.</p>
+              <p class="cite"><b>Efort vertical (H.2):</b> σ_z = α₀·p_net, cu α₀ din Tabelul H.3 funcție de L/B și z/B; p_net = p_ef − γ·D (H.1).</p>
+              <p class="cite"><b>Zona activă (H.3):</b> se limitează la adâncimea unde σ_z ≤ 0,2·σ_gz; sub un strat foarte compresibil sau cu E_s ≤ 5000 kPa, limita coboară până la σ_z ≤ 0,1·σ_gz (H.4).</p>
+              <p class="cite"><b>Tasarea (H.5):</b> s = 10³·β·Σ(σ_z,med·h_i/E_si), cu β = 0,8.</p>
+              <p>Coeficientul de pat rezultă apoi din K.10: k<sub>s</sub> = p_ef / s.</p>
+              <p style="color:var(--accent-strong)"><b>Domeniu de validitate:</b> metoda însumării (H.2.1) este implementată aici. Pentru B &gt; 10 m sau strat practic incompresibil (E_s &gt; 100.000 kPa), NP 112 indică metoda stratului de grosime finită (H.2.3) — neacoperită de acest modul.</p>
+            </div>
+          </details>
         </div>
       </section>
 
       <!-- GRINDA -->
-      <section class="panel" id="p-grinda">
+      <section class="panel" id="p-grinda" role="tabpanel" aria-labelledby="tab-grinda" tabindex="0" hidden>
         <div class="card">
           <h2>Grindă pe mediu elastic <span class="ref">NP 112 · K.3.2.1</span></h2>
           <p class="intro">Coeficientul caracteristic <var>λ</var> și lungimea elastică <var>l</var><sub>e</sub>
           guvernează comportarea grinzii de fundare pe resoarte Winkler.</p>
-          <figure class="panel-art" style="margin:0 0 18px">
-            <svg width="100%" viewBox="0 0 460 150" role="img" aria-label="Grindă pe mediu elastic cu deformată">
+          <figure class="panel-art">
+            <svg width="100%" viewBox="0 0 460 150" role="img" aria-labelledby="gr-t gr-d">
+              <title id="gr-t">Grindă pe mediu elastic</title>
+              <desc id="gr-d">Grindă rezemată pe resoarte sub o forță concentrată, cu deformata.</desc>
               <defs><path id="spr2" d="M0 0 V5 l-6 3 l12 6 l-12 6 l12 6 l-6 3 V34" fill="none" stroke="var(--accent)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></defs>
-              <use href="#spr2" x="70" y="78"/><use href="#spr2" x="130" y="78"/><use href="#spr2" x="190" y="78"/>
-              <use href="#spr2" x="250" y="78"/><use href="#spr2" x="310" y="78"/><use href="#spr2" x="370" y="78"/>
+              <use href="#spr2" x="70" y="78"/><use href="#spr2" x="130" y="78"/><use href="#spr2" x="190" y="78"/><use href="#spr2" x="250" y="78"/><use href="#spr2" x="310" y="78"/><use href="#spr2" x="370" y="78"/>
               <rect x="40" y="58" width="360" height="18" rx="4" fill="var(--accent)"/>
-              <g stroke="var(--ink-2)" stroke-width="1.7" stroke-linecap="round">
-                <line x1="220" y1="20" x2="220" y2="54"/><path d="M215 47 L220 55 L225 47" fill="none"/>
-              </g>
+              <g stroke="var(--ink-2)" stroke-width="1.7" stroke-linecap="round"><line x1="220" y1="20" x2="220" y2="54"/><path d="M215 47 L220 55 L225 47" fill="none"/></g>
               <text x="228" y="34" font-family="Georgia,serif" font-size="15" fill="var(--ink-2)" font-style="italic">P</text>
               <path d="M40 122 Q220 150 400 122" fill="none" stroke="var(--accent-strong)" stroke-width="1.6" stroke-dasharray="4 4"/>
               <text x="404" y="126" font-family="Georgia,serif" font-size="13" fill="var(--accent-strong)" font-style="italic">z</text>
@@ -445,37 +547,46 @@
           </figure>
           <div class="fx"><var>λ</var> = <span class="root"><sup>4</sup>√<span class="frac"><span><var>k</var><sub>s</sub> · <var>B</var></span><span>4 · <var>EI</var></span></span></span>
             <span style="margin-left:14px"><var>l</var><sub>e</sub> = 1 / <var>λ</var></span></div>
+          <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">k<sub>s</sub> <span class="hint">kN/m³</span></span><input type="number" id="gr_ks" value="30000" step="any" min="0"></label>
             <label class="field"><span class="lab">B — lățimea grinzii <span class="hint">m</span></span><input type="number" id="gr_B" value="1.0" step="any" min="0"></label>
             <label class="field"><span class="lab">h — înălțimea grinzii <span class="hint">m</span></span><input type="number" id="gr_h" value="0.8" step="any" min="0"></label>
             <label class="field"><span class="lab">E — modul beton <span class="hint">GPa</span></span><input type="number" id="gr_E" value="30" step="any" min="0"></label>
             <label class="field"><span class="lab">Deschidere stâlpi <span class="hint">m · opțional</span></span><input type="number" id="gr_span" value="5" step="any" min="0"></label>
-          </div>
-          <div class="actions"><button class="btn" onclick="calcGrinda()">Calculează</button>
-            <button class="btn-soft" onclick="pullKs()">Preia ultimul k<sub>s</sub></button><span class="err" id="gr_err"></span></div>
-          <div class="result" id="gr_res"></div>
+          </div></fieldset>
+          <div class="actions"><button class="btn" onclick="calcGrinda()">Calculează λ și l<sub>e</sub></button>
+            <button class="btn-soft" onclick="pullKs()">Preia ultimul k<sub>s</sub></button><span class="err" id="gr_err" role="alert"></span></div>
+          <div class="result" id="gr_res" role="status" aria-live="polite"></div>
+          <details class="fold"><summary>Despre metodă · NP 112, K.3.2.1</summary>
+            <div class="body"><p>Lungimea elastică l<sub>e</sub> = 1/λ arată cât de departe se „resimte” o forță concentrată. Dacă deschiderile dintre stâlpi sunt mult mai mici decât l<sub>e</sub>, grinda lucrează ca rigidă; dacă sunt comparabile sau mai mari, ca flexibilă, iar eforturile se determină cu funcțiile f₁…f₄ (tabelele K.3–K.6) sau prin metode numerice (K.3.3).</p></div>
+          </details>
         </div>
       </section>
 
       <!-- TABELE -->
-      <section class="panel" id="p-tabele">
+      <section class="panel" id="p-tabele" role="tabpanel" aria-labelledby="tab-tabele" tabindex="0" hidden>
         <div class="card">
           <h2>Tabelul K.1 — coeficientul k<sub>m</sub></h2>
-          <p class="intro">Funcție de raportul L/B. Aplicația interpolează liniar între valori.</p>
-          <div class="tablewrap"><table id="tblK1"><thead><tr><th>L/B</th><th>k<sub>m</sub></th><th>L/B</th><th>k<sub>m</sub></th></tr></thead><tbody></tbody></table></div>
+          <p class="intro">Funcție de raportul L/B; aplicația interpolează liniar între valori.</p>
+          <div class="tablewrap"><table id="tblK1"><thead><tr><th scope="col">L/B</th><th scope="col">k<sub>m</sub></th><th scope="col">L/B</th><th scope="col">k<sub>m</sub></th></tr></thead><tbody></tbody></table></div>
         </div>
         <div class="card">
           <h2>Tabelul K.2 — valori orientative k<sub>s</sub></h2>
           <p class="intro">Pentru B = 1 m și încărcări statice.</p>
-          <h3 style="font-family:var(--serif);font-weight:400;font-size:1.05rem;margin:6px 0">Pământuri grosiere · I<sub>D</sub></h3>
+          <h3>Pământuri grosiere · I<sub>D</sub></h3>
           <div class="tablewrap"><table>
-            <thead><tr><th>I<sub>D</sub></th><td>0 ÷ 0,33</td><td>0,34 ÷ 0,66</td><td>0,67 ÷ 1,00</td></tr></thead>
-            <tbody><tr><th>k<sub>s</sub> [kN/m³]</th><td>14 000 ÷ 25 000</td><td>25 000 ÷ 72 000</td><td>72 000 ÷ 130 000</td></tr></tbody></table></div>
-          <h3 style="font-family:var(--serif);font-weight:400;font-size:1.05rem;margin:16px 0 6px">Pământuri fine · I<sub>C</sub></h3>
+            <thead><tr><th scope="col">I<sub>D</sub></th><td>0 ÷ 0,33</td><td>0,34 ÷ 0,66</td><td>0,67 ÷ 1,00</td></tr></thead>
+            <tbody><tr><th scope="row">k<sub>s</sub> [kN/m³]</th><td>14 000 ÷ 25 000</td><td>25 000 ÷ 72 000</td><td>72 000 ÷ 130 000</td></tr></tbody></table></div>
+          <h3>Pământuri fine · I<sub>C</sub></h3>
           <div class="tablewrap"><table>
-            <thead><tr><th>I<sub>C</sub></th><td>0 ÷ 0,25</td><td>0,25 ÷ 0,50</td><td>0,50 ÷ 0,75</td><td>0,75 ÷ 1,00</td></tr></thead>
-            <tbody><tr><th>k<sub>s</sub> [kN/m³]</th><td>—</td><td>7 000 ÷ 34 000</td><td>34 000 ÷ 63 000</td><td>63 000 ÷ 100 000</td></tr></tbody></table></div>
+            <thead><tr><th scope="col">I<sub>C</sub></th><td>0 ÷ 0,25</td><td>0,25 ÷ 0,50</td><td>0,50 ÷ 0,75</td><td>0,75 ÷ 1,00</td></tr></thead>
+            <tbody><tr><th scope="row">k<sub>s</sub> [kN/m³]</th><td>—</td><td>7 000 ÷ 34 000</td><td>34 000 ÷ 63 000</td><td>63 000 ÷ 100 000</td></tr></tbody></table></div>
+        </div>
+        <div class="card">
+          <h2>Tabelul H.3 — coeficientul α₀</h2>
+          <p class="intro">Distribuția efortului vertical în centrul fundației, funcție de z/B și L/B (interpolat în modulul stratificat).</p>
+          <div class="tablewrap"><table id="tblH3"><thead><tr><th scope="col">z/B</th><th scope="col">L/B = 1</th><th scope="col">L/B = 2</th><th scope="col">L/B = 3</th><th scope="col">L/B ≥ 10</th></tr></thead><tbody></tbody></table></div>
         </div>
       </section>
     </main>
@@ -484,12 +595,11 @@
 
 <footer>
   <div class="shell">
-    <span>Calcule conform NP 112/2014, Anexa K. Verificarea ipotezelor și responsabilitatea proiectării revin inginerului proiectant.</span>
+    <span>Calcule conform NP 112/2014, Anexa K și Anexa H. Verificarea ipotezelor și responsabilitatea proiectării revin inginerului proiectant.</span>
     <span>Rulează local · fără internet</span>
   </div>
 </footer>
-
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
@@ -498,34 +608,24 @@ const ro = (x,d=0) => isFinite(x) ? x.toLocaleString("ro-RO",{minimumFractionDig
 const num = id => parseFloat(($(id).value+"").replace(",","."));
 const showErr = (id,m) => { const e=$(id); if(m){e.textContent="• "+m;e.classList.add("show");} else e.classList.remove("show"); };
 let lastKs = null;
-
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
 
 function render(elId, ks, unit, steps, copy, opts){
   opts = opts || {};
   const el=$(elId); el.dataset.copy = copy;
   if(unit.indexOf("m³")>=0 && opts.useable!==false) lastKs = ks;
-  const beamBtn = (opts.useable!==false && unit.indexOf("m³")>=0)
-    ? `<button class="btn-soft" onclick="useInBeam(${ks})">Folosește la grindă</button>` : "";
+  const beamBtn = (opts.useable!==false && unit.indexOf("m³")>=0) ? `<button class="btn-soft" onclick="useInBeam(${ks})">Folosește la grindă</button>` : "";
   el.innerHTML = `
     <div class="res-top">
-      <div>
-        <div class="res-label">${opts.label||"Coeficient de pat"}</div>
-        <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">${unit}</span></div>
-      </div>
-      <div class="res-actions">
-        <button class="btn-soft" onclick="copyResult('${elId}')">Copiază</button>${beamBtn}
-      </div>
+      <div><div class="res-label">${opts.label||"Coeficient de pat"}</div>
+        <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">${unit}</span></div></div>
+      <div class="res-actions"><button class="btn-soft" onclick="copyResult('${elId}')">Copiază</button>${beamBtn}</div>
     </div>
     ${opts.note?`<p class="res-note">${opts.note}</p>`:""}
     <details class="steps"><summary>Detaliu calcul</summary><pre>${steps}</pre></details>`;
   el.classList.add("show");
 }
-function copyResult(elId){
-  const txt=$(elId).dataset.copy||"";
-  navigator.clipboard?.writeText(txt).then(()=>toast("Copiat în clipboard"),()=>fallbackCopy(txt));
-  if(!navigator.clipboard) fallbackCopy(txt);
-}
+function copyResult(elId){ const txt=$(elId).dataset.copy||""; if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast("Copiat în clipboard"),()=>fallbackCopy(txt));}else fallbackCopy(txt); }
 function fallbackCopy(t){ const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copiat");}catch(e){}a.remove(); }
 function useInBeam(ks){ $("gr_ks").value=Math.round(ks); switchTab("grinda"); toast("k_s transferat la grindă"); }
 
@@ -585,7 +685,7 @@ function calcOrient(){
   showErr("or_err"); const tbl=cat==="gros"?K2g:K2f,nm=cat==="gros"?"I_D":"I_C";
   const row=tbl.find(r=>x>=r.lo&&x<=r.hi)||tbl[tbl.length-1];
   const el=$("or_res");
-  if(!row.k){el.dataset.copy=`${nm}=${ro(x,2)}: fără valoare în Tabelul K.2 (pământ fin foarte moale).`;
+  if(!row.k){el.dataset.copy=`${nm}=${ro(x,2)}: fără valoare în Tabelul K.2.`;
     el.innerHTML=`<div class="res-label">Tabelul K.2</div><div class="res-val" style="font-size:1.05rem">Fără valoare normată pentru ${nm} = ${ro(x,2)}</div><p class="res-note">Pământ fin foarte moale — modelul Winkler simplu nu este adecvat.</p>`;
     el.classList.add("show");lastKs=null;return;}
   const [a,b]=row.k,mid=(a+b)/2; lastKs=mid;
@@ -610,8 +710,7 @@ function calcGrinda(){
   if([ks,B,h,Eg].some(v=>!isFinite(v)||v<=0)){showErr("gr_err","Completați k_s, B, h și E.");return;}
   showErr("gr_err"); const E=Eg*1e6,I=B*Math.pow(h,3)/12,EI=E*I,lam=Math.pow(ks*B/(4*EI),0.25),le=1/lam,infl=Math.PI/lam;
   let cls="";
-  if(isFinite(span)&&span>0){const r=span/le;
-    cls=r<0.5?"Deschidere ≪ l_e → grindă cvasi-rigidă.":r>1?"Deschidere ≳ l_e → grindă flexibilă (folosiți funcțiile f₁…f₄).":"Comportare intermediară.";}
+  if(isFinite(span)&&span>0){const r=span/le;cls=r<0.5?"Deschidere ≪ l_e → grindă cvasi-rigidă.":r>1?"Deschidere ≳ l_e → grindă flexibilă (folosiți funcțiile f₁…f₄).":"Comportare intermediară.";}
   const steps=`Date: k_s=${ro(ks,0)} kN/m³, B=${ro(B,2)} m, h=${ro(h,2)} m, E=${ro(Eg,0)} GPa\nI = B·h³/12 = ${I.toExponential(3)} m⁴\nEI = ${EI.toExponential(3)} kN·m²\nλ = ⁴√(k_s·B/4EI) = ${ro(lam,4)} m⁻¹\nl_e = 1/λ = ${ro(le,3)} m\nπ/λ ≈ ${ro(infl,2)} m`;
   const el=$("gr_res");
   el.dataset.copy=`l_e = ${ro(le,3)} m; λ = ${ro(lam,4)} 1/m (NP 112-2014 K.3.2.1; k_s=${ro(ks,0)} kN/m³, EI=${EI.toExponential(2)} kN·m²)`;
@@ -639,13 +738,15 @@ function alpha0(LB,zB){
   let j=0; while(j<H3LB.length-1 && H3LB[j+1]<lb) j++;
   return row[j]+(row[j+1]-row[j])*(lb-H3LB[j])/(H3LB[j+1]-H3LB[j]);
 }
+(function(){const tb=$("tblH3").querySelector("tbody");H3.forEach((r,i)=>{const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${ro(H3z[i],1)}</td>`+r.map(v=>`<td>${ro(v,2)}</td>`).join("");tb.appendChild(tr);});})();
 function addLayer(h,E,nu,g){
   const tb=$("stratTbl").querySelector("tbody"),tr=document.createElement("tr");
   tr.innerHTML=`<td class="lnum"></td>
-    <td><input class="la_h" type="number" step="any" min="0" value="${h??1}"></td>
-    <td><input class="la_E" type="number" step="any" min="0" value="${E??15000}"></td>
-    <td><input class="la_nu" type="number" step="any" min="0" max="0.5" value="${nu??0.3}"></td>
-    <td><input class="la_g" type="number" step="any" min="0" value="${g??20}"></td>
+    <td><input class="la_h" type="number" step="any" min="0" value="${h??1}" aria-label="Grosime strat"></td>
+    <td><input class="la_E" type="number" step="any" min="0" value="${E??15000}" aria-label="Modul Es"></td>
+    <td><input class="la_nu" type="number" step="any" min="0" max="0.5" value="${nu??0.3}" aria-label="Coeficient Poisson"></td>
+    <td><input class="la_g" type="number" step="any" min="0" value="${g??20}" aria-label="Greutate volumica"></td>
     <td><button class="rmrow" onclick="removeLayer(this)" aria-label="Șterge strat">×</button></td>`;
   tb.appendChild(tr); renumberLayers(); saveStrat();
 }
@@ -692,7 +793,7 @@ function calcStrat(){
   let tbl=`<table class="sttable"><thead><tr><th>Strat</th><th>z [m]</th><th>σ_z med [kPa]</th><th>E_s [kPa]</th><th>Δs [mm]</th></tr></thead><tbody>`;
   rows.forEach((r,i)=>{tbl+=`<tr><td>${i+1}</td><td>${ro(r.zt,2)}–${ro(r.zb,2)}</td><td>${ro(r.smed,1)}</td><td>${ro(r.E,0)}</td><td>${ro(1000*0.8*r.ds,2)}</td></tr>`;});
   tbl+=`<tr><td colspan="4" style="text-align:right;font-weight:500">Tasare totală s</td><td style="font-weight:500">${ro(s_mm,1)}</td></tr></tbody></table>`;
-  const warn=!reached?`<p class="res-note">Zona activă (σ_z ≤ 0,2·σ_gz) nu s-a atins în profilul introdus — adăugați straturi în adâncime pentru un rezultat corect.</p>`:"";
+  const warn=!reached?`<p class="res-note">Zona activă (σ_z ≤ 0,2·σ_gz) nu s-a atins în profilul introdus — adăugați straturi în adâncime.</p>`:"";
   $("st_res").dataset.copy=`k_s = ${ro(ks,0)} kN/m³ (NP 112-2014, K.10 + Anexa H, teren stratificat)\np_net=${ro(pnet,1)} kPa; zona activa z0=${ro(z0,2)} m; s=${ro(s_mm,1)} mm; p_ef=${ro(p,0)} kPa; L/B=${ro(LB,2)}`;
   $("st_res").innerHTML=`<div class="res-top"><div>
       <div class="res-label">Coeficient de pat echivalent</div>
@@ -707,31 +808,50 @@ function calcStrat(){
   $("st_res").classList.add("show");
 }
 
-/* NAV */
-function switchTab(tab){
-  document.querySelectorAll(".navitem").forEach(x=>x.classList.toggle("active",x.dataset.tab===tab));
-  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id==="p-"+tab));
-  try{localStorage.setItem("ks_tab",tab);}catch(e){}
+/* NAV — ARIA tabs */
+const TABS=["ghid","placa","esnu","eoed","orient","invers","strat","grinda","tabele"];
+const CALC={placa:calcPlaca,esnu:calcEsNu,eoed:calcEoed,orient:calcOrient,invers:calcInvers,strat:calcStrat,grinda:calcGrinda};
+function switchTab(key,focusPanel){
+  TABS.forEach(k=>{const tab=$("tab-"+k),pan=$("p-"+k);if(!tab||!pan)return;
+    const on=k===key; tab.setAttribute("aria-selected",on?"true":"false"); tab.tabIndex=on?0:-1;
+    pan.hidden=!on; pan.classList.toggle("show",on);});
+  try{localStorage.setItem("ks_tab",key);}catch(e){}
+  if(focusPanel){const p=$("p-"+key);if(p)p.focus();}
 }
-$("rail").addEventListener("click",e=>{const b=e.target.closest(".navitem");if(b)switchTab(b.dataset.tab);});
+$("rail").addEventListener("click",e=>{const b=e.target.closest('[role=tab]');if(b)switchTab(b.id.replace("tab-",""));});
+$("rail").addEventListener("keydown",e=>{
+  if(!["ArrowDown","ArrowUp","ArrowRight","ArrowLeft","Home","End"].includes(e.key))return;
+  e.preventDefault(); const tabs=[...document.querySelectorAll('[role=tab]')];
+  let i=tabs.findIndex(t=>t.getAttribute("aria-selected")==="true"); if(i<0)i=0;
+  if(e.key==="Home")i=0; else if(e.key==="End")i=tabs.length-1;
+  else if(e.key==="ArrowDown"||e.key==="ArrowRight")i=(i+1)%tabs.length;
+  else i=(i-1+tabs.length)%tabs.length;
+  const key=tabs[i].id.replace("tab-",""); switchTab(key); tabs[i].focus();
+});
+document.querySelectorAll(".choice .go").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.go,true)));
+document.querySelectorAll(".panel").forEach(p=>p.addEventListener("keydown",e=>{
+  if(e.key==="Enter" && e.target.matches("input")){const key=p.id.replace("p-","");if(CALC[key]){e.preventDefault();CALC[key]();}}
+}));
 
 /* THEME */
 function setTheme(t){document.documentElement.setAttribute("data-theme",t);
   $("themeTxt").textContent=t==="dark"?"Luminos":"Întunecat";
+  $("themeBtn").setAttribute("aria-pressed",t==="dark"?"true":"false");
   $("themeIc").innerHTML=t==="dark"?'<circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="5.2" y1="5.2" x2="7" y2="7"/><line x1="17" y1="17" x2="18.8" y2="18.8"/><line x1="18.8" y1="5.2" x2="17" y2="7"/><line x1="7" y1="17" x2="5.2" y2="18.8"/></g>':'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>';
   try{localStorage.setItem("ks_theme",t);}catch(e){}}
 $("themeBtn").addEventListener("click",()=>setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));
 
-/* PERSISTENȚĂ DATE */
+/* PERSISTENȚĂ */
 const INPUTS=["pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","iv_p","iv_s","gr_ks","gr_B","gr_h","gr_E","gr_span","st_B","st_L","st_D","st_p","st_g","st_nas"];
 function saveInputs(){const o={};INPUTS.forEach(id=>{const e=$(id);if(e)o[id]=e.value;});try{localStorage.setItem("ks_inputs",JSON.stringify(o));}catch(e){}}
 (function init(){
   try{const t=localStorage.getItem("ks_theme");if(t)setTheme(t);
     const saved=JSON.parse(localStorage.getItem("ks_inputs")||"{}");
     INPUTS.forEach(id=>{if(saved[id]!=null&&$(id))$(id).value=saved[id];});
-    const tab=localStorage.getItem("ks_tab");if(tab)switchTab(tab);
   }catch(e){}
   orientToggle(); initStrat();
+  let tab="ghid"; try{const t=localStorage.getItem("ks_tab");if(t&&TABS.includes(t))tab=t;}catch(e){}
+  switchTab(tab);
   INPUTS.forEach(id=>{const e=$(id);if(e)e.addEventListener("change",saveInputs);});
 })();
 </script>
