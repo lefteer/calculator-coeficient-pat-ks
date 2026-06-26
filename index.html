@@ -86,15 +86,15 @@
   .panel.show{animation:rise .22s ease}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    padding:22px 24px;box-shadow:var(--shadow);margin-bottom:18px}
+    padding:18px 22px;box-shadow:var(--shadow);margin-bottom:16px}
   .card h2{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0 0 4px;letter-spacing:-.005em}
   .card h3{font-family:var(--serif);font-weight:400;font-size:1.08rem;margin:18px 0 4px}
   .ref{font-size:.76rem;color:var(--accent-strong);background:var(--accent-soft);border:1px solid var(--line-2);
     padding:2px 9px;border-radius:7px;font-weight:500;vertical-align:2px;margin-left:8px;white-space:nowrap}
-  .intro{color:var(--ink-2);margin:.4rem 0 1.1rem;max-width:64ch}
+  .intro{color:var(--ink-2);margin:.3rem 0 .8rem;max-width:64ch}
 
   .fx{font-family:var(--serif);font-size:1.12rem;background:var(--surface-2);border:1px solid var(--line);
-    border-radius:var(--radius-sm);padding:13px 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 4px}
+    border-radius:var(--radius-sm);padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:5px 0 4px}
   .fx .tagn{margin-left:auto;font-family:var(--sans);font-size:.74rem;color:var(--ink-3)}
   .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 .15em}
   .frac>span:first-child{border-bottom:1.4px solid currentColor;padding:0 .35em}
@@ -102,14 +102,23 @@
   var{font-style:italic;font-family:var(--serif)}
   .root{white-space:nowrap}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:16px 0 6px}
+  .grid{display:flex;flex-direction:column;gap:8px;margin:13px 0 4px}
   fieldset{border:none;margin:0;padding:0;min-width:0}
-  legend{font-family:var(--serif);font-weight:400;font-size:1.05rem;padding:0;margin:18px 0 2px}
-  label.field{display:flex;flex-direction:column;gap:5px;font-size:.9rem;color:var(--ink)}
-  label.field .lab{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  legend{font-family:var(--serif);font-weight:400;font-size:1.05rem;padding:0;margin:13px 0 3px}
+  label.field{display:flex;flex-direction:row;align-items:center;gap:14px;font-size:.9rem;color:var(--ink)}
+  label.field .lab{flex:1;display:flex;justify-content:flex-start;gap:7px;align-items:baseline;min-width:0}
   label.field .hint{font-size:.76rem;color:var(--ink-3);font-weight:400}
-  input,select{font:inherit;font-size:.95rem;padding:10px 13px;border:1px solid var(--line-2);
-    border-radius:10px;background:var(--surface);color:var(--ink);transition:.15s}
+  input,select{font:inherit;font-size:.92rem;padding:8px 12px;border:1px solid var(--line-2);
+    border-radius:9px;background:var(--surface);color:var(--ink);transition:.15s}
+  .grid label.field>input,.grid label.field>select{flex:0 0 auto;width:160px}
+  .grid label.field>select{width:205px}
+  .ig{flex:0 0 auto;display:inline-flex;align-items:stretch;width:160px;border:1px solid var(--line-2);
+    border-radius:9px;background:var(--surface);overflow:hidden;transition:.15s}
+  .ig:focus-within{border-color:var(--accent);box-shadow:var(--focus)}
+  .ig input{border:none;box-shadow:none;border-radius:0;background:transparent;flex:1 1 auto;width:auto;min-width:0;padding:8px 10px}
+  .ig input:focus-visible{box-shadow:none}
+  .ig .unit{flex:0 0 auto;display:flex;align-items:center;padding:0 9px;font-size:.76rem;
+    color:var(--ink-3);background:var(--surface-2);border-left:1px solid var(--line-2);white-space:nowrap}
   input:hover,select:hover{border-color:var(--ink-3)}
   input:focus-visible,select:focus-visible{outline:none;border-color:var(--accent);box-shadow:var(--focus)}
 
@@ -190,6 +199,10 @@
     nav.rail .group{display:none}
     .navitem{flex:1 1 auto;width:auto}
     .navitem small{display:none}
+    .grid label.field{flex-direction:column;align-items:stretch;gap:5px}
+    .grid label.field .lab{justify-content:space-between}
+    .grid label.field>input,.grid label.field>select{width:auto}
+    .grid label.field .ig{width:100%}
   }
 </style>
 </head>
@@ -273,6 +286,22 @@
     </nav>
 
     <main id="main">
+      <!-- ANTET RAPORT -->
+      <details class="fold" id="docMeta" style="margin:0 0 18px;background:var(--surface)">
+        <summary>Antet raport de calcul · date proiect <span style="font-weight:400;color:var(--ink-3);font-size:.82rem">— apar pe breviarul exportat</span></summary>
+        <div class="body">
+          <div class="grid">
+            <label class="field"><span class="lab">Proiect / obiectiv</span><input type="text" id="doc_proj" placeholder="ex. Hală depozitare S+P+1E"></label>
+            <label class="field"><span class="lab">Beneficiar</span><input type="text" id="doc_ben" placeholder="ex. SC Exemplu SRL"></label>
+            <label class="field"><span class="lab">Amplasament</span><input type="text" id="doc_loc" placeholder="ex. Cluj-Napoca, jud. Cluj"></label>
+            <label class="field"><span class="lab">Indicativ document</span><input type="text" id="doc_no" placeholder="ex. R-ST-001"></label>
+            <label class="field"><span class="lab">Faza</span><input type="text" id="doc_phase" placeholder="ex. PT / DTAC"></label>
+            <label class="field"><span class="lab">Revizie</span><input type="text" id="doc_rev" placeholder="ex. 0"></label>
+            <label class="field"><span class="lab">Întocmit</span><input type="text" id="doc_by" placeholder="nume proiectant"></label>
+            <label class="field"><span class="lab">Verificat</span><input type="text" id="doc_chk" placeholder="nume verificator"></label>
+          </div>
+        </div>
+      </details>
       <!-- GHID -->
       <section class="panel" id="p-ghid" role="tabpanel" aria-labelledby="tab-ghid" tabindex="0">
         <div class="card">
@@ -425,7 +454,7 @@
           <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">Categoria de pământ</span><select id="or_cat" onchange="orientToggle()"><option value="gros">Grosiere (după I<sub>D</sub>)</option><option value="fin">Fine (după I<sub>C</sub>)</option></select></label>
-            <label class="field"><span class="lab" id="or_lbl">Indicele densității I<sub>D</sub> <span class="hint">0…1</span></span><input type="number" id="or_idx" value="0.50" step="any" min="0" max="1"></label>
+            <label class="field"><span class="lab" id="or_lbl">Indicele densității I<sub>D</sub></span><input type="number" id="or_idx" value="0.50" step="any" min="0" max="1"><span class="hint">0…1</span></label>
           </div></fieldset>
           <div class="actions"><button class="btn" onclick="calcOrient()">Citește din tabel</button><span class="err" id="or_err" role="alert"></span></div>
           <div class="result" id="or_res" role="status" aria-live="polite"></div>
@@ -512,7 +541,7 @@
             <label class="field"><span class="lab">D — adâncime de fundare <span class="hint">m</span></span><input type="number" id="st_D" value="1.5" step="any" min="0"></label>
             <label class="field"><span class="lab">p<sub>ef,med</sub> — presiune la talpă <span class="hint">kPa</span></span><input type="number" id="st_p" value="200" step="any" min="0"></label>
             <label class="field"><span class="lab">γ deasupra tălpii <span class="hint">kN/m³</span></span><input type="number" id="st_g" value="19" step="any" min="0"></label>
-            <label class="field"><span class="lab">Nivel apă NAS <span class="hint">m de la CT · opțional</span></span><input type="number" id="st_nas" value="" step="any" min="0"></label>
+            <label class="field"><span class="lab">Nivel apă NAS · opțional <span class="hint">m de la CT</span></span><input type="number" id="st_nas" value="" step="any" min="0"></label>
           </div></fieldset>
 
           <h3>Straturi sub talpă</h3>
@@ -567,7 +596,7 @@
             <label class="field"><span class="lab">B — lățimea grinzii <span class="hint">m</span></span><input type="number" id="gr_B" value="1.0" step="any" min="0"></label>
             <label class="field"><span class="lab">h — înălțimea grinzii <span class="hint">m</span></span><input type="number" id="gr_h" value="0.8" step="any" min="0"></label>
             <label class="field"><span class="lab">E — modul beton <span class="hint">GPa</span></span><input type="number" id="gr_E" value="30" step="any" min="0"></label>
-            <label class="field"><span class="lab">Deschidere stâlpi <span class="hint">m · opțional</span></span><input type="number" id="gr_span" value="5" step="any" min="0"></label>
+            <label class="field"><span class="lab">Deschidere stâlpi · opțional <span class="hint">m</span></span><input type="number" id="gr_span" value="5" step="any" min="0"></label>
           </div></fieldset>
           <div class="actions"><button class="btn" onclick="calcGrinda()">Calculează λ și l<sub>e</sub></button>
             <button class="btn-soft" onclick="pullKs()">Preia ultimul k<sub>s</sub></button><span class="err" id="gr_err" role="alert"></span></div>
@@ -628,44 +657,102 @@ function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("sho
 
 /* BREVIAR DE CALCUL — descărcare per metodă */
 const TITLES={pl_res:"Probă de încărcare cu placa (K.3.1.1)",es_res:"Din modulul de deformație liniară (K.3.1.2)",eo_res:"Din modulul edometric (K.3.1.2)",or_res:"Valori de catalog (Tab. K.2)",iv_res:"Calcul invers din tasare (K.3.1.4)",st_res:"Teren stratificat (Anexa H + K.10)",gr_res:"Grindă pe mediu elastic (K.3.2.1)"};
-function breviarBtn(elId){return `<button class="btn-soft" onclick="dlBreviar('${elId}')">Descarcă breviar</button>`;}
+function breviarBtn(elId){return `<button class="btn-soft" onclick="dlBreviar('${elId}')">Raport PDF</button>`;}
 function esc(s){return (s+"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function dlBreviar(elId){
+function docMeta(){
+  const g=id=>{const e=$(id);return e?(e.value||"").trim():"";};
+  return {proj:g("doc_proj"),ben:g("doc_ben"),loc:g("doc_loc"),no:g("doc_no"),phase:g("doc_phase"),rev:g("doc_rev"),by:g("doc_by"),chk:g("doc_chk")};
+}
+function reportSVG(el){
+  const panel=el.closest("section.panel");
+  let svg=panel?panel.querySelector("figure svg"):null;
+  if(!svg) svg=document.querySelector(".hero figure.art svg");
+  return svg?svg.outerHTML:"";
+}
+function buildReport(elId){
   const el=$(elId);
-  if(!el||!el.classList.contains("show")){toast("Rulează întâi calculul");return;}
   const title=TITLES[elId]||"Coeficient de pat";
   const valEl=el.querySelector(".res-val"), val=valEl?valEl.innerText.trim():"";
   const labEl=el.querySelector(".res-label"), lab=labEl?labEl.innerText.trim():"Rezultat";
   const pre=el.querySelector("pre"), steps=pre?pre.textContent:(el.dataset.copy||"");
   const extra=el.querySelector(".sttable"); const tableHtml=extra?extra.outerHTML:"";
+  const svgHtml=reportSVG(el);
+  const m=docMeta();
   const d=new Date(), ds=d.toLocaleDateString("ro-RO")+" "+d.toLocaleTimeString("ro-RO",{hour:"2-digit",minute:"2-digit"});
-  const doc=`<!DOCTYPE html><html lang="ro"><head><meta charset="UTF-8"><title>Breviar — ${esc(title)}</title>
-<style>body{font-family:Georgia,'Times New Roman',serif;max-width:720px;margin:30px auto;padding:0 26px;color:#222;line-height:1.6;font-variant-numeric:tabular-nums lining-nums}
-h1{font-size:1.25rem;font-weight:400;border-bottom:2px solid #C25B3A;padding-bottom:8px;margin:0 0 4px}
-.meta{color:#666;font-size:.82rem;margin-bottom:20px}
-h2{font-size:1rem;font-weight:400;margin:20px 0 6px;color:#9A4527}
-.res{background:#F7E9E2;border:1px solid #e2c4b6;border-radius:8px;padding:12px 16px;font-size:1.15rem;margin:6px 0}
-.lab{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#8c7;color:#998;margin-bottom:3px}
-pre{background:#f5f3ee;border:1px solid #e4ddcf;border-radius:8px;padding:14px 16px;white-space:pre-wrap;font-family:Consolas,'Courier New',monospace;font-size:.84rem;line-height:1.7}
-table{border-collapse:collapse;width:100%;font-size:.82rem;margin:8px 0}th,td{border:1px solid #ddd;padding:6px 9px;text-align:center}th{background:#f1eee6}
-.foot{margin-top:26px;border-top:1px solid #ddd;padding-top:12px;color:#777;font-size:.78rem}
-@media print{body{margin:0}.noprint{display:none}}
-.btnp{margin:14px 0;background:#C25B3A;color:#fff;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-family:inherit}</style></head>
+  const r=(k,v)=>v?`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`:"";
+  const info=r("Proiect / obiectiv",m.proj)+r("Beneficiar",m.ben)+r("Amplasament",m.loc)
+    +r("Indicativ document",m.no)+r("Faza",m.phase)+r("Revizie",m.rev)+r("Data",ds);
+  return `<!DOCTYPE html><html lang="ro"><head><meta charset="UTF-8"><title>Breviar — ${esc(title)}</title>
+<style>
+:root{--soil:#ECE5D7;--soil2:#E2D9C6;--soil3:#D7CCB6;--accent:#C25B3A;--accent-strong:#9A4527;
+--accent-soft:#F7E9E2;--ink:#2B2A27;--ink-2:#5F5D57;--ink-3:#8C897F;--line:#E7E2D6;--line-2:#D8D2C3;}
+*{box-sizing:border-box}
+body{font-family:Georgia,'Times New Roman',serif;max-width:790px;margin:0 auto;padding:26px 32px 64px;
+color:var(--ink);line-height:1.6;font-variant-numeric:tabular-nums lining-nums}
+.sans{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+.eyebrow{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.72rem;letter-spacing:.1em;
+text-transform:uppercase;color:var(--accent-strong);font-weight:600}
+h1{font-size:1.3rem;font-weight:400;margin:4px 0 2px;letter-spacing:-.01em}
+.sub{color:var(--ink-3);font-size:.84rem;margin:0 0 16px;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
+.tb{width:100%;border-collapse:collapse;margin:0 0 22px;font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.82rem}
+.tb th,.tb td{border:1px solid #c9c2b2;padding:6px 11px;vertical-align:top;text-align:left}
+.tb th{background:#f1eee6;font-weight:500;width:32%;color:#56544e}
+h2{font-size:.92rem;font-weight:500;color:var(--accent-strong);border-bottom:1px solid #e4ddcf;
+padding-bottom:4px;margin:24px 0 9px;font-family:ui-sans-serif,system-ui,Arial,sans-serif;letter-spacing:.02em}
+.res{background:var(--accent-soft);border:1px solid #e2c4b6;border-radius:8px;padding:13px 18px;margin:6px 0}
+.res .lab{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.68rem;letter-spacing:.07em;
+text-transform:uppercase;color:#9a8;margin-bottom:4px}
+.res .v{font-size:1.4rem}
+.fig{text-align:center;margin:12px 0 4px}
+.fig svg{max-width:430px;width:100%;border:1px solid #e4ddcf;border-radius:8px;background:#fff;padding:10px}
+.figcap{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.74rem;color:var(--ink-3);margin-top:5px}
+pre{background:#f7f5f0;border:1px solid #e4ddcf;border-radius:8px;padding:14px 16px;white-space:pre-wrap;
+font-family:Consolas,'Courier New',monospace;font-size:.82rem;line-height:1.75;color:#333}
+.sttable{border-collapse:collapse;width:100%;font-size:.78rem;margin:8px 0;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
+.sttable th,.sttable td{border:1px solid #ddd;padding:6px 9px;text-align:center}
+.sttable th{background:#f1eee6;font-weight:500}
+.sign{display:flex;gap:46px;margin-top:40px;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
+.sign div{flex:1;border-top:1px solid #999;padding-top:6px;font-size:.82rem;color:#555}
+.sign b{font-weight:500;color:#333}
+.foot{margin-top:30px;border-top:1px solid #ddd;padding-top:12px;color:#8c897f;font-size:.74rem;
+font-family:ui-sans-serif,system-ui,Arial,sans-serif}
+.bar{position:sticky;top:0;display:flex;gap:10px;justify-content:flex-end;padding:12px 0;margin-bottom:8px}
+.btnp{background:var(--accent);color:#fff;border:none;padding:10px 18px;border-radius:9px;cursor:pointer;
+font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.88rem}
+.btnp:hover{background:var(--accent-strong)}
+.btng{background:#fff;color:#56544e;border:1px solid #c9c2b2;padding:10px 16px;border-radius:9px;cursor:pointer;
+font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.88rem}
+@media print{.noprint{display:none}body{margin:0;padding:0;max-width:none}@page{margin:16mm}}
+</style></head>
 <body>
-<h1>Breviar de calcul — ${esc(title)}</h1>
-<div class="meta">Coeficientul de pat k<sub>s</sub> · NP 112/2014 · generat ${esc(ds)}</div>
-<button class="btnp noprint" onclick="window.print()">Tipărește / salvează ca PDF</button>
+<div class="bar noprint">
+  <button class="btnp" onclick="window.print()">Tipărește / Salvează ca PDF</button>
+  <button class="btng" onclick="window.close()">Închide</button>
+</div>
+<div class="eyebrow">Breviar de calcul</div>
+<h1>${esc(title)}</h1>
+<div class="sub">Coeficientul de pat k<sub>s</sub> — modul de reacțiune al terenului · NP 112/2014, Anexele K și H</div>
+<table class="tb"><tbody>${info||r("Data",ds)}</tbody></table>
+${svgHtml?`<h2>Schemă de calcul</h2><div class="fig">${svgHtml}<div class="figcap">${esc(title)}</div></div>`:""}
 <h2>Rezultat</h2>
-<div class="lab">${esc(lab)}</div>
-<div class="res">${esc(val)}</div>
-<h2>Date și desfășurarea calculului</h2>
+<div class="res"><div class="lab">${esc(lab)}</div><div class="v">${esc(val)}</div></div>
+<h2>Date de intrare și desfășurarea calculului</h2>
 <pre>${esc(steps)}</pre>
-${tableHtml?("<h2>Detaliu pe straturi</h2>"+tableHtml):""}
-<div class="foot">Calcul conform NP 112/2014, Anexa K/H. Material orientativ; verificarea ipotezelor și responsabilitatea proiectării revin inginerului proiectant. Generat cu calculatorul k_s.</div>
+${tableHtml?("<h2>Detaliu pe straturi elementare</h2>"+tableHtml):""}
+<div class="sign">
+  <div><b>Întocmit:</b> ${esc(m.by||"…………………………")}</div>
+  <div><b>Verificat:</b> ${esc(m.chk||"…………………………")}</div>
+</div>
+<div class="foot">Calcul conform NP 112/2014, Anexa K/H. Rezultat orientativ — verificarea ipotezelor și responsabilitatea proiectării revin inginerului proiectant. Generat ${esc(ds)} cu calculatorul k<sub>s</sub>.</div>
 </body></html>`;
-  const blob=new Blob([doc],{type:"text/html;charset=utf-8"}), a=document.createElement("a");
-  a.href=URL.createObjectURL(blob); a.download="breviar-ks-"+elId.replace("_res","")+".html"; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),3000); toast("Breviar descărcat");
+}
+function dlBreviar(elId){
+  const el=$(elId);
+  if(!el||!el.classList.contains("show")){toast("Rulează întâi calculul");return;}
+  const doc=buildReport(elId);
+  const w=window.open("","ks_raport","width=900,height=1024,scrollbars=yes,resizable=yes");
+  if(!w){ toast("Permite ferestrele pop-up pentru a vedea raportul"); return; }
+  w.document.open(); w.document.write(doc); w.document.close(); w.focus();
 }
 
 function render(elId, ks, unit, steps, copy, opts){
@@ -677,15 +764,23 @@ function render(elId, ks, unit, steps, copy, opts){
     <div class="res-top">
       <div><div class="res-label">${opts.label||"Coeficient de pat"}</div>
         <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">${unit}</span></div></div>
-      <div class="res-actions"><button class="btn-soft" onclick="copyResult('${elId}')">Copiază</button>${breviarBtn(elId)}${beamBtn}</div>
+      <div class="res-actions">${breviarBtn(elId)}${beamBtn}</div>
     </div>
     ${opts.note?`<p class="res-note">${opts.note}</p>`:""}
     <details class="steps"><summary>Detaliu calcul</summary><pre>${steps}</pre></details>`;
   el.classList.add("show");
 }
-function copyResult(elId){ const txt=$(elId).dataset.copy||""; if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast("Copiat în clipboard"),()=>fallbackCopy(txt));}else fallbackCopy(txt); }
-function fallbackCopy(t){ const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copiat");}catch(e){}a.remove(); }
 function useInBeam(ks){ $("gr_ks").value=Math.round(ks); switchTab("grinda"); toast("k_s transferat la grindă"); }
+function groupUnits(){
+  document.querySelectorAll(".grid label.field").forEach(f=>{
+    if(f.querySelector(".ig")) return;
+    const inp=f.querySelector("input"); if(!inp) return;
+    const hint=f.querySelector(".hint");
+    const ig=document.createElement("span"); ig.className="ig";
+    inp.after(ig); ig.appendChild(inp);
+    if(hint){ hint.classList.remove("hint"); hint.classList.add("unit"); ig.appendChild(hint); }
+  });
+}
 
 /* TABEL K.1 */
 const K1=[[1,0.5283],[1.25,0.4740],[1.5,0.4357],[1.75,0.4070],[2,0.3845],[2.25,0.3663],[2.5,0.3512],[2.75,0.3385],[3,0.3275],[3.5,0.3093],[4,0.2953],[4.5,0.2836],[5,0.2739],[6,0.2584],[7,0.2465],[8,0.2370],[9,0.2292],[10,0.2226],[20,0.1868],[30,0.1705],[40,0.1606],[50,0.1537],[60,0.1481],[70,0.1442],[80,0.1407],[90,0.1378],[100,0.1353]];
@@ -734,7 +829,7 @@ function calcEoed(){
   const steps=`Date: E_oed = ${ro(E,0)} kPa,  B = ${ro(B,2)} m\nk_s = 2·E_oed/B = 2·${ro(E,0)}/${ro(B,2)} = ${ro(ks,0)} kN/m³   (K.9)`;
   render("eo_res",ks,"kN/m³",steps,`k_s = ${ro(ks,0)} kN/m³ (NP 112-2014 K.9; E_oed=${ro(E,0)} kPa, B=${ro(B,2)} m)`);
 }
-function orientToggle(){$("or_lbl").innerHTML=$("or_cat").value==="gros"?'Indicele densității I<sub>D</sub> <span class="hint">0…1</span>':'Indicele de consistență I<sub>C</sub> <span class="hint">0…1</span>';}
+function orientToggle(){$("or_lbl").innerHTML=$("or_cat").value==="gros"?'Indicele densității I<sub>D</sub>':'Indicele de consistență I<sub>C</sub>';}
 const K2g=[{lo:0,hi:0.33,k:[14000,25000]},{lo:0.34,hi:0.66,k:[25000,72000]},{lo:0.67,hi:1,k:[72000,130000]}];
 const K2f=[{lo:0,hi:0.25,k:null},{lo:0.25,hi:0.5,k:[7000,34000]},{lo:0.5,hi:0.75,k:[34000,63000]},{lo:0.75,hi:1,k:[63000,100000]}];
 function calcOrient(){
@@ -750,8 +845,7 @@ function calcOrient(){
   el.dataset.copy=`k_s = ${ro(a,0)}…${ro(b,0)} kN/m³ (NP 112-2014 Tab. K.2; ${nm}=${ro(x,2)}, B=1 m, static)`;
   el.innerHTML=`<div class="res-top"><div><div class="res-label">Interval orientativ (B = 1 m)</div>
     <div class="res-val"><b>${ro(a,0)} ÷ ${ro(b,0)}</b> <span class="unit">kN/m³</span></div></div>
-    <div class="res-actions"><button class="btn-soft" onclick="copyResult('or_res')">Copiază</button>
-    ${breviarBtn('or_res')}<button class="btn-soft" onclick="useInBeam(${mid})">Folosește mediana</button></div></div>
+    <div class="res-actions">${breviarBtn('or_res')}<button class="btn-soft" onclick="useInBeam(${mid})">Folosește mediana</button></div></div>
     <p class="res-note">${nm} = ${ro(x,2)} · mediană ≈ ${ro(mid,0)} kN/m³. Valoare pentru B = 1 m — transpuneți pentru B real.</p>`;
   el.classList.add("show");
 }
@@ -774,7 +868,7 @@ function calcGrinda(){
   el.dataset.copy=`l_e = ${ro(le,3)} m; λ = ${ro(lam,4)} 1/m (NP 112-2014 K.3.2.1; k_s=${ro(ks,0)} kN/m³, EI=${EI.toExponential(2)} kN·m²)`;
   el.innerHTML=`<div class="res-top"><div><div class="res-label">Lungime elastică</div>
     <div class="res-val">l<sub>e</sub> = <b>${ro(le,3)}</b> <span class="unit">m</span> &nbsp; · &nbsp; λ = ${ro(lam,4)} <span class="unit">m⁻¹</span></div></div>
-    <div class="res-actions"><button class="btn-soft" onclick="copyResult('gr_res')">Copiază</button>${breviarBtn('gr_res')}</div></div>
+    <div class="res-actions">${breviarBtn('gr_res')}</div></div>
     ${cls?`<p class="res-note">${cls}</p>`:""}
     <details class="steps"><summary>Detaliu calcul</summary><pre>${steps}</pre></details>`;
   el.classList.add("show");
@@ -857,7 +951,6 @@ function calcStrat(){
       <div class="res-label">Coeficient de pat echivalent</div>
       <div class="res-val">k<sub>s</sub> = <b>${ro(ks,0)}</b> <span class="unit">kN/m³</span></div>
     </div><div class="res-actions">
-      <button class="btn-soft" onclick="copyResult('st_res')">Copiază</button>
       ${breviarBtn('st_res')}<button class="btn-soft" onclick="useInBeam(${ks})">Folosește la grindă</button>
     </div></div>
     <p class="res-note">Tasare s = ${ro(s_mm,1)} mm · zonă activă z₀ = ${ro(z0,2)} m · p_net = ${ro(pnet,1)} kPa · L/B = ${ro(LB,2)}</p>
@@ -900,14 +993,14 @@ function setTheme(t){document.documentElement.setAttribute("data-theme",t);
 $("themeBtn").addEventListener("click",()=>setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));
 
 /* PERSISTENȚĂ */
-const INPUTS=["pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","iv_p","iv_s","gr_ks","gr_B","gr_h","gr_E","gr_span","st_B","st_L","st_D","st_p","st_g","st_nas"];
+const INPUTS=["doc_proj","doc_ben","doc_loc","doc_no","doc_phase","doc_rev","doc_by","doc_chk","pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","iv_p","iv_s","gr_ks","gr_B","gr_h","gr_E","gr_span","st_B","st_L","st_D","st_p","st_g","st_nas"];
 function saveInputs(){const o={};INPUTS.forEach(id=>{const e=$(id);if(e)o[id]=e.value;});try{localStorage.setItem("ks_inputs",JSON.stringify(o));}catch(e){}}
 (function init(){
   try{const t=localStorage.getItem("ks_theme");if(t)setTheme(t);
     const saved=JSON.parse(localStorage.getItem("ks_inputs")||"{}");
     INPUTS.forEach(id=>{if(saved[id]!=null&&$(id))$(id).value=saved[id];});
   }catch(e){}
-  orientToggle(); initStrat();
+  orientToggle(); initStrat(); groupUnits();
   let tab="ghid"; try{const t=localStorage.getItem("ks_tab");if(t&&TABS.includes(t))tab=t;}catch(e){}
   switchTab(tab);
   INPUTS.forEach(id=>{const e=$(id);if(e)e.addEventListener("change",saveInputs);});
