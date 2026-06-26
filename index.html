@@ -178,6 +178,11 @@
   .calc .lhs{grid-column:1;grid-row:1;text-align:right}
   .calc .rhs{grid-column:2}
   .calc .rhs.fin{color:var(--accent-strong)}
+  /* listă de date de intrare, una sub alta, aliniate la "=" */
+  .dlist{display:grid;grid-template-columns:auto 1fr;column-gap:.5em;row-gap:2px;align-items:baseline;
+    font-family:var(--serif);font-size:1.02rem;margin:4px 0 0;color:var(--ink)}
+  .dlist .dk{grid-column:1;text-align:right;color:var(--ink-2)}
+  .dlist .dv{grid-column:2}
   details.fold{border:1px solid var(--line);border-radius:var(--radius-sm);padding:0 16px;margin:16px 0 0;background:var(--surface-2)}
   details.fold>summary{padding:13px 0;font-size:.92rem;color:var(--ink);font-weight:500}
   details.fold>summary::before{content:"+ ";color:var(--accent-strong)}
@@ -382,8 +387,11 @@
             <div class="figcap">Placa în groapă · diagrama presiune (p) – tasare (s)</div>
           </figure>
           <div class="fx"><var>k</var>′<sub>s</sub> = <span class="frac"><span><var>p</var></span><span><var>s</var></span></span><span class="tagn">K.6</span></div>
-          <div class="fx"><var>k</var><sub>s</sub> = α · <var>k</var>′<sub>s</sub>
-            <span style="margin-left:10px;color:var(--ink-3);font-size:.92rem">coeziv α = <span class="frac"><span><var>B</var><sub>p</sub></span><span><var>B</var></span></span> · necoeziv α = <span class="root">[<span class="frac"><span><var>B</var><sub>p</sub>+0,3</span><span>2<var>B</var></span></span>]²</span></span><span class="tagn">K.7</span></div>
+          <div class="fx"><var>k</var><sub>s</sub> = α · <var>k</var>′<sub>s</sub><span class="tagn">K.7</span>
+            <div style="margin-top:9px;font-size:.92rem;color:var(--ink-3);display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:7px;align-items:center">
+              <span>coeziv</span><span>α = <span class="frac"><span><var>B</var><sub>p</sub></span><span><var>B</var></span></span></span>
+              <span>necoeziv</span><span>α = <span class="root">[<span class="frac"><span><var>B</var><sub>p</sub>+0,3</span><span>2<var>B</var></span></span>]²</span></span>
+            </div></div>
           <fieldset><legend>Date</legend>
           <div class="grid">
             <label class="field"><span class="lab">Presiunea p <span class="hint">kPa</span></span><input type="number" id="pl_p" value="200" step="any" min="0"></label>
@@ -496,13 +504,11 @@
             .sttable th{background:var(--surface)}
           </style>
           <h2>Teren stratificat <span class="ref">NP 112 · Anexa H + K.10</span></h2>
-          <p class="intro">Pentru profil cu straturi de rigidități diferite. Aplicația împarte terenul în
-          straturi elementare, distribuie efortul vertical (α₀, Tab. H.3), determină zona activă
-          (σ<sub>z</sub> ≤ 0,2·σ<sub>gz</sub>; 0,1 sub straturi moi), însumează tasarea și întoarce
-          <var>k</var><sub>s</sub> = <var>p</var><sub>ef</sub> / <var>s</var>. <b>Metoda se alege automat:</b> însumare pe
-          straturi (H.2.1, ec. H.5) în mod normal, sau stratul de grosime finită (H.2.3, ec. H.8) când B &gt; 10 m cu
-          zona activă E<sub>s</sub> &gt; 10.000 kPa ori la strat practic incompresibil (E<sub>s</sub> &gt; 100.000 kPa) —
-          fiecare pas e detaliat în breviarul de mai jos.</p>
+          <p class="intro">Pentru profile cu mai multe straturi de rigidități diferite. Aplicația calculează
+          tasarea reală a fundației (Anexa H) și întoarce <var>k</var><sub>s</sub> = <var>p</var><sub>ef</sub> / <var>s</var>.
+          <b>Metoda se alege automat:</b> însumare pe straturi elementare (H.2.1) în mod obișnuit, sau stratul de
+          grosime finită (H.2.3) la radiere mari (B &gt; 10 m, teren rigid) ori strat practic incompresibil. Fiecare
+          pas — efort, zonă activă, tasare — e detaliat în breviarul de după calcul.</p>
           <figure class="panel-art">
             <img class="normfig" src="figuri/fig-H1.png" alt="Figura H.1 — schema de calcul al tasării absolute prin însumare pe straturi elementare" loading="lazy">
             <div class="figcap">NP 112, Figura H.1 — schema de calcul al tasării absolute: straturi elementare, distribuția σ<sub>z</sub> și limita zonei active z₀</div>
@@ -590,7 +596,7 @@
             <tbody><tr><th scope="row">k<sub>s</sub> [kN/m³]</th><td>—</td><td>7 000 ÷ 34 000</td><td>34 000 ÷ 63 000</td><td>63 000 ÷ 100 000</td></tr></tbody></table></div>
         </div>
         <div class="card">
-          <h2>Tabelul H.3 — coeficientul α₀</h2>
+          <h2>Tabelul H.3 — coeficientul α<sub>0</sub></h2>
           <p class="intro">Distribuția efortului vertical în centrul fundației, funcție de z/B și L/B (interpolat în modulul stratificat).</p>
           <div class="tablewrap"><table id="tblH3"><thead><tr><th scope="col">z/B</th><th scope="col">L/B = 1</th><th scope="col">L/B = 2</th><th scope="col">L/B = 3</th><th scope="col">L/B ≥ 10</th></tr></thead><tbody></tbody></table></div>
         </div>
@@ -688,6 +694,9 @@ background:#f7e9e2;border:1px solid #e2c4b6;padding:1px 7px;border-radius:6px;wh
 .calc .lhs{grid-column:1;grid-row:1;text-align:right}
 .calc .rhs{grid-column:2}
 .calc .rhs.fin{color:var(--accent-strong)}
+.dlist{display:grid;grid-template-columns:auto 1fr;column-gap:.5em;row-gap:2px;align-items:baseline;font-size:.98rem;margin:3px 0 0;color:#2B2A27}
+.dlist .dk{grid-column:1;text-align:right;color:var(--ink-2)}
+.dlist .dv{grid-column:2}
 .sttable{border-collapse:collapse;width:100%;font-size:.78rem;margin:8px 0;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
 .sttable th,.sttable td{border:1px solid #ddd;padding:6px 9px;text-align:center}
 .sttable th{background:#f1eee6;font-weight:500}
@@ -743,9 +752,14 @@ function calcBlock(c){
     + c.lines.map((l,i)=>`<span class="rhs${i===c.lines.length-1&&c.lines.length>1?" fin":""}">= ${l}</span>`).join("")
     + `</div>`;
 }
+function dlist(d){
+  // d = [[simbol, valoare], ...] — fiecare pe rândul lui, aliniat la "="
+  return `<div class="dlist">`+d.map(p=>`<span class="dk">${p[0]}</span><span class="dv">= ${p[1]}</span>`).join("")+`</div>`;
+}
 function stepHTML(s){
   let body="";
-  if(s.c) body=calcBlock(s.c);
+  if(s.d) body=dlist(s.d);
+  else if(s.c) body=calcBlock(s.c);
   else if(s.f) body=`<div class="bf">${s.f}</div>`;
   return `<li><div class="bhd"><span class="bt">${s.t}</span>${s.ref?`<span class="bref">${s.ref}</span>`:""}</div>`
     +body+(s.why?`<div class="bw">${s.why}</div>`:"")+`</li>`;
@@ -753,10 +767,11 @@ function stepHTML(s){
 function breviarList(steps){ return `<ol class="breviar">`+steps.map(stepHTML).join("")+`</ol>`; }
 function stripTags(h){ return (h+"").replace(/<[^>]+>/g,"").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&"); }
 function stepText(s){
-  if(s.c) return `${stripTags(s.lhs||s.c.lhs)} `+s.c.lines.map(l=>"= "+stripTags(l)).join(" ");
+  if(s.d) return s.d.map(p=>stripTags(p[0])+" = "+stripTags(p[1])).join(" · ");
+  if(s.c) return `${stripTags(s.c.lhs)} `+s.c.lines.map(l=>"= "+stripTags(l)).join(" ");
   return s.f?stripTags(s.f):"";
 }
-function stepsText(steps){ return steps.map((s,i)=>`${i+1}. ${stripTags(s.t)}${s.ref?"  ["+s.ref+"]":""}`+(s.c||s.f?`\n   ${stepText(s)}`:"")+(s.why?`\n   — ${stripTags(s.why)}`:"")).join("\n\n"); }
+function stepsText(steps){ return steps.map((s,i)=>`${i+1}. ${stripTags(s.t)}${s.ref?"  ["+s.ref+"]":""}`+(s.d||s.c||s.f?`\n   ${stepText(s)}`:"")+(s.why?`\n   — ${stripTags(s.why)}`:"")).join("\n\n"); }
 
 function render(elId, ks, unit, steps, copy, opts){
   opts = opts || {};
@@ -812,7 +827,7 @@ function calcPlaca(){
     ? "pământ coeziv: tasarea ~proporțională cu B → α scade liniar. Placa de 0,30 m simte doar terenul superficial; fundația lată se tasează mai mult, deci k<sub>s</sub> real &lt; k′<sub>s</sub>."
     : "pământ necoeziv: efect de scară mai accentuat (pătratic) — tasarea e guvernată de adâncimea bulbului de presiune.";
   const steps=[
-    {t:"Date de intrare", f:`p = ${ro(p,0)} kPa · s = ${ro(zmm,2)} mm · B = ${ro(B,2)} m · ${tip}`},
+    {t:"Date de intrare", d:[["p",`${ro(p,0)} kPa`],["s",`${ro(zmm,2)} mm`],["B",`${ro(B,2)} m`],["teren",tip]]},
     {t:"Coeficient măsurat pe placă", ref:"K.6", c:{lhs:"k′<sub>s</sub>", lines:["p / s", `${ro(p,0)} / ${ro(z,4)}`, `<b>${ro(ksp,0)}</b> kN/m³`]}, why:"punctul (p, s) se citește din zona cvasi-liniară a diagramei plăcii pătrate cu latura B<sub>p</sub> = 0,30 m"},
     {t:"Corecție de scară placă → fundație", ref:"K.7", c:aBlock, why:aWhy},
     {t:"Coeficient de pat", ref:"K.7", c:{lhs:"k<sub>s</sub>", lines:["α · k′<sub>s</sub>", `${ro(a,4)} · ${ro(ksp,0)}`, `<b>${ro(ks,0)}</b> kN/m³`]}}
@@ -830,7 +845,7 @@ function calcEsNu(){
   else{a=lb;aT=`α = L/B = ${ro(lb,3)}`;unit="kN/m²";extra="Cu α = L/B rezultatul este în kN/m² — vezi nota privind α.";}
   const ks=km*(1/a)*E/(1-nu*nu);
   const steps=[
-    {t:"Date de intrare", f:`E<sub>s</sub> = ${ro(E,0)} kPa · ν<sub>s</sub> = ${ro(nu,2)} · L = ${ro(L,2)} m · B = ${ro(B,2)} m`, why:"E<sub>s</sub>, ν<sub>s</sub> = parametrii de compresibilitate (Anexa J)"},
+    {t:"Date de intrare", d:[["E<sub>s</sub>",`${ro(E,0)} kPa`],["ν<sub>s</sub>",`${ro(nu,2)}`],["L",`${ro(L,2)} m`],["B",`${ro(B,2)} m`]], why:"E<sub>s</sub>, ν<sub>s</sub> = parametrii de compresibilitate (Anexa J)"},
     {t:"Coeficient de formă", ref:"Tab. K.1", f:`L/B = ${ro(lb,3)} → k<sub>m</sub> = <b>${ro(km,4)}</b>`, why:note+"; k<sub>m</sub> scade pe măsură ce talpa devine mai alungită"},
     {t:"Mărimea α", f:`${aT}`, why: mode==="LB"
       ? "α = L/B e adimensional → rezultatul iese în kN/m². În K.8 normativul definește explicit doar k<sub>m</sub>; pentru kN/m³, α se ia ca dimensiune (lungime) caracteristică a tălpii."
@@ -845,7 +860,7 @@ function calcEoed(){
   if([E,B].some(v=>!isFinite(v)||v<=0)){showErr("eo_err","Completați Eoed și B.");return;}
   showErr("eo_err"); const ks=2*E/B;
   const steps=[
-    {t:"Date de intrare", f:`E<sub>oed</sub> = ${ro(E,0)} kPa · B = ${ro(B,2)} m`, why:"E<sub>oed</sub> = modul edometric (compresiune cu deformație laterală împiedicată)"},
+    {t:"Date de intrare", d:[["E<sub>oed</sub>",`${ro(E,0)} kPa`],["B",`${ro(B,2)} m`]], why:"E<sub>oed</sub> = modul edometric (compresiune cu deformație laterală împiedicată)"},
     {t:"Coeficient de pat", ref:"K.9", c:{lhs:"k<sub>s</sub>", lines:["2 · E<sub>oed</sub> / B", `2 · ${ro(E,0)} / ${ro(B,2)}`, `<b>${ro(ks,0)}</b> kN/m³`]}, why:"relație dimensional consistentă (k<sub>s</sub>·B = 2·E<sub>oed</sub>); factorul 1/B = efectul de scară — talpă mai lată → k<sub>s</sub> mai mic"}
   ];
   render("eo_res",ks,"kN/m³",steps,`ks = ${ro(ks,0)} kN/m³ (NP 112-2014 K.9; Eoed=${ro(E,0)} kPa, B=${ro(B,2)} m)`);
@@ -875,7 +890,7 @@ function calcInvers(){
   if([p,smm].some(v=>!isFinite(v)||v<=0)){showErr("iv_err","Completați pef și s.");return;}
   showErr("iv_err"); const s=smm/1000,ks=p/s;
   const steps=[
-    {t:"Date de intrare", f:`p<sub>ef</sub> = ${ro(p,0)} kPa · s = ${ro(smm,1)} mm`, why:"valabil când ai modulii E<sub>s</sub> pentru toate stratele din zona activă; tasarea s se calculează conform Anexei H"},
+    {t:"Date de intrare", d:[["p<sub>ef</sub>",`${ro(p,0)} kPa`],["s",`${ro(smm,1)} mm`]], why:"valabil când ai modulii E<sub>s</sub> pentru toate stratele din zona activă; tasarea s se calculează conform Anexei H"},
     {t:"Coeficient de pat", ref:"K.10", c:{lhs:"k<sub>s</sub>", lines:["p<sub>ef</sub> / s", `${ro(p,0)} / ${ro(s,4)}`, `<b>${ro(ks,0)}</b> kN/m³`]}, why:"resortul calibrat să reproducă tasarea reală — ruta cea mai fidelă, fiindcă s înglobează deja lățimea, adâncimea și stratificația"}
   ];
   render("iv_res",ks,"kN/m³",steps,`ks = ${ro(ks,0)} kN/m³ (NP 112-2014 K.10; pef=${ro(p,0)} kPa, s=${ro(smm,1)} mm)`,{note:"Pentru mai multe straturi, folosește direct modulul „Teren stratificat”, care face acest calcul automat."});
@@ -888,7 +903,7 @@ function calcGrinda(){
   let cls="";
   if(isFinite(span)&&span>0){const r=span/le;cls=r<0.5?"Deschidere ≪ l<sub>e</sub> → grindă cvasi-rigidă.":r>1?"Deschidere ≳ l<sub>e</sub> → grindă flexibilă (folosiți funcțiile f₁…f₄).":"Comportare intermediară.";}
   const steps=[
-    {t:"Date de intrare", f:`k<sub>s</sub> = ${ro(ks,0)} kN/m³ · B = ${ro(B,2)} m · h = ${ro(h,2)} m · E = ${ro(Eg,0)} GPa`},
+    {t:"Date de intrare", d:[["k<sub>s</sub>",`${ro(ks,0)} kN/m³`],["B",`${ro(B,2)} m`],["h",`${ro(h,2)} m`],["E",`${ro(Eg,0)} GPa`]]},
     {t:"Moment de inerție al secțiunii", c:{lhs:"I", lines:["B · h³ / 12", `${ro(B,2)} · ${ro(h,2)}³ / 12`, `<b>${exp(I,3)}</b> m⁴`]}},
     {t:"Rigiditate la încovoiere", c:{lhs:"EI", lines:["E · I", `${exp(E,2)} · ${exp(I,3)}`, `<b>${exp(EI,3)}</b> kN·m²`]}},
     {t:"Coeficient caracteristic", ref:"K.14", c:{lhs:"λ", lines:["⁴√(k<sub>s</sub>·B / 4EI)", `⁴√(${ro(ks,0)}·${ro(B,2)} / (4·${exp(EI,2)}))`, `<b>${ro(lam,4)}</b> m⁻¹`]}, why:"λ ∝ k<sub>s</sub><sup>1/4</sup> — de aceea o eroare la k<sub>s</sub> influențează puțin eforturile"},
@@ -1028,9 +1043,9 @@ function calcStrat(){
   const warn=!reached?`<p class="res-note">Zona activă (σ<sub>z</sub> ≤ 0,2·σ<sub>gz</sub>) nu s-a atins în profilul introdus — adăugați straturi în adâncime.</p>`:"";
   const mTag=useH23?"H.2.3 (strat grosime finită)":"H.2.1 (însumare straturi)";
   const bsteps=[
-    {t:"Date de intrare", f:`B = ${ro(B,2)} m · L = ${ro(L,2)} m · D = ${ro(D,2)} m · p<sub>ef</sub> = ${ro(p,0)} kPa · γ = ${ro(gA,1)} kN/m³`},
+    {t:"Date de intrare", d:[["B",`${ro(B,2)} m`],["L",`${ro(L,2)} m`],["D",`${ro(D,2)} m`],["p<sub>ef</sub>",`${ro(p,0)} kPa`],["γ",`${ro(gA,1)} kN/m³`]]},
     {t:"Presiune netă pe talpă", ref:"H.1", c:{lhs:"p<sub>net</sub>", lines:["p<sub>ef</sub> − γ·D", `${ro(p,0)} − ${ro(gA,1)}·${ro(D,2)}`, `<b>${ro(pnet,1)}</b> kPa`]}, why:"scade împingerea pământului de deasupra tălpii"},
-    {t:"Distribuția efortului vertical", ref:"H.2 · Tab. H.3", f:`σ<sub>z</sub> = α₀·p<sub>net</sub>, cu α₀ funcție de L/B = ${ro(LB,2)} și z/B`, why:"terenul se împarte în straturi elementare (grosime &lt; 0,4·B); presiunea se împrăștie și scade cu adâncimea"},
+    {t:"Distribuția efortului vertical", ref:"H.2 · Tab. H.3", f:`σ<sub>z</sub> = α<sub>0</sub>·p<sub>net</sub>, cu α<sub>0</sub> funcție de L/B = ${ro(LB,2)} și z/B`, why:"terenul se împarte în straturi elementare (grosime &lt; 0,4·B); presiunea se împrăștie și scade cu adâncimea"},
     {t:"Zona activă", ref:"H.3", f:`z₀ = <b>${ro(z0,2)}</b> m, unde σ<sub>z</sub> ≤ 0,2·σ<sub>gz</sub>`, why:"sub această adâncime terenul aproape nu mai contribuie la tasare (sub straturi moi limita coboară la 0,1·σ<sub>gz</sub>)"},
     tasareStep,
     {t:"Coeficient de pat echivalent", ref:"K.10", c:{lhs:"k<sub>s</sub>", lines:["p<sub>ef</sub> / s", `${ro(p,0)} / ${ro(s_mm/1000,4)}`, `<b>${ro(ks,0)}</b> kN/m³`]}}
