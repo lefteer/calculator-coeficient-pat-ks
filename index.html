@@ -1036,7 +1036,10 @@ function calcStrat(){
     tbl=`<table class="sttable"><thead><tr><th>Strat</th><th>z [m]</th><th>σ<sub>z,med</sub> [kPa]</th><th>E<sub>s</sub> [kPa]</th><th>Δs [mm]</th></tr></thead><tbody>`;
     rows.forEach((r,i)=>{tbl+=`<tr><td>${i+1}</td><td>${ro(r.zt,2)}–${ro(r.zb,2)}</td><td>${ro(r.smed,1)}</td><td>${ro(r.E,0)}</td><td>${ro(1000*0.8*r.ds,2)}</td></tr>`;});
     tbl+=`<tr><td colspan="4" style="text-align:right;font-weight:500">Tasare totală s</td><td style="font-weight:500">${ro(s_mm,1)}</td></tr></tbody></table>`;
-    methodLine=`Metodă: <b>însumarea pe straturi elementare</b> (NP 112, H.2.1 · ec. H.5, β = 0,8) — ales automat pentru B ≤ 10 m / profil compresibil.`;
+    const reasonH21 = (B>10 && !allStiff)
+      ? `B = ${ro(B,1)} m &gt; 10 m, dar zona activă conține un strat cu E<sub>s</sub> ≤ 10.000 kPa — condiția pentru metoda H.2.3 nu este îndeplinită`
+      : `B ≤ 10 m și fără strat practic incompresibil în zona activă`;
+    methodLine=`Metodă: <b>însumarea pe straturi elementare</b> (NP 112, H.2.1 · ec. H.5, β = 0,8) — aleasă automat: ${reasonH21}.`;
     tasareStep={t:"Tasare absolută (însumare pe straturi)", ref:"H.5", c:{lhs:"s", lines:["10³·β·Σ (σ<sub>z,med</sub>·h<sub>i</sub>/E<sub>si</sub>)", `<b>${ro(s_mm,1)}</b> mm`]}, why:"β = 0,8 (coeficient de corecție); însumare pe toate straturile elementare din zona activă"};
     tableLabel="straturi elementare";
   }
