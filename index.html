@@ -126,17 +126,10 @@
     border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 18px;box-shadow:var(--shadow)}
   .relation .eq{font-family:var(--serif);font-size:1.25rem}
   .relation .u{font-size:.82rem;color:var(--ink-3)}
-  figure.art{position:relative;overflow:hidden;border:1.5px solid var(--line-2);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin:0;
-    background:
-      radial-gradient(120% 80% at 78% 8%,var(--paper-sun) 0%,transparent 42%),
-      linear-gradient(178deg,var(--paper-sky) 0%,var(--surface) 58%)}
-  /* coline domoale sub diagramă — semnătura peisajelor Ghibli */
-  figure.art::after{content:"";position:absolute;left:-5%;right:-5%;bottom:34px;height:70px;z-index:0;
-    border-radius:50% 50% 0 0 / 100% 100% 0 0;background:var(--hill-2);opacity:.55}
-  figure.art::before{content:"";position:absolute;left:-12%;right:-2%;bottom:30px;height:54px;z-index:0;
-    border-radius:50% 50% 0 0 / 100% 100% 0 0;background:var(--hill-1);opacity:.5}
-  figure.art svg,figure.art figcaption{position:relative;z-index:1}
-  figure.art figcaption{font-size:.8rem;color:var(--ink-3);text-align:center;margin-top:8px;font-style:italic}
+  figure.art{position:relative;overflow:hidden;border:1.5px solid var(--line-2);border-radius:var(--radius);padding:20px 18px 14px;box-shadow:var(--shadow);margin:0;
+    background:radial-gradient(130% 90% at 50% -10%,var(--paper-sun) 0%,transparent 55%),var(--surface)}
+  figure.art svg{display:block;width:100%}
+  figure.art figcaption{font-size:.8rem;color:var(--ink-3);text-align:center;margin-top:10px;font-style:italic}
 
   .layout{display:grid;grid-template-columns:248px 1fr;gap:30px;padding:14px 0 70px;align-items:start}
   nav.rail{position:sticky;top:84px;display:flex;flex-direction:column;gap:5px}
@@ -189,6 +182,19 @@
   .ig input:focus-visible{box-shadow:none}
   .ig .unit{flex:0 0 auto;display:flex;align-items:center;padding:0 9px;font-size:.76rem;
     color:var(--ink-3);background:var(--surface-2);border-left:1px solid var(--line-2);white-space:nowrap}
+  /* stepper −/+ în interiorul casetei de valoare (înlocuiește săgețile native) */
+  .ig-step{width:182px}
+  .ig-step input{text-align:center;padding-left:4px;padding-right:4px}
+  .ig-step .unit{padding:0 7px}
+  .ig input[type=number]{-moz-appearance:textfield;appearance:textfield}
+  .ig input[type=number]::-webkit-outer-spin-button,.ig input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .ig .stp{flex:0 0 auto;width:34px;border:none;background:var(--surface-2);color:var(--accent-strong);
+    font-size:1.15rem;line-height:1;cursor:pointer;font-family:var(--sans);font-weight:700;padding:0;
+    display:flex;align-items:center;justify-content:center;transition:.12s;user-select:none}
+  .ig .stp:hover{background:var(--accent-soft)}
+  .ig .stp:active{transform:scale(.88)}
+  .ig .stp.dec{border-right:1px solid var(--line-2)}
+  .ig .stp.inc{border-left:1px solid var(--line-2)}
   input:hover,select:hover{border-color:var(--ink-3)}
   input:focus-visible,select:focus-visible{outline:none;border-color:var(--accent);box-shadow:var(--focus)}
 
@@ -203,6 +209,9 @@
     padding:9px 15px;border-radius:10px;font-size:.86rem;cursor:pointer;font-family:var(--sans);
     display:inline-block;transition:.15s}
   .btn-soft:hover{border-color:var(--ink-3);color:var(--ink)}
+  /* „Raport PDF" — contur mai pronunțat ca să se vadă ușor */
+  .btn-pdf{background:var(--accent-soft);color:var(--accent-strong);border:1.5px solid var(--accent);font-weight:600}
+  .btn-pdf:hover{border-color:var(--accent-strong);color:var(--accent-strong);background:color-mix(in srgb,var(--accent-soft) 78%,var(--accent) 14%)}
   .err{color:#b0432a;font-size:.84rem;display:none}
   html[data-theme="dark"] .err{color:#f0997b}
   .err.show{display:inline}
@@ -229,6 +238,16 @@
   .aside{display:flex;gap:11px;background:var(--surface-2);border:1px solid var(--line);
     border-radius:var(--radius-sm);padding:13px 16px;margin:14px 0;font-size:.88rem;color:var(--ink-2)}
   .aside .ic{color:var(--accent-strong);flex:none;margin-top:1px;font-weight:700}
+  /* Limite ale metodei — bloc vizibil, niciodată ascuns */
+  .limit{background:var(--surface-2);border:1px solid var(--line-2);border-left:3px solid var(--accent);
+    border-radius:var(--radius-sm);padding:12px 15px;margin:14px 0 0;font-size:.88rem;color:var(--ink-2)}
+  .limit .lh{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:.72rem;
+    letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--accent-strong);margin-bottom:4px}
+  .limit .lh::before{content:"△";font-size:.8rem}
+  .limit p{margin:6px 0 0}
+  .limit p:first-of-type{margin-top:0}
+  .limit b{color:var(--ink);font-weight:600}
+  .limit .cite{margin:6px 0 0}
   /* Breviar pas-cu-pas */
   .breviar{list-style:none;counter-reset:bv;margin:12px 0 0;padding:0}
   .breviar>li{counter-increment:bv;position:relative;padding:0 0 14px 30px;margin:0}
@@ -271,7 +290,9 @@
   .choice{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:15px 16px;display:flex;flex-direction:column;gap:6px}
   .choice .ttl{font-weight:500}
   .choice .have{font-size:.84rem;color:var(--ink-2)}
-  .choice .have b{font-weight:500;color:var(--ink)}
+  .choice .have b{font-weight:600;color:var(--ink)}
+  .choice .lim{font-size:.8rem;color:var(--ink-2);line-height:1.5;border-top:1px dashed var(--line-2);padding-top:7px;margin-top:1px}
+  .choice .lim b{color:var(--accent-strong);font-weight:600}
   .choice .go{margin-top:auto;align-self:flex-start;font-size:.85rem;color:var(--accent-strong);background:var(--accent-soft);
     border:1px solid var(--line-2);border-radius:9px;padding:7px 13px;cursor:pointer}
   .choice .go:hover{border-color:var(--accent)}
@@ -332,6 +353,12 @@
     .grid label.field .lab{justify-content:space-between}
     .grid label.field>input,.grid label.field>select{width:auto}
     .grid label.field .ig{width:100%}
+    /* câmpurile cu stepper rămân pe un rând, inline cu eticheta */
+    .grid label.field.has-step{flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}
+    .grid label.field.has-step .lab{flex:1;min-width:90px;line-height:1.3}
+    .grid label.field.has-step .ig{width:160px;flex:0 0 auto}
+    .grid label.field.has-step .ig .stp{width:30px}
+    .grid label.field.has-step .hint{font-size:.74rem;color:var(--ink-3)}
     .chooser{grid-template-columns:1fr;gap:12px}
     footer .shell{flex-direction:column;align-items:flex-start;gap:6px}
   }
@@ -374,37 +401,62 @@
   <section class="hero">
     <div>
       <h1>Coeficientul de pat <span class="ks">k<sub>s</sub></span></h1>
-      <p class="lead">Modulul de reacțiune al terenului pentru modelarea fundațiilor pe mediu elastic — șase
-      metode din NP 112/2014, inclusiv teren stratificat. Rezultate trasabile, gata de inclus în nota de calcul.</p>
+      <p class="lead">Modulul de reacțiune al terenului pentru fundații pe mediu elastic — șase metode din
+      NP 112/2014, inclusiv teren stratificat.</p>
       <div class="relation">
         <span class="eq"><var>p</var> = <span class="ks"><var>k</var><sub>s</sub></span> · <var>s</var></span>
         <span class="u">presiune = rigiditate × tasare · [kN/m³]</span>
       </div>
       <p class="note-intrinsic"><b>Reține:</b> <span class="ks">k<sub>s</sub></span> nu este o proprietate
-      intrinsecă a pământului — depinde de lățimea și forma fundației, de adâncime și de nivelul de încărcare,
-      și diferă de la o metodă la alta. Nu transfera aceeași valoare între fundații diferite.</p>
+      intrinsecă a pământului — depinde de lățimea și forma fundației, de adâncime, de nivelul de încărcare și
+      de metoda aleasă. De aceea se recalculează pentru fiecare fundație.</p>
     </div>
     <figure class="art">
-      <svg width="100%" viewBox="0 0 460 230" role="img" aria-labelledby="h-t h-d">
-        <title id="h-t">Modelul Winkler</title>
-        <desc id="h-d">Fundație rezemată pe resoarte independente care reprezintă terenul.</desc>
-        <rect x="30" y="120" width="400" height="86" rx="6" fill="var(--soil)"/>
-        <g stroke="var(--ink-3)" stroke-width="1" opacity=".35">
-          <line x1="44" y1="206" x2="64" y2="186"/><line x1="74" y1="206" x2="94" y2="186"/><line x1="104" y1="206" x2="124" y2="186"/>
-          <line x1="134" y1="206" x2="154" y2="186"/><line x1="164" y1="206" x2="184" y2="186"/><line x1="194" y1="206" x2="214" y2="186"/>
-          <line x1="224" y1="206" x2="244" y2="186"/><line x1="254" y1="206" x2="274" y2="186"/><line x1="284" y1="206" x2="304" y2="186"/>
-          <line x1="314" y1="206" x2="334" y2="186"/><line x1="344" y1="206" x2="364" y2="186"/><line x1="374" y1="206" x2="394" y2="186"/><line x1="404" y1="206" x2="416" y2="194"/>
+      <svg width="100%" viewBox="0 0 460 172" role="img" aria-labelledby="h-t h-d">
+        <title id="h-t">Modelul Winkler — coeficientul de pat k_s</title>
+        <desc id="h-d">Fundație încărcată cu presiunea p, rezemată pe resoarte independente de rigiditate k_s. Sub încărcare terenul se tasează cu s, conform relației p = k_s · s.</desc>
+
+        <!-- presiunea p, distribuită pe fundație -->
+        <g stroke="var(--ink-2)" stroke-width="1.6" stroke-linecap="round" fill="none">
+          <line x1="126" y1="12" x2="126" y2="33"/><path d="M122 27 L126 34 L130 27"/>
+          <line x1="178" y1="12" x2="178" y2="33"/><path d="M174 27 L178 34 L182 27"/>
+          <line x1="230" y1="12" x2="230" y2="33"/><path d="M226 27 L230 34 L234 27"/>
+          <line x1="282" y1="12" x2="282" y2="33"/><path d="M278 27 L282 34 L286 27"/>
+          <line x1="334" y1="12" x2="334" y2="33"/><path d="M330 27 L334 34 L338 27"/>
         </g>
-        <defs><path id="spr" d="M0 0 V7 l-7 4 l14 8 l-14 8 l14 8 l-7 4 V46" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></defs>
-        <use href="#spr" x="92" y="74"/><use href="#spr" x="150" y="74"/><use href="#spr" x="208" y="74"/><use href="#spr" x="266" y="74"/><use href="#spr" x="324" y="74"/>
-        <rect x="66" y="50" width="288" height="26" rx="5" fill="var(--accent)"/>
-        <g stroke="var(--ink-2)" stroke-width="1.7" stroke-linecap="round">
-          <line x1="120" y1="20" x2="120" y2="46"/><path d="M116 40 L120 47 L124 40" fill="none"/>
-          <line x1="210" y1="14" x2="210" y2="46"/><path d="M206 40 L210 47 L214 40" fill="none"/>
-          <line x1="300" y1="20" x2="300" y2="46"/><path d="M296 40 L300 47 L304 40" fill="none"/>
+        <text x="388" y="23" font-family="Georgia,serif" font-style="italic" font-size="16" fill="var(--ink-2)">p</text>
+
+        <!-- fundația rigidă -->
+        <rect x="86" y="38" width="288" height="22" rx="5" fill="var(--accent)"/>
+        <rect x="90" y="41" width="280" height="5" rx="2.5" fill="#fff" opacity=".2"/>
+
+        <!-- terenul = resoarte independente de rigiditate k_s -->
+        <defs><path id="spr" d="M0 0 V12 l-8 5 l16 9 l-16 9 l16 9 l-16 9 l16 9 l-8 5 V80" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></defs>
+        <use href="#spr" x="126" y="60"/><use href="#spr" x="178" y="60"/><use href="#spr" x="230" y="60"/><use href="#spr" x="282" y="60"/><use href="#spr" x="334" y="60"/>
+
+        <!-- baza rigidă, hașurată -->
+        <line x1="74" y1="140" x2="386" y2="140" stroke="var(--ink-3)" stroke-width="2"/>
+        <g stroke="var(--ink-3)" stroke-width="1.2" opacity=".5">
+          <line x1="86" y1="140" x2="77" y2="151"/><line x1="104" y1="140" x2="95" y2="151"/><line x1="122" y1="140" x2="113" y2="151"/>
+          <line x1="140" y1="140" x2="131" y2="151"/><line x1="158" y1="140" x2="149" y2="151"/><line x1="176" y1="140" x2="167" y2="151"/>
+          <line x1="194" y1="140" x2="185" y2="151"/><line x1="212" y1="140" x2="203" y2="151"/><line x1="230" y1="140" x2="221" y2="151"/>
+          <line x1="248" y1="140" x2="239" y2="151"/><line x1="266" y1="140" x2="257" y2="151"/><line x1="284" y1="140" x2="275" y2="151"/>
+          <line x1="302" y1="140" x2="293" y2="151"/><line x1="320" y1="140" x2="311" y2="151"/><line x1="338" y1="140" x2="329" y2="151"/>
+          <line x1="356" y1="140" x2="347" y2="151"/><line x1="374" y1="140" x2="365" y2="151"/>
         </g>
+
+        <!-- acolada k_s, în dreptul resorturilor -->
+        <path d="M348 60 h8 V140 h-8" fill="none" stroke="var(--ink-3)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+        <text x="362" y="104" font-family="Georgia,serif" font-style="italic" font-size="17" fill="var(--accent-strong)">k<tspan font-size="11" dy="3" font-style="normal">s</tspan></text>
+
+        <!-- tasarea s a fundației -->
+        <line x1="40" y1="26" x2="92" y2="26" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3"/>
+        <g stroke="var(--accent-strong)" stroke-width="1.5" stroke-linecap="round" fill="none">
+          <line x1="56" y1="27" x2="56" y2="38"/><path d="M52 33 L56 39 L60 33"/>
+        </g>
+        <text x="38" y="37" font-family="Georgia,serif" font-style="italic" font-size="15" fill="var(--accent-strong)">s</text>
       </svg>
-      <figcaption>Modelul Winkler — terenul ca resoarte independente (NP 112, Anexa K.3)</figcaption>
+      <figcaption>Modelul Winkler — terenul ca resoarte independente de rigiditate <span class="ks">k<sub>s</sub></span>: <span class="ks">p = k<sub>s</sub> · s</span> (NP 112, Anexa K.3)</figcaption>
     </figure>
   </section>
 
@@ -444,31 +496,32 @@
       <section class="panel" id="p-ghid" role="tabpanel" aria-labelledby="tab-ghid" tabindex="0">
         <div class="card">
           <h2>Ce este coeficientul de pat</h2>
-          <p class="intro">În modelul Winkler, terenul se înlocuiește cu resoarte independente. Coeficientul de
-          pat <var>k</var><sub>s</sub> este factorul de proporționalitate dintre presiunea de contact și tasare
-          — rigiditatea resortului.</p>
+          <p class="intro">Imaginează-ți terenul ca un pat de resoarte independente sub fundație (modelul Winkler).
+          Coeficientul de pat <var>k</var><sub>s</sub> spune cât de „tare" e un resort: <b>ce presiune trebuie ca
+          terenul să se taseze cu o anumită valoare</b>. Pe scurt — rigiditatea terenului raportată la suprafață.</p>
           <div class="fx"><var>p</var> = <var>k</var><sub>s</sub> · <var>s</var> <span class="tagn">NP 112, K.5</span></div>
           <p class="cite"><b>Unitate:</b> kN/m³ (din p [kN/m²] ÷ s [m]). Valori uzuale 10³…10⁵ kN/m³.</p>
-          <p class="cite">Notație: aici tasarea (deformația verticală) e notată <var>s</var> peste tot, ca în Anexa H și K.10. În relația K.5 normativul o scrie cu <var>z</var> — aceeași mărime.</p>
-          <div class="aside"><span class="ic">!</span><span><var>k</var><sub>s</sub> nu este o proprietate intrinsecă a pământului: depinde de lățimea fundației <var>B</var>, formă, rigiditate, adâncime și nivel de încărcare.</span></div>
-          <details class="fold"><summary>Limitele modelului Winkler (NP 112, K.3 · II.4.1)</summary>
-            <div class="body">
-              <p class="cite"><b>K.3 (2):</b> „Resoartele permit determinarea deformației terenului aflat sub fundație, dar nu și în afara bazei acesteia.”</p>
-              <p class="cite"><b>II.4.1 (4):</b> modelarea cu resoarte „este corectă atât timp cât nu apar întinderi pe suprafața terenului” — la desprinderi, resorturile nu trebuie să preia întindere.</p>
-              <p>Pentru interacțiune pe zonă extinsă în jurul fundației se folosește modelul mediului continuu (Boussinesq, K.4) sau hibrid (Anexa L.6).</p>
-            </div>
-          </details>
+          <p class="cite"><b>Notație:</b> aici tasarea o notăm <var>s</var> peste tot (ca în Anexa H și K.10); în relația K.5 normativul o scrie <var>z</var> — e aceeași mărime.</p>
+          <div class="aside"><span class="ic">!</span><span><var>k</var><sub>s</sub> nu e o proprietate fixă a pământului: depinde de lățimea fundației <var>B</var>, de formă, rigiditate, adâncime și de nivelul de încărcare. De aceea aceeași valoare nu se mută de la o fundație la alta.</span></div>
+          <div class="limit">
+            <div class="lh">Limitele modelului Winkler</div>
+            <p>Resoartele descriu deformația terenului <b>doar sub talpă</b>, nu și în jurul ei <span class="cite" style="display:inline;border:0;padding:0">(K.3 (2))</span>.</p>
+            <p>Modelul e corect <b>cât timp nu apar întinderi</b> pe teren — la desprinderea fundației, resorturile nu trebuie să preia întindere <span class="cite" style="display:inline;border:0;padding:0">(II.4.1 (4))</span>.</p>
+            <p>Pentru interacțiune pe o zonă extinsă în jurul fundației se trece la modelul mediului continuu (Boussinesq, K.4) sau la unul hibrid (Anexa L.6).</p>
+          </div>
         </div>
 
         <div class="card">
           <h2>Ce metodă aleg?</h2>
-          <p class="intro">Pornește de la datele pe care le ai despre teren.</p>
+          <p class="intro">Pornește de la <b>datele pe care le ai despre teren</b>. Toate metodele dau o aproximare a
+          aceluiași <var>k</var><sub>s</sub> — alege-o pe cea mai apropiată de datele tale și ține minte limita ei.
+          Cardurile sunt în aceeași ordine ca metodele din meniul stâng.</p>
           <div class="chooser">
-            <div class="choice"><span class="ttl">Probă cu placa</span><span class="have">Ai: o <b>încercare cu placa</b> pe teren (diagrama p–s).</span><button class="go" data-go="placa">Deschide →</button></div>
-            <div class="choice"><span class="ttl">Modul E<sub>s</sub>, ν<sub>s</sub></span><span class="have">Ai: <b>modulul de deformație liniară</b> și coeficientul Poisson.</span><button class="go" data-go="esnu">Deschide →</button></div>
-            <div class="choice"><span class="ttl">Modul edometric</span><span class="have">Ai: <b>E<sub>oed</sub></b> din încercarea edometrică.</span><button class="go" data-go="eoed">Deschide →</button></div>
-            <div class="choice"><span class="ttl">Valori de catalog</span><span class="have">Ai doar: <b>tipul de pământ</b> și un indice (I<sub>D</sub>/I<sub>C</sub>). Predimensionare.</span><button class="go" data-go="orient">Deschide →</button></div>
-            <div class="choice" style="border:2px solid var(--line-2)"><span class="ttl">Teren stratificat <span class="ref">recomandat</span></span><span class="have">Ai: <b>mai multe straturi</b> cu rigidități diferite sub talpă.</span><button class="go" data-go="strat">Deschide →</button></div>
+            <div class="choice" style="border:2px solid var(--accent)"><span class="ttl">Teren stratificat <span class="ref">recomandat</span></span><span class="have">Ai: <b>mai multe straturi</b> cu rigidități diferite sub talpă (E<sub>s</sub> pe fiecare).</span><span class="lim"><b>Limită:</b> calculează tasarea reală (Anexa H), dar rămâne model Winkler — nu „vede" terenul din afara tălpii.</span><button class="go" data-go="strat">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Probă cu placa</span><span class="have">Ai: o <b>încercare cu placa</b> pe teren (diagrama p–s).</span><span class="lim"><b>Limită:</b> placa e mult mai mică decât fundația — trecerea la lățimea reală <var>B</var> prin α e aproximativă.</span><button class="go" data-go="placa">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Modul edometric</span><span class="have">Ai: <b>E<sub>oed</sub></b> din încercarea edometrică.</span><span class="lim"><b>Limită:</b> presupune teren aproximativ omogen sub talpă; <var>k</var><sub>s</sub> scade cu 1/<var>B</var>.</span><button class="go" data-go="eoed">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Modul E<sub>s</sub>, ν<sub>s</sub></span><span class="have">Ai: <b>modulul de deformație liniară</b> și coeficientul Poisson.</span><span class="lim"><b>Limită:</b> semispațiu elastic, omogen și izotrop; rezultatul e sensibil la <var>E</var><sub>s</sub> și ν<sub>s</sub>.</span><button class="go" data-go="esnu">Deschide →</button></div>
+            <div class="choice"><span class="ttl">Valori de catalog</span><span class="have">Ai doar: <b>tipul de pământ</b> și un indice (I<sub>D</sub>/I<sub>C</sub>).</span><span class="lim"><b>Limită:</b> doar predimensionare — intervale largi la <var>B</var> = 1 m și încărcări statice, nu pentru proiectul final.</span><button class="go" data-go="orient">Deschide →</button></div>
           </div>
         </div>
       </section>
@@ -498,6 +551,7 @@
           </div></fieldset>
           <div class="actions"><button class="btn" onclick="calcPlaca()">Calculează</button><span class="err" id="pl_err" role="alert"></span></div>
           <div class="result" id="pl_res" role="status" aria-live="polite"></div>
+          <div class="limit"><div class="lh">Limită</div><p>Punctul (<var>p</var>, <var>s</var>) trebuie citit din zona cvasi-liniară, înainte de cedare. Placa (<var>B</var><sub>p</sub> ≈ 0,30 m) e mult mai mică decât fundația, iar corecția α către lățimea reală <var>B</var> e o aproximare — incertitudinea crește cu cât <var>B</var> e mai mare față de placă.</p></div>
         </div>
       </section>
 
@@ -532,6 +586,7 @@
           </div></fieldset>
           <div class="actions"><button class="btn" onclick="calcEsNu()">Calculează</button><span class="err" id="es_err" role="alert"></span></div>
           <div class="result" id="es_res" role="status" aria-live="polite"></div>
+          <div class="limit"><div class="lh">Limită</div><p>Tratează terenul ca un <b>semispațiu elastic, omogen și izotrop</b>: nu surprinde stratificația, iar rezultatul depinde puternic de valorile alese pentru <var>E</var><sub>s</sub> și ν<sub>s</sub>. Pentru profile cu straturi diferite, folosește „Teren stratificat".</p></div>
         </div>
       </section>
 
@@ -549,6 +604,7 @@
           <div class="actions"><button class="btn" onclick="calcEoed()">Calculează</button><span class="err" id="eo_err" role="alert"></span></div>
           <div class="result" id="eo_res" role="status" aria-live="polite"></div>
           <div class="aside"><span class="ic">›</span><span>Dependența <var>k</var><sub>s</sub> ∝ 1/B: la lățime dublă, coeficientul de pat se înjumătățește.</span></div>
+          <div class="limit"><div class="lh">Limită</div><p>Relație simplă, valabilă pentru teren <b>aproximativ omogen</b> sub talpă. Nu reflectă straturi cu rigidități diferite și depinde de lățime (<var>k</var><sub>s</sub> ∝ 1/<var>B</var>). Pentru profile stratificate, treci la „Teren stratificat".</p></div>
         </div>
       </section>
 
@@ -567,6 +623,7 @@
           </div></fieldset>
           <div class="actions"><button class="btn" onclick="calcOrient()">Citește din tabel</button><span class="err" id="or_err" role="alert"></span></div>
           <div class="result" id="or_res" role="status" aria-live="polite"></div>
+          <div class="limit"><div class="lh">Limită</div><p>Doar pentru <b>faze preliminare</b>: intervalele sunt date la <var>B</var> = 1 m și încărcări statice, sunt largi și nu înlocuiesc o determinare pe bază de încercări. La I<sub>C</sub> &lt; 0,25 normativul nu dă valoare — modelul Winkler simplu nu e adecvat.</p></div>
         </div>
       </section>
 
@@ -578,9 +635,11 @@
             #stratTbl{font-size:.85rem}
             #stratTbl td{padding:5px 6px}
             #stratTbl input{width:100%;padding:8px 9px;font-size:.9rem;border-radius:8px}
-            #stratTbl .lnum{color:var(--ink-3);width:42px}
-            .rmrow{background:transparent;border:1px solid var(--line-2);color:var(--ink-3);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:1rem;line-height:1}
-            .rmrow:hover{border-color:var(--accent);color:var(--accent-strong)}
+            #stratTbl .lnum{width:50px;white-space:nowrap;text-align:left}
+            #stratTbl td.lnum{padding:5px 2px 5px 4px}
+            .lno{font-size:.82rem;color:var(--ink-3)}
+            .rmrow{background:transparent;border:none;color:var(--ink-3);width:24px;height:24px;border-radius:6px;cursor:pointer;font-size:1.1rem;line-height:1;padding:0;vertical-align:middle;transition:.12s}
+            .rmrow:hover{background:var(--accent-soft);color:var(--accent-strong)}
             .sttable{font-size:.8rem;margin-top:10px}
             .sttable th{background:var(--surface)}
           </style>
@@ -607,13 +666,14 @@
 
           <h3>Straturi sub talpă</h3>
           <div class="tablewrap"><table id="stratTbl">
-            <thead><tr><th class="lnum" scope="col">#</th><th scope="col">Grosime h [m]</th><th scope="col">E<sub>s</sub> [kPa]</th><th scope="col">ν<sub>s</sub></th><th scope="col">γ [kN/m³]</th><th scope="col"><span class="hint">șterge</span></th></tr></thead>
+            <thead><tr><th class="lnum" scope="col">#</th><th scope="col">Grosime h [m]</th><th scope="col">E<sub>s</sub> [kPa]</th><th scope="col">ν<sub>s</sub></th><th scope="col">γ [kN/m³]</th></tr></thead>
             <tbody></tbody>
           </table></div>
           <div style="margin-top:10px"><button class="btn-soft" onclick="addLayer()">+ Adaugă strat</button></div>
           <div class="actions"><button class="btn" onclick="calcStrat()">Calculează k<sub>s</sub></button><span class="err" id="st_err" role="alert"></span></div>
           <div class="result" id="st_res" role="status" aria-live="polite"></div>
           <div class="aside"><span class="ic">›</span><span>Un strat moale aproape de talpă reduce mult mai mult <var>k</var><sub>s</sub> decât același strat la adâncime — efectul e surprins automat prin distribuția σ<sub>z</sub>.</span></div>
+          <div class="limit"><div class="lh">Limită</div><p>Cea mai fidelă rută (tasare reală conform Anexei H), dar tot un model Winkler: <b>resoarte independente</b>, fără interacțiunea terenului din afara tălpii. Rezultatul e doar atât de bun cât sunt valorile <var>E</var><sub>s</sub> introduse pe fiecare strat.</p></div>
         </div>
       </section>
 
@@ -654,6 +714,7 @@
           <div class="actions"><button class="btn" onclick="calcGrinda()">Calculează λ și l<sub>e</sub></button>
             <button class="btn-soft" onclick="pullKs()">Preia ultimul k<sub>s</sub></button><span class="err" id="gr_err" role="alert"></span></div>
           <div class="result" id="gr_res" role="status" aria-live="polite"></div>
+          <div class="limit"><div class="lh">Limită</div><p>Grinda reazemă pe <b>resoarte independente</b> (Winkler): la desprinderi, resorturile nu trebuie să preia întindere. <var>k</var><sub>s</sub> folosit aici e cel determinat anterior — cu propriile lui ipoteze și limite — deci verifică-i proveniența.</p></div>
         </div>
       </section>
 
@@ -706,7 +767,7 @@ function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("sho
 
 /* BREVIAR DE CALCUL — descărcare per metodă */
 const TITLES={pl_res:"Probă de încărcare cu placa (K.3.1.1)",es_res:"Din modulul de deformație liniară (K.3.1.2)",eo_res:"Din modulul edometric (K.3.1.2)",or_res:"Valori de catalog (Tab. K.2)",st_res:"Teren stratificat (Anexa H + K.10)",gr_res:"Grindă pe mediu elastic (K.3.2.1)"};
-function breviarBtn(elId){return `<button class="btn-soft" onclick="dlBreviar('${elId}')">Raport PDF</button>`;}
+function breviarBtn(elId){return `<button class="btn-soft btn-pdf" onclick="dlBreviar('${elId}')">Raport PDF</button>`;}
 function esc(s){return (s+"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function docMeta(){
   const g=id=>{const e=$(id);return e?(e.value||"").trim():"";};
@@ -734,64 +795,70 @@ function buildReport(elId){
   const info=r("Proiect / obiectiv",m.proj)+r("Beneficiar",m.ben)+r("Amplasament",m.loc)
     +r("Indicativ document",m.no)+r("Faza",m.phase)+r("Revizie",m.rev)+r("Data",ds);
   return `<!DOCTYPE html><html lang="ro"><head><meta charset="UTF-8"><title>Breviar — ${esc(title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--soil:#ECE5D7;--soil2:#E2D9C6;--soil3:#D7CCB6;--accent:#C25B3A;--accent-strong:#9A4527;
---accent-soft:#F7E9E2;--ink:#2B2A27;--ink-2:#5F5D57;--ink-3:#8C897F;--line:#E7E2D6;--line-2:#D8D2C3;}
+/* Raport în paleta „apus auriu" — luminos pentru tipar, indiferent de tema aplicației */
+:root{--soil:#E7D7AF;--soil2:#DBC798;--soil3:#CDB783;--accent:#DD8E27;--accent-strong:#A8650F;
+--accent-soft:#F8E7C2;--on-accent:#3D2C08;--ink:#3B3320;--ink-2:#6B5F43;--ink-3:#9A8B68;
+--line:#E9DCBB;--line-2:#DAC89E;
+--serif:"Fraunces",Georgia,'Times New Roman',serif;--sans:"Nunito",ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;}
 *{box-sizing:border-box}
-body{font-family:Georgia,'Times New Roman',serif;max-width:790px;margin:0 auto;padding:26px 32px 64px;
+body{font-family:var(--serif);max-width:790px;margin:0 auto;padding:26px 32px 64px;
 color:var(--ink);line-height:1.6;font-variant-numeric:tabular-nums lining-nums}
-.sans{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
-.eyebrow{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.72rem;letter-spacing:.1em;
-text-transform:uppercase;color:var(--accent-strong);font-weight:600}
-h1{font-size:1.3rem;font-weight:400;margin:4px 0 2px;letter-spacing:-.01em}
-.sub{color:var(--ink-3);font-size:.84rem;margin:0 0 16px;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
-.tb{width:100%;border-collapse:collapse;margin:0 0 22px;font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.82rem}
-.tb th,.tb td{border:1px solid #c9c2b2;padding:6px 11px;vertical-align:top;text-align:left}
-.tb th{background:#f1eee6;font-weight:500;width:32%;color:#56544e}
-h2{font-size:.92rem;font-weight:500;color:var(--accent-strong);border-bottom:1px solid #e4ddcf;
-padding-bottom:4px;margin:24px 0 9px;font-family:ui-sans-serif,system-ui,Arial,sans-serif;letter-spacing:.02em}
-.res{background:var(--accent-soft);border:1px solid #e2c4b6;border-radius:8px;padding:13px 18px;margin:6px 0}
-.res .lab{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.68rem;letter-spacing:.07em;
-text-transform:uppercase;color:#9a8;margin-bottom:4px}
+.sans{font-family:var(--sans)}
+.eyebrow{font-family:var(--sans);font-size:.72rem;letter-spacing:.1em;
+text-transform:uppercase;color:var(--accent-strong);font-weight:700}
+h1{font-size:1.32rem;font-weight:500;margin:4px 0 2px;letter-spacing:-.01em}
+.sub{color:var(--ink-3);font-size:.84rem;margin:0 0 16px;font-family:var(--sans)}
+.tb{width:100%;border-collapse:collapse;margin:0 0 22px;font-family:var(--sans);font-size:.82rem}
+.tb th,.tb td{border:1px solid var(--line-2);padding:6px 11px;vertical-align:top;text-align:left}
+.tb th{background:#F4EBD2;font-weight:600;width:32%;color:var(--ink-2)}
+h2{font-size:.92rem;font-weight:600;color:var(--accent-strong);border-bottom:1px solid var(--line);
+padding-bottom:4px;margin:24px 0 9px;font-family:var(--sans);letter-spacing:.02em}
+.res{background:var(--accent-soft);border:1px solid var(--line-2);border-radius:8px;padding:13px 18px;margin:6px 0}
+.res .lab{font-family:var(--sans);font-size:.68rem;letter-spacing:.07em;
+text-transform:uppercase;color:#A8966A;margin-bottom:4px;font-weight:600}
 .res .v{font-size:1.4rem}
 .fig{text-align:center;margin:12px 0 4px}
-.fig svg{max-width:430px;width:100%;border:1px solid #e4ddcf;border-radius:8px;background:#fff;padding:10px}
-.figcap{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.74rem;color:var(--ink-3);margin-top:5px}
-pre{background:#f7f5f0;border:1px solid #e4ddcf;border-radius:8px;padding:14px 16px;white-space:pre-wrap;
-font-family:Consolas,'Courier New',monospace;font-size:.82rem;line-height:1.75;color:#333}
+.fig svg{max-width:430px;width:100%;border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px}
+.figcap{font-family:var(--sans);font-size:.74rem;color:var(--ink-3);margin-top:5px}
+pre{background:#FBF6E8;border:1px solid var(--line);border-radius:8px;padding:14px 16px;white-space:pre-wrap;
+font-family:Consolas,'Courier New',monospace;font-size:.82rem;line-height:1.75;color:var(--ink)}
 .breviar{list-style:none;counter-reset:bv;margin:6px 0 0;padding:0}
 .breviar>li{counter-increment:bv;position:relative;padding:0 0 13px 28px;margin:0}
 .breviar>li::before{content:counter(bv);position:absolute;left:0;top:1px;width:19px;height:19px;display:flex;
-align-items:center;justify-content:center;font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.7rem;
-font-weight:600;color:var(--accent-strong);background:#f7e9e2;border:1px solid #e2c4b6;border-radius:50%}
-.breviar>li:not(:last-child)::after{content:"";position:absolute;left:9px;top:21px;bottom:1px;width:1px;background:#e2c4b6}
+align-items:center;justify-content:center;font-family:var(--sans);font-size:.7rem;
+font-weight:700;color:var(--accent-strong);background:var(--accent-soft);border:1px solid var(--line-2);border-radius:50%}
+.breviar>li:not(:last-child)::after{content:"";position:absolute;left:9px;top:21px;bottom:1px;width:1px;background:var(--line-2)}
 .bhd{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.bt{font-weight:600;font-size:.86rem;color:#2B2A27;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
-.bref{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.68rem;color:var(--accent-strong);
-background:#f7e9e2;border:1px solid #e2c4b6;padding:1px 7px;border-radius:6px;white-space:nowrap}
-.bf{font-size:.98rem;margin:2px 0 0;color:#2B2A27}
-.bw{font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.78rem;color:var(--ink-3);margin:2px 0 0}
-.calc{display:grid;grid-template-columns:auto 1fr;column-gap:.45em;align-items:baseline;font-size:.98rem;margin:3px 0 0;color:#2B2A27;line-height:1.5}
+.bt{font-weight:600;font-size:.86rem;color:var(--ink);font-family:var(--sans)}
+.bref{font-family:var(--sans);font-size:.68rem;color:var(--accent-strong);
+background:var(--accent-soft);border:1px solid var(--line-2);padding:1px 7px;border-radius:6px;white-space:nowrap}
+.bf{font-size:.98rem;margin:2px 0 0;color:var(--ink)}
+.bw{font-family:var(--sans);font-size:.78rem;color:var(--ink-3);margin:2px 0 0}
+.calc{display:grid;grid-template-columns:auto 1fr;column-gap:.45em;align-items:baseline;font-size:.98rem;margin:3px 0 0;color:var(--ink);line-height:1.5}
 .calc .lhs{grid-column:1;grid-row:1;text-align:right}
 .calc .rhs{grid-column:2}
 .calc .rhs.fin{color:var(--accent-strong)}
-.dlist{display:grid;grid-template-columns:auto 1fr;column-gap:.5em;row-gap:2px;align-items:baseline;font-size:.98rem;margin:3px 0 0;color:#2B2A27}
+.dlist{display:grid;grid-template-columns:auto 1fr;column-gap:.5em;row-gap:2px;align-items:baseline;font-size:.98rem;margin:3px 0 0;color:var(--ink)}
 .dlist .dk{grid-column:1;text-align:right;color:var(--ink-2)}
 .dlist .dv{grid-column:2}
-.sttable{border-collapse:collapse;width:100%;font-size:.78rem;margin:8px 0;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
-.sttable th,.sttable td{border:1px solid #ddd;padding:6px 9px;text-align:center}
-.sttable th{background:#f1eee6;font-weight:500}
-.sign{display:flex;gap:46px;margin-top:40px;font-family:ui-sans-serif,system-ui,Arial,sans-serif}
-.sign div{flex:1;border-top:1px solid #999;padding-top:6px;font-size:.82rem;color:#555}
-.sign b{font-weight:500;color:#333}
-.foot{margin-top:30px;border-top:1px solid #ddd;padding-top:12px;color:#8c897f;font-size:.74rem;
-font-family:ui-sans-serif,system-ui,Arial,sans-serif}
+.sttable{border-collapse:collapse;width:100%;font-size:.78rem;margin:8px 0;font-family:var(--sans)}
+.sttable th,.sttable td{border:1px solid var(--line-2);padding:6px 9px;text-align:center}
+.sttable th{background:#F4EBD2;font-weight:600}
+.sign{display:flex;gap:46px;margin-top:40px;font-family:var(--sans)}
+.sign div{flex:1;border-top:1px solid #B7A87E;padding-top:6px;font-size:.82rem;color:var(--ink-2)}
+.sign b{font-weight:600;color:var(--ink)}
+.foot{margin-top:30px;border-top:1px solid var(--line-2);padding-top:12px;color:var(--ink-3);font-size:.74rem;
+font-family:var(--sans)}
 .bar{position:sticky;top:0;display:flex;gap:10px;justify-content:flex-end;padding:12px 0;margin-bottom:8px}
-.btnp{background:var(--accent);color:#fff;border:none;padding:10px 18px;border-radius:9px;cursor:pointer;
-font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.88rem}
-.btnp:hover{background:var(--accent-strong)}
-.btng{background:#fff;color:#56544e;border:1px solid #c9c2b2;padding:10px 16px;border-radius:9px;cursor:pointer;
-font-family:ui-sans-serif,system-ui,Arial,sans-serif;font-size:.88rem}
+.btnp{background:linear-gradient(180deg,#E8A23D,#DD8E27);color:var(--on-accent);border:none;padding:10px 18px;border-radius:9px;cursor:pointer;
+font-family:var(--sans);font-size:.88rem;font-weight:700}
+.btnp:hover{filter:brightness(1.05)}
+.btng{background:#fff;color:var(--ink-2);border:1px solid var(--line-2);padding:10px 16px;border-radius:9px;cursor:pointer;
+font-family:var(--sans);font-size:.88rem;font-weight:600}
 @media print{.noprint{display:none}body{margin:0;padding:0;max-width:none}@page{margin:16mm}}
 </style></head>
 <body>
@@ -868,14 +935,45 @@ function render(elId, ks, unit, steps, copy, opts){
     <details class="steps" open><summary>Breviar de calcul · pas cu pas</summary>${breviarList(steps)}</details>`;
   el.classList.add("show");
 }
+/* pas implicit per câmp (toate au valori default, deci −/+ are sens) */
+const STEP={pl_p:10,pl_z:0.5,pl_B:0.1,es_E:1000,es_nu:0.05,es_L:0.1,es_B:0.1,eo_E:1000,eo_B:0.1,
+  or_idx:0.05,gr_ks:1000,gr_B:0.1,gr_h:0.1,gr_E:5,gr_span:0.1,
+  st_B:0.1,st_L:0.1,st_D:0.1,st_p:10,st_g:1,st_nas:0.1};
+function stepField(inp,dir){
+  const step=STEP[inp.id]||1;
+  const min=inp.min!==""?parseFloat(inp.min):-Infinity;
+  const max=inp.max!==""?parseFloat(inp.max):Infinity;
+  let cur=parseFloat((inp.value+"").replace(",",".")); if(!isFinite(cur)) cur=isFinite(min)?min:0;
+  let next=cur+dir*step;
+  const dec=((step+"").split(".")[1]||"").length; next=parseFloat(next.toFixed(dec));
+  if(next<min) next=min; if(next>max) next=max;
+  inp.value=next;
+  inp.dispatchEvent(new Event("input",{bubbles:true}));
+  inp.dispatchEvent(new Event("change",{bubbles:true}));
+}
 function groupUnits(){
   document.querySelectorAll(".grid label.field").forEach(f=>{
     if(f.querySelector(".ig")) return;
     const inp=f.querySelector("input"); if(!inp) return;
     const hint=f.querySelector(".hint");
-    const ig=document.createElement("span"); ig.className="ig";
-    inp.after(ig); ig.appendChild(inp);
-    if(hint){ hint.classList.remove("hint"); hint.classList.add("unit"); ig.appendChild(hint); }
+    const isNum=inp.type==="number";
+    /* chip de unitate doar pentru unități reale (au literă, fără spațiu: kPa, m, mm, kN/m³);
+       intervalele/notele (0,2…0,42 · 0…1 · „m de la CT") rămân lângă coeficient */
+    const ht=hint?hint.textContent.trim():"";
+    const isUnit=!!ht && /[a-zA-Z]/.test(ht) && !/\s/.test(ht);
+    const ig=document.createElement("span"); ig.className="ig"+(isNum?" ig-step":"");
+    inp.after(ig);
+    if(isNum){
+      f.classList.add("has-step");
+      const dec=document.createElement("button"); dec.type="button"; dec.className="stp dec"; dec.textContent="−"; dec.tabIndex=-1; dec.setAttribute("aria-label","Scade valoarea"); dec.addEventListener("click",()=>stepField(inp,-1));
+      ig.appendChild(dec);
+    }
+    ig.appendChild(inp);
+    if(hint && isUnit){ hint.classList.remove("hint"); hint.classList.add("unit"); ig.appendChild(hint); }
+    if(isNum){
+      const inc=document.createElement("button"); inc.type="button"; inc.className="stp inc"; inc.textContent="+"; inc.tabIndex=-1; inc.setAttribute("aria-label","Crește valoarea"); inc.addEventListener("click",()=>stepField(inp,1));
+      ig.appendChild(inc);
+    }
   });
 }
 
@@ -1032,16 +1130,15 @@ function Kcoef(LB,zB){
 function mFinit(z0B){if(z0B<=0.25)return 1.5;if(z0B<=0.50)return 1.4;if(z0B<=1.00)return 1.3;if(z0B<=1.50)return 1.2;if(z0B<=2.50)return 1.1;return 1.0;}
 function addLayer(h,E,nu,g){
   const tb=$("stratTbl").querySelector("tbody"),tr=document.createElement("tr");
-  tr.innerHTML=`<td class="lnum"></td>
+  tr.innerHTML=`<td class="lnum"><span class="lno"></span><button class="rmrow" onclick="removeLayer(this)" aria-label="Șterge stratul" title="Șterge stratul">×</button></td>
     <td><input class="la_h" type="number" step="any" min="0" value="${h??1}" aria-label="Grosime strat"></td>
     <td><input class="la_E" type="number" step="any" min="0" value="${E??15000}" aria-label="Modul Es"></td>
     <td><input class="la_nu" type="number" step="any" min="0" max="0.5" value="${nu??0.3}" aria-label="Coeficient Poisson"></td>
-    <td><input class="la_g" type="number" step="any" min="0" value="${g??20}" aria-label="Greutate volumica"></td>
-    <td><button class="rmrow" onclick="removeLayer(this)" aria-label="Șterge strat">×</button></td>`;
+    <td><input class="la_g" type="number" step="any" min="0" value="${g??20}" aria-label="Greutate volumica"></td>`;
   tb.appendChild(tr); renumberLayers(); saveStrat();
 }
-function removeLayer(btn){const tb=$("stratTbl").querySelector("tbody");if(tb.children.length<=1)return;btn.closest("tr").remove();renumberLayers();saveStrat();}
-function renumberLayers(){$("stratTbl").querySelectorAll("tbody tr").forEach((tr,i)=>tr.querySelector(".lnum").textContent=i+1);}
+function removeLayer(btn){const tb=$("stratTbl").querySelector("tbody");if(tb.children.length<=1){toast("Lasă cel puțin un strat");return;}btn.closest("tr").remove();renumberLayers();saveStrat();}
+function renumberLayers(){$("stratTbl").querySelectorAll("tbody tr").forEach((tr,i)=>tr.querySelector(".lno").textContent=i+1);}
 function readLayers(){return [...$("stratTbl").querySelectorAll("tbody tr")].map(tr=>({
   h:parseFloat((tr.querySelector(".la_h").value+"").replace(",",".")),
   E:parseFloat((tr.querySelector(".la_E").value+"").replace(",",".")),
