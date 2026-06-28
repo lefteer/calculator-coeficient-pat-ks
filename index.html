@@ -4,34 +4,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kₛ — Coeficient de pat · modul de reacțiune al terenului (NP 112/2014)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ───────────────────────────────────────────────────────────────
+     Paletă „Studio Ghibli" — pajiște însorită, cer de vară, lumină caldă.
+     Tot UI-ul cheamă aceste tokenuri, deci ilustrațiile SVG se vopsesc singure.
+     ─────────────────────────────────────────────────────────────── */
   :root{
-    --bg:#F6F3ED; --surface:#FFFFFF; --surface-2:#F1EEE6; --inset:#EDE9DF;
-    --soil:#ECE5D7; --soil2:#E2D9C6; --soil3:#D7CCB6;
-    --ink:#2B2A27; --ink-2:#5F5D57; --ink-3:#8C897F;
-    --line:#E7E2D6; --line-2:#D8D2C3;
-    --accent:#C25B3A; --accent-strong:#9A4527; --accent-soft:#F7E9E2;
-    --good:#1D7F5E; --good-soft:#E4F3EC; --info-soft:#EEF2F7; --info-ink:#3A5269;
-    --shadow:0 1px 2px rgba(43,42,39,.04), 0 10px 30px rgba(43,42,39,.05);
-    --radius:16px; --radius-sm:11px; --focus:0 0 0 3px var(--accent-soft),0 0 0 1px var(--accent);
-    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
-    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    /* ZIUA — apus auriu, tonurile pastilei de zi (soare · munți de chihlimbar) */
+    --bg:#F3EAD1; --surface:#FCF6E6; --surface-2:#F2E8CF; --inset:#ECE0C2;
+    --soil:#E7D7AF; --soil2:#DBC798; --soil3:#CDB783;
+    --ink:#3B3320; --ink-2:#6B5F43; --ink-3:#9A8B68;
+    --line:#E9DCBB; --line-2:#DAC89E;
+    --accent:#DD8E27; --accent-strong:#A8650F; --accent-soft:#F8E7C2;
+    --good:#3C8E64; --good-soft:#E3EFD7; --info-soft:#E9ECF2; --info-ink:#42587A;
+    --on-accent:#3D2C08;
+    /* straturi pictate ale fundalului (cer auriu · soare · coline) */
+    --paper-sky:#F6E7C2; --paper-sun:#FDF0C6; --paper-base1:#F4EBD2; --paper-base2:#F2E7CC; --paper-base3:#EEE1C2;
+    --hill-1:#E6D4A6; --hill-2:#D9C28C; --cloud:#FCF7E9;
+    --shadow:0 1px 2px rgba(120,86,30,.07), 0 12px 32px rgba(120,86,30,.12);
+    --radius:20px; --radius-sm:14px; --focus:0 0 0 3px var(--accent-soft),0 0 0 1.5px var(--accent);
+    --serif:"Fraunces","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:"Nunito",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     --mono:"SFMono-Regular",ui-monospace,Consolas,"Liberation Mono",monospace;
   }
   html[data-theme="dark"]{
-    --bg:#262523; --surface:#302F2C; --surface-2:#383631; --inset:#3A3833;
-    --soil:#37352F; --soil2:#403D36; --soil3:#4A463E;
-    --ink:#ECE8DF; --ink-2:#B8B4A9; --ink-3:#8C897F;
-    --line:#403E39; --line-2:#4B4942;
-    --accent:#E08A6B; --accent-strong:#F0A98C; --accent-soft:#3B2C24;
-    --good:#5DCAA5; --good-soft:#22372F; --info-soft:#1B2530; --info-ink:#9DBBD6;
-    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 34px rgba(0,0,0,.30);
+    /* NOAPTEA — bleumarin de baie termală, tonurile pastilei de noapte (lună · stele · felinar auriu) */
+    --bg:#161F38; --surface:#202C49; --surface-2:#283557; --inset:#2C3A5E;
+    --soil:#2E3C5D; --soil2:#384876; --soil3:#42528A;
+    --ink:#EDE6D0; --ink-2:#B4BBD2; --ink-3:#7E879F;
+    --line:#2F3D60; --line-2:#3C4D77;
+    --accent:#E6B45C; --accent-strong:#F4CB7C; --accent-soft:#2A3760;
+    --good:#6FC79A; --good-soft:#1F3A33; --info-soft:#1E2C49; --info-ink:#A8C2DE;
+    --on-accent:#1A2236;
+    --paper-sky:#1C2A4E; --paper-sun:#3A2F22; --paper-base1:#18223E; --paper-base2:#161F38; --paper-base3:#131B31;
+    --hill-1:#26345A; --hill-2:#2E3D66; --cloud:#2A3858;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 36px rgba(0,0,0,.4);
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  body{margin:0;color:var(--ink);font-family:var(--sans);
     line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;letter-spacing:.005em;
-    font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum","lnum"}
+    font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum","lnum";
+    background:var(--bg);
+    background-image:
+      radial-gradient(125% 70% at 50% -8%, var(--paper-sky) 0%, transparent 52%),
+      radial-gradient(70% 45% at 84% 2%, var(--paper-sun) 0%, transparent 46%),
+      linear-gradient(178deg, var(--paper-base1) 0%, var(--paper-base2) 45%, var(--paper-base3) 100%);
+    background-attachment:fixed}
+  /* granulație fină de acuarelă peste tot ecranul */
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    mix-blend-mode:soft-light;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")}
   .ks{white-space:nowrap}
   var,.ks{font-style:italic;font-family:var(--serif)}
   .shell{max-width:1120px;margin:0 auto;padding:0 22px}
@@ -42,19 +68,52 @@
   .skip:focus{left:18px}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
-  header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);
-    backdrop-filter:saturate(1.1) blur(8px);border-bottom:1px solid var(--line)}
+  header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper-base2) 80%,transparent);
+    backdrop-filter:saturate(1.15) blur(10px);border-bottom:1px solid var(--line)}
   .top .shell{display:flex;align-items:center;justify-content:space-between;height:64px}
   .brand{display:flex;align-items:center;gap:12px}
-  .mark{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);
-    display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)}
+  .mark{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--accent-soft),var(--surface-2));
+    display:flex;align-items:center;justify-content:center;border:1.5px solid var(--line-2);
+    box-shadow:0 2px 6px rgba(74,86,52,.12)}
   .bw{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
   .brand .name{font-family:var(--serif);font-size:1.18rem;line-height:1}
   .brand .name sub{font-size:.62em}
   .brand .tag{font-size:.82rem;color:var(--ink-3)}
-  .theme{background:var(--surface);border:1px solid var(--line);color:var(--ink-2);
-    border-radius:10px;padding:8px 12px;cursor:pointer;font-size:.85rem;display:flex;gap:7px;align-items:center}
-  .theme:hover{border-color:var(--line-2)}
+  /* ── Comutator zi / noapte în stil Ghibli ───────────────────────── */
+  .dnt{position:relative;width:66px;height:32px;border:none;border-radius:999px;cursor:pointer;padding:0;
+    overflow:hidden;flex:none;transition:background .35s ease;
+    background:linear-gradient(180deg,#FCD877 0%,#F0A92F 100%);
+    box-shadow:inset 0 1px 4px rgba(120,70,0,.28), 0 1px 2px rgba(0,0,0,.12)}
+  html[data-theme="dark"] .dnt{background:linear-gradient(180deg,#2E3D5C 0%,#1A2440 100%);
+    box-shadow:inset 0 1px 4px rgba(0,0,0,.45), 0 1px 2px rgba(0,0,0,.2)}
+  .dnt:hover{filter:brightness(1.04)}
+  .dnt:focus-visible{outline:none;box-shadow:var(--focus)}
+  .dnt-day,.dnt-night{position:absolute;inset:0;transition:opacity .35s ease}
+  .dnt-night{opacity:0}
+  html[data-theme="dark"] .dnt-day{opacity:0}
+  html[data-theme="dark"] .dnt-night{opacity:1}
+  /* soarele (zi) */
+  .dnt-sun{position:absolute;left:9px;top:8px;width:16px;height:16px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,#fff 38%,#FFEAA0 72%,rgba(255,234,160,0) 100%);
+    filter:drop-shadow(0 0 4px rgba(255,240,180,.9))}
+  /* luna decupată + stele (noapte) */
+  .dnt-crescent{position:absolute;right:12px;top:7px;width:13px;height:13px;border-radius:50%;background:#FBFAF2}
+  .dnt-crescent::before{content:"";position:absolute;right:-3px;top:-2.5px;width:12px;height:12px;border-radius:50%;background:#1F2A45}
+  .dnt-stars,.dnt-stars::before{position:absolute;border-radius:50%;background:#fff}
+  .dnt-stars{right:9px;top:6px;width:1.6px;height:1.6px;
+    box-shadow:-5px 9px 0 .1px #fff,4px 12px 0 -.2px #fff,-12px 4px 0 -.2px #fff,2px 2px 0 -.4px #fff}
+  /* munți — se vopsesc diferit zi/noapte */
+  .dnt-mtn{position:absolute;left:0;right:0;bottom:0;height:13px;
+    clip-path:polygon(0 100%,14% 55%,27% 80%,44% 36%,60% 72%,76% 46%,100% 78%,100% 100%)}
+  .dnt-day .dnt-mtn{background:linear-gradient(180deg,#D9892A,#BE721C);opacity:.9}
+  .dnt-night .dnt-mtn{background:linear-gradient(180deg,#41507180,#2A355080)}
+  /* bila care alunecă (knob / lună plină) */
+  .dnt-knob{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;z-index:4;
+    background:radial-gradient(circle at 34% 30%,#fff,#F2ECDB);
+    box-shadow:0 2px 4px rgba(0,0,0,.32),inset 0 -2px 3px rgba(0,0,0,.07);
+    transform:translateX(34px);transition:transform .38s cubic-bezier(.34,1.25,.5,1)}
+  html[data-theme="dark"] .dnt-knob{transform:translateX(0)}
+  @media (prefers-reduced-motion:reduce){.dnt-knob{transition:none}}
 
   .hero{display:grid;grid-template-columns:1.05fr .9fr;gap:14px;align-items:center;padding:26px 0 14px}
   .hero h1{font-family:var(--serif);font-weight:400;font-size:1.55rem;line-height:1.2;margin:0 0 10px;letter-spacing:-.005em}
@@ -67,8 +126,17 @@
     border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 18px;box-shadow:var(--shadow)}
   .relation .eq{font-family:var(--serif);font-size:1.25rem}
   .relation .u{font-size:.82rem;color:var(--ink-3)}
-  figure.art{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin:0}
-  figure.art figcaption{font-size:.8rem;color:var(--ink-3);text-align:center;margin-top:8px}
+  figure.art{position:relative;overflow:hidden;border:1.5px solid var(--line-2);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin:0;
+    background:
+      radial-gradient(120% 80% at 78% 8%,var(--paper-sun) 0%,transparent 42%),
+      linear-gradient(178deg,var(--paper-sky) 0%,var(--surface) 58%)}
+  /* coline domoale sub diagramă — semnătura peisajelor Ghibli */
+  figure.art::after{content:"";position:absolute;left:-5%;right:-5%;bottom:34px;height:70px;z-index:0;
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;background:var(--hill-2);opacity:.55}
+  figure.art::before{content:"";position:absolute;left:-12%;right:-2%;bottom:30px;height:54px;z-index:0;
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;background:var(--hill-1);opacity:.5}
+  figure.art svg,figure.art figcaption{position:relative;z-index:1}
+  figure.art figcaption{font-size:.8rem;color:var(--ink-3);text-align:center;margin-top:8px;font-style:italic}
 
   .layout{display:grid;grid-template-columns:248px 1fr;gap:30px;padding:14px 0 70px;align-items:start}
   nav.rail{position:sticky;top:84px;display:flex;flex-direction:column;gap:5px}
@@ -85,9 +153,10 @@
   .panel[hidden]{display:none}
   .panel.show{animation:rise .22s ease}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    padding:18px 22px;box-shadow:var(--shadow);margin-bottom:16px}
-  .card h2{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0 0 4px;letter-spacing:-.005em}
+  .card{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);
+    padding:20px 24px;box-shadow:var(--shadow);margin-bottom:16px;
+    background-image:linear-gradient(180deg,color-mix(in srgb,var(--paper-sun) 22%,var(--surface)) 0%,var(--surface) 90px)}
+  .card h2{font-family:var(--serif);font-weight:500;font-size:1.34rem;margin:0 0 4px;letter-spacing:-.005em}
   .card h3{font-family:var(--serif);font-weight:400;font-size:1.08rem;margin:18px 0 4px}
   .ref{font-size:.76rem;color:var(--accent-strong);background:var(--accent-soft);border:1px solid var(--line-2);
     padding:2px 9px;border-radius:7px;font-weight:500;vertical-align:2px;margin-left:8px;white-space:nowrap}
@@ -124,11 +193,12 @@
   input:focus-visible,select:focus-visible{outline:none;border-color:var(--accent);box-shadow:var(--focus)}
 
   .actions{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:16px}
-  .btn{background:var(--accent);color:#fff;border:none;padding:11px 22px;border-radius:11px;
-    font-size:.94rem;font-family:var(--sans);cursor:pointer;transition:.15s;display:inline-block}
-  html[data-theme="dark"] .btn{color:#231a15}
-  .btn:hover{background:var(--accent-strong)}
-  .btn:active{transform:scale(.985)}
+  .btn{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 82%,#fff) 0%,var(--accent) 100%);
+    color:var(--on-accent);border:none;padding:11px 24px;border-radius:13px;font-weight:700;
+    font-size:.94rem;font-family:var(--sans);cursor:pointer;transition:.16s;display:inline-block;
+    box-shadow:0 2px 8px color-mix(in srgb,var(--accent) 38%,transparent)}
+  .btn:hover{filter:brightness(1.05) saturate(1.04);box-shadow:0 5px 16px color-mix(in srgb,var(--accent) 48%,transparent);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0) scale(.985)}
   .btn-soft{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line-2);
     padding:9px 15px;border-radius:10px;font-size:.86rem;cursor:pointer;font-family:var(--sans);
     display:inline-block;transition:.15s}
@@ -218,17 +288,52 @@
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   sub,sup{line-height:0}
 
+  /* ── Tabletă și mai jos: bara de metode devine un rând de chip-uri lipit sub antet ── */
   @media (max-width:880px){
-    .hero{grid-template-columns:1fr;gap:22px;padding:28px 0 16px}
-    .layout{grid-template-columns:1fr;gap:18px}
-    nav.rail{position:static;flex-direction:row;flex-wrap:wrap;gap:7px}
+    .hero{grid-template-columns:1fr;gap:18px;padding:22px 0 8px}
+    .hero h1{font-size:1.58rem}
+    .layout{grid-template-columns:1fr;gap:16px;padding:6px 0 60px}
+    nav.rail{position:sticky;top:63px;z-index:15;flex-direction:row;flex-wrap:nowrap;gap:8px;
+      overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+      margin:0 -22px;padding:10px 22px;scroll-padding-inline:22px;
+      background:color-mix(in srgb,var(--paper-base2) 90%,transparent);
+      backdrop-filter:saturate(1.15) blur(10px);border-bottom:1px solid var(--line)}
+    nav.rail::-webkit-scrollbar{display:none}
     nav.rail .group{display:none}
-    .navitem{flex:1 1 auto;width:auto}
+    .navitem{flex:0 0 auto;width:auto;white-space:nowrap;flex-direction:row;align-items:center;
+      border:1px solid var(--line-2);background:var(--surface);border-radius:999px;
+      padding:8px 16px;font-size:.9rem;box-shadow:none;transition:.16s}
     .navitem small{display:none}
+    .navitem[aria-selected="true"]{background:var(--accent-soft);border-color:var(--accent);
+      color:var(--ink);box-shadow:none;font-weight:600}
+  }
+  /* ── Telefon: strângem spațierile și aranjăm textul ── */
+  @media (max-width:560px){
+    .shell{padding:0 14px}
+    nav.rail{margin:0 -14px;padding:10px 14px;scroll-padding-inline:14px}
+    .brand .tag{display:none}
+    .hero{padding:18px 0 6px}
+    .hero h1{font-size:1.42rem;margin-bottom:8px}
+    .hero p.lead{font-size:.95rem;margin-bottom:12px}
+    .relation{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:11px 15px}
+    .relation .eq{font-size:1.2rem}
+    .note-intrinsic{padding:10px 13px;margin-top:12px}
+    .card{padding:16px 16px;border-radius:16px}
+    .card h2{font-size:1.2rem}
+    .card h3{font-size:1.02rem}
+    .ref{margin-left:0;display:inline-block;margin-top:4px}
+    .fx{padding:10px 13px;font-size:1.04rem}
+    figure.art{padding:14px}
+    .panel-art{padding:11px}
+    details.fold{padding:0 14px}
+    .result{padding:16px 16px}
+    .res-val b{font-size:1.7rem}
     .grid label.field{flex-direction:column;align-items:stretch;gap:5px}
     .grid label.field .lab{justify-content:space-between}
     .grid label.field>input,.grid label.field>select{width:auto}
     .grid label.field .ig{width:100%}
+    .chooser{grid-template-columns:1fr;gap:12px}
+    footer .shell{flex-direction:column;align-items:flex-start;gap:6px}
   }
 </style>
 </head>
@@ -250,9 +355,17 @@
         <span class="tag">· Coeficient de pat · NP 112/2014</span>
       </div>
     </div>
-    <button class="theme" id="themeBtn" aria-pressed="false">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" id="themeIc" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      <span id="themeTxt">Întunecat</span>
+    <button class="dnt" id="themeBtn" role="switch" aria-checked="false" aria-label="Schimbă tema: zi / noapte" title="Zi / noapte">
+      <span class="dnt-day" aria-hidden="true">
+        <span class="dnt-sun"></span>
+        <span class="dnt-mtn"></span>
+      </span>
+      <span class="dnt-night" aria-hidden="true">
+        <span class="dnt-stars"></span>
+        <span class="dnt-crescent"></span>
+        <span class="dnt-mtn"></span>
+      </span>
+      <span class="dnt-knob" aria-hidden="true"></span>
     </button>
   </div>
 </header>
@@ -301,7 +414,6 @@
       <button class="navitem" role="tab" id="tab-ghid" aria-controls="p-ghid" aria-selected="true" tabindex="0">Ghid<small>ce metodă aleg</small></button>
       <div class="group" role="presentation">Determinare k<sub>s</sub></div>
       <button class="navitem" role="tab" id="tab-strat" aria-controls="p-strat" aria-selected="false" tabindex="-1">Teren stratificat<small>recomandat · pe straturi</small></button>
-      <button class="navitem" role="tab" id="tab-invers" aria-controls="p-invers" aria-selected="false" tabindex="-1">Calcul invers<small>din tasare (Anexa H)</small></button>
       <button class="navitem" role="tab" id="tab-placa" aria-controls="p-placa" aria-selected="false" tabindex="-1">Probă cu placa<small>încercare in situ</small></button>
       <button class="navitem" role="tab" id="tab-eoed" aria-controls="p-eoed" aria-selected="false" tabindex="-1">Modul edometric<small>din E<sub>oed</sub></small></button>
       <button class="navitem" role="tab" id="tab-esnu" aria-controls="p-esnu" aria-selected="false" tabindex="-1"><span>Modul E<sub>s</sub>, ν<sub>s</sub></span><small>parametri elastici</small></button>
@@ -356,7 +468,6 @@
             <div class="choice"><span class="ttl">Modul E<sub>s</sub>, ν<sub>s</sub></span><span class="have">Ai: <b>modulul de deformație liniară</b> și coeficientul Poisson.</span><button class="go" data-go="esnu">Deschide →</button></div>
             <div class="choice"><span class="ttl">Modul edometric</span><span class="have">Ai: <b>E<sub>oed</sub></b> din încercarea edometrică.</span><button class="go" data-go="eoed">Deschide →</button></div>
             <div class="choice"><span class="ttl">Valori de catalog</span><span class="have">Ai doar: <b>tipul de pământ</b> și un indice (I<sub>D</sub>/I<sub>C</sub>). Predimensionare.</span><button class="go" data-go="orient">Deschide →</button></div>
-            <div class="choice"><span class="ttl">Calcul invers</span><span class="have">Ai: <b>tasarea</b> probabilă a fundației și presiunea efectivă.</span><button class="go" data-go="invers">Deschide →</button></div>
             <div class="choice" style="border:2px solid var(--line-2)"><span class="ttl">Teren stratificat <span class="ref">recomandat</span></span><span class="have">Ai: <b>mai multe straturi</b> cu rigidități diferite sub talpă.</span><button class="go" data-go="strat">Deschide →</button></div>
           </div>
         </div>
@@ -369,22 +480,8 @@
           <p class="intro">Metoda de referință, in situ. Citește un punct din zona cvasi-liniară a diagramei
           presiune–tasare; coeficientul plăcii se corectează pentru lățimea reală a fundației.</p>
           <figure class="panel-art">
-            <svg width="100%" viewBox="0 0 460 170" role="img" aria-labelledby="pl-t pl-d">
-              <title id="pl-t">Proba de încărcare cu placa</title>
-              <desc id="pl-d">Placă rigidă încărcată într-o groapă și diagrama presiune–tasare rezultată.</desc>
-              <rect x="20" y="78" width="250" height="78" rx="6" fill="var(--soil)"/>
-              <rect x="78" y="64" width="120" height="16" rx="3" fill="var(--accent)"/>
-              <g stroke="var(--ink-2)" stroke-width="1.6" stroke-linecap="round"><line x1="138" y1="30" x2="138" y2="60"/><path d="M133 53 L138 61 L143 53" fill="none"/></g>
-              <text x="150" y="40" font-family="Georgia,serif" font-size="15" fill="var(--ink-2)" font-style="italic">p</text>
-              <line x1="208" y1="80" x2="208" y2="100" stroke="var(--accent-strong)" stroke-width="1.3" stroke-dasharray="3 3"/>
-              <text x="214" y="95" font-family="Georgia,serif" font-size="14" fill="var(--accent-strong)" font-style="italic">s</text>
-              <line x1="320" y1="40" x2="320" y2="150" stroke="var(--ink-3)" stroke-width="1.2"/>
-              <line x1="320" y1="150" x2="430" y2="150" stroke="var(--ink-3)" stroke-width="1.2"/>
-              <path d="M320 50 Q360 60 390 95 T430 150" fill="none" stroke="var(--accent)" stroke-width="2"/>
-              <text x="326" y="50" font-family="Georgia,serif" font-size="13" fill="var(--ink-3)" font-style="italic">p</text>
-              <text x="420" y="166" font-family="Georgia,serif" font-size="13" fill="var(--ink-3)" font-style="italic">s</text>
-            </svg>
-            <div class="figcap">Placa în groapă · diagrama presiune (p) – tasare (s)</div>
+            <img class="normfig" src="figuri/fig-K2.png" alt="Figura K.2 — încercarea de încărcare cu placa pe teren și diagrama presiune–tasare" loading="lazy">
+            <div class="figcap">NP 112, Figura K.2 — placa în groapă și diagrama presiune (p) – tasare. Punctul (p, s) se citește din zona cvasi-liniară de la început, înainte ca tasarea să crească brusc spre cedare (în normativ tasarea e notată z).</div>
           </figure>
           <div class="fx"><var>k</var>′<sub>s</sub> = <span class="frac"><span><var>p</var></span><span><var>s</var></span></span><span class="tagn">K.6</span></div>
           <div class="fx"><var>k</var><sub>s</sub> = α · <var>k</var>′<sub>s</sub><span class="tagn">K.7</span>
@@ -473,22 +570,6 @@
         </div>
       </section>
 
-      <!-- INVERS -->
-      <section class="panel" id="p-invers" role="tabpanel" aria-labelledby="tab-invers" tabindex="0" hidden>
-        <div class="card">
-          <h2>Calcul invers din tasare <span class="ref">NP 112 · K.3.1.4</span></h2>
-          <p class="intro">Calibrează resortul astfel încât să reproducă tasarea reală a fundației. Tasarea
-          probabilă <var>s</var> se determină conform Anexei H.</p>
-          <div class="fx"><var>k</var><sub>s</sub> = <span class="frac"><span><var>p</var><sub>ef</sub></span><span><var>s</var></span></span><span class="tagn">K.10</span></div>
-          <fieldset><legend>Date</legend>
-          <div class="grid">
-            <label class="field"><span class="lab">p<sub>ef</sub> — presiune efectivă medie <span class="hint">kPa</span></span><input type="number" id="iv_p" value="150" step="any" min="0"></label>
-            <label class="field"><span class="lab">s — tasarea absolută probabilă <span class="hint">mm</span></span><input type="number" id="iv_s" value="20" step="any" min="0"></label>
-          </div></fieldset>
-          <div class="actions"><button class="btn" onclick="calcInvers()">Calculează</button><span class="err" id="iv_err" role="alert"></span></div>
-          <div class="result" id="iv_res" role="status" aria-live="polite"></div>
-        </div>
-      </section>
 
       <!-- STRAT -->
       <section class="panel" id="p-strat" role="tabpanel" aria-labelledby="tab-strat" tabindex="0" hidden>
@@ -624,7 +705,7 @@ let lastKs = null;
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
 
 /* BREVIAR DE CALCUL — descărcare per metodă */
-const TITLES={pl_res:"Probă de încărcare cu placa (K.3.1.1)",es_res:"Din modulul de deformație liniară (K.3.1.2)",eo_res:"Din modulul edometric (K.3.1.2)",or_res:"Valori de catalog (Tab. K.2)",iv_res:"Calcul invers din tasare (K.3.1.4)",st_res:"Teren stratificat (Anexa H + K.10)",gr_res:"Grindă pe mediu elastic (K.3.2.1)"};
+const TITLES={pl_res:"Probă de încărcare cu placa (K.3.1.1)",es_res:"Din modulul de deformație liniară (K.3.1.2)",eo_res:"Din modulul edometric (K.3.1.2)",or_res:"Valori de catalog (Tab. K.2)",st_res:"Teren stratificat (Anexa H + K.10)",gr_res:"Grindă pe mediu elastic (K.3.2.1)"};
 function breviarBtn(elId){return `<button class="btn-soft" onclick="dlBreviar('${elId}')">Raport PDF</button>`;}
 function esc(s){return (s+"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function docMeta(){
@@ -885,16 +966,6 @@ function calcOrient(){
     <p class="res-note">${nm} = ${ro(x,2)} · mediană ≈ ${ro(mid,0)} kN/m³. Valoare pentru B = 1 m — transpuneți pentru B real.</p>`;
   el.classList.add("show");
 }
-function calcInvers(){
-  const p=num("iv_p"),smm=num("iv_s");
-  if([p,smm].some(v=>!isFinite(v)||v<=0)){showErr("iv_err","Completați pef și s.");return;}
-  showErr("iv_err"); const s=smm/1000,ks=p/s;
-  const steps=[
-    {t:"Date de intrare", d:[["p<sub>ef</sub>",`${ro(p,0)} kPa`],["s",`${ro(smm,1)} mm`]], why:"valabil când ai modulii E<sub>s</sub> pentru toate stratele din zona activă; tasarea s se calculează conform Anexei H"},
-    {t:"Coeficient de pat", ref:"K.10", c:{lhs:"k<sub>s</sub>", lines:["p<sub>ef</sub> / s", `${ro(p,0)} / ${ro(s,4)}`, `<b>${ro(ks,0)}</b> kN/m³`]}, why:"resortul calibrat să reproducă tasarea reală — ruta cea mai fidelă, fiindcă s înglobează deja lățimea, adâncimea și stratificația"}
-  ];
-  render("iv_res",ks,"kN/m³",steps,`ks = ${ro(ks,0)} kN/m³ (NP 112-2014 K.10; pef=${ro(p,0)} kPa, s=${ro(smm,1)} mm)`,{note:"Pentru mai multe straturi, folosește direct modulul „Teren stratificat”, care face acest calcul automat."});
-}
 function pullKs(){ if(lastKs&&isFinite(lastKs)){$("gr_ks").value=Math.round(lastKs);showErr("gr_err");toast("kₛ preluat");} else showErr("gr_err","Nu există încă un kₛ în kN/m³."); }
 function calcGrinda(){
   const ks=num("gr_ks"),B=num("gr_B"),h=num("gr_h"),Eg=num("gr_E"),span=num("gr_span");
@@ -1070,12 +1141,17 @@ function calcStrat(){
 }
 
 /* NAV — ARIA tabs */
-const TABS=["ghid","strat","invers","placa","eoed","esnu","orient","grinda","tabele"];
-const CALC={placa:calcPlaca,esnu:calcEsNu,eoed:calcEoed,orient:calcOrient,invers:calcInvers,strat:calcStrat,grinda:calcGrinda};
+const TABS=["ghid","strat","placa","eoed","esnu","orient","grinda","tabele"];
+const CALC={placa:calcPlaca,esnu:calcEsNu,eoed:calcEoed,orient:calcOrient,strat:calcStrat,grinda:calcGrinda};
 function switchTab(key,focusPanel){
   TABS.forEach(k=>{const tab=$("tab-"+k),pan=$("p-"+k);if(!tab||!pan)return;
     const on=k===key; tab.setAttribute("aria-selected",on?"true":"false"); tab.tabIndex=on?0:-1;
     pan.hidden=!on; pan.classList.toggle("show",on);});
+  /* pe mobil, aducem chip-ul activ în centrul barei derulabile */
+  const railEl=$("rail"),at=$("tab-"+key);
+  if(railEl&&at&&railEl.scrollWidth>railEl.clientWidth+4){
+    railEl.scrollTo({left:at.offsetLeft-(railEl.clientWidth-at.offsetWidth)/2,behavior:"smooth"});
+  }
   try{localStorage.setItem("ks_tab",key);}catch(e){}
   if(focusPanel){const p=$("p-"+key);if(p)p.focus();}
 }
@@ -1096,14 +1172,12 @@ document.querySelectorAll(".panel").forEach(p=>p.addEventListener("keydown",e=>{
 
 /* THEME */
 function setTheme(t){document.documentElement.setAttribute("data-theme",t);
-  $("themeTxt").textContent=t==="dark"?"Luminos":"Întunecat";
-  $("themeBtn").setAttribute("aria-pressed",t==="dark"?"true":"false");
-  $("themeIc").innerHTML=t==="dark"?'<circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="5.2" y1="5.2" x2="7" y2="7"/><line x1="17" y1="17" x2="18.8" y2="18.8"/><line x1="18.8" y1="5.2" x2="17" y2="7"/><line x1="7" y1="17" x2="5.2" y2="18.8"/></g>':'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>';
+  $("themeBtn").setAttribute("aria-checked",t==="dark"?"true":"false");
   try{localStorage.setItem("ks_theme",t);}catch(e){}}
 $("themeBtn").addEventListener("click",()=>setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));
 
 /* PERSISTENȚĂ */
-const INPUTS=["doc_proj","doc_ben","doc_loc","doc_no","doc_phase","doc_rev","doc_by","doc_chk","pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","iv_p","iv_s","gr_ks","gr_B","gr_h","gr_E","gr_span","st_B","st_L","st_D","st_p","st_g","st_nas"];
+const INPUTS=["doc_proj","doc_ben","doc_loc","doc_no","doc_phase","doc_rev","doc_by","doc_chk","pl_p","pl_z","pl_tip","pl_B","es_E","es_nu","es_L","es_B","es_alpha","eo_E","eo_B","or_cat","or_idx","gr_ks","gr_B","gr_h","gr_E","gr_span","st_B","st_L","st_D","st_p","st_g","st_nas"];
 function saveInputs(){const o={};INPUTS.forEach(id=>{const e=$(id);if(e)o[id]=e.value;});try{localStorage.setItem("ks_inputs",JSON.stringify(o));}catch(e){}}
 (function init(){
   try{const t=localStorage.getItem("ks_theme");if(t)setTheme(t);
