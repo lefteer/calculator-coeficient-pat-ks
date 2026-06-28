@@ -115,7 +115,13 @@
   html[data-theme="dark"] .dnt-knob{transform:translateX(0)}
   @media (prefers-reduced-motion:reduce){.dnt-knob{transition:none}}
 
-  .hero{display:grid;grid-template-columns:1.05fr .9fr;gap:14px;align-items:center;padding:26px 0 14px}
+  .hero{display:grid;grid-template-columns:1.05fr .9fr;column-gap:18px;row-gap:8px;align-items:center;padding:26px 0 14px;
+    grid-template-areas:"title fig" "lead fig" "rel fig" "note fig"}
+  .hero>h1{grid-area:title}
+  .hero>.lead{grid-area:lead}
+  .hero>figure.art{grid-area:fig}
+  .hero>.relation{grid-area:rel}
+  .hero>.note-intrinsic{grid-area:note}
   .hero h1{font-family:var(--serif);font-weight:400;font-size:1.55rem;line-height:1.2;margin:0 0 10px;letter-spacing:-.005em}
   .hero p.lead{font-size:.98rem;color:var(--ink-2);margin:0 0 14px;max-width:none}
   .note-intrinsic{font-size:.9rem;color:var(--ink-2);background:var(--accent-soft);border:1px solid var(--line-2);border-radius:10px;padding:10px 14px;margin:14px 0 0;max-width:none}
@@ -311,7 +317,8 @@
 
   /* ── Tabletă și mai jos: bara de metode devine un rând de chip-uri lipit sub antet ── */
   @media (max-width:880px){
-    .hero{grid-template-columns:1fr;gap:18px;padding:22px 0 8px}
+    .hero{grid-template-columns:1fr;grid-template-areas:none;gap:14px;padding:22px 0 8px}
+    .hero>h1,.hero>.lead,.hero>figure.art,.hero>.relation,.hero>.note-intrinsic{grid-area:auto}
     .hero h1{font-size:1.58rem}
     .layout{grid-template-columns:1fr;gap:16px;padding:6px 0 60px}
     nav.rail{position:sticky;top:63px;z-index:15;flex-direction:row;flex-wrap:nowrap;gap:8px;
@@ -399,19 +406,10 @@
 
 <div class="shell">
   <section class="hero">
-    <div>
       <h1>Coeficientul de pat <span class="ks">k<sub>s</sub></span></h1>
-      <p class="lead">Modulul de reacțiune al terenului pentru fundații pe mediu elastic — șase metode din
+      <p class="lead">Modulul de reacțiune al terenului pentru fundații pe mediu elastic — cinci metode din
       NP 112/2014, inclusiv teren stratificat.</p>
-      <div class="relation">
-        <span class="eq"><var>p</var> = <span class="ks"><var>k</var><sub>s</sub></span> · <var>s</var></span>
-        <span class="u">presiune = rigiditate × tasare · [kN/m³]</span>
-      </div>
-      <p class="note-intrinsic"><b>Reține:</b> <span class="ks">k<sub>s</sub></span> nu este o proprietate
-      intrinsecă a pământului — depinde de lățimea și forma fundației, de adâncime, de nivelul de încărcare și
-      de metoda aleasă. De aceea se recalculează pentru fiecare fundație.</p>
-    </div>
-    <figure class="art">
+      <figure class="art">
       <svg width="100%" viewBox="0 0 460 172" role="img" aria-labelledby="h-t h-d">
         <title id="h-t">Modelul Winkler — coeficientul de pat k_s</title>
         <desc id="h-d">Fundație încărcată cu presiunea p, rezemată pe resoarte independente de rigiditate k_s. Sub încărcare terenul se tasează cu s, conform relației p = k_s · s.</desc>
@@ -456,8 +454,15 @@
         </g>
         <text x="38" y="37" font-family="Georgia,serif" font-style="italic" font-size="15" fill="var(--accent-strong)">s</text>
       </svg>
-      <figcaption>Modelul Winkler — terenul ca resoarte independente de rigiditate <span class="ks">k<sub>s</sub></span>: <span class="ks">p = k<sub>s</sub> · s</span> (NP 112, Anexa K.3)</figcaption>
+      <figcaption>Modelul Winkler — terenul ca resoarte independente de rigiditate <span class="ks">k<sub>s</sub></span></figcaption>
     </figure>
+      <div class="relation">
+        <span class="eq"><var>p</var> = <span class="ks"><var>k</var><sub>s</sub></span> · <var>s</var></span>
+        <span class="u">presiune = rigiditate × tasare · [kN/m³]</span>
+      </div>
+      <p class="note-intrinsic"><b>Reține:</b> <span class="ks">k<sub>s</sub></span> nu este o proprietate
+      intrinsecă a pământului — depinde de lățimea și forma fundației, de adâncime, de nivelul de încărcare și
+      de metoda aleasă. De aceea se recalculează pentru fiecare fundație.</p>
   </section>
 
   <div class="layout">
